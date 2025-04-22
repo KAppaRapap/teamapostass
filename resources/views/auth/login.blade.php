@@ -101,7 +101,7 @@
                             <div class="text-center mt-4">
                                 @if (Route::has('password.request'))
                                     <p class="mb-2">
-                                        <a href="{{ route('password.request') }}" class="text-primary">Esqueceu sua senha?</a>
+                                        <a href="{{ route('password.request') }}" class="text-primary">Esqueceu sua senha??</a>
                                     </p>
                                 @endif
                                 
