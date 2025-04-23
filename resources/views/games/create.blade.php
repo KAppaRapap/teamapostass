@@ -33,12 +33,17 @@
                         <option value="" selected disabled>Selecione o tipo de jogo</option>
                         <option value="Euromilhões" {{ old('type') == 'Euromilhões' ? 'selected' : '' }}>Euromilhões</option>
                         <option value="Totoloto" {{ old('type') == 'Totoloto' ? 'selected' : '' }}>Totoloto</option>
-                        <option value="Totobola" {{ old('type') == 'Totobola' ? 'selected' : '' }}>Totobola</option>
+                        <option value="Totobola" {{ old('type') == 'Totobola' ? 'selected' : '' }} disabled>Totobola</option>
                         <option value="Placard" {{ old('type') == 'Placard' ? 'selected' : '' }}>Placard</option>
                     </select>
                     @error('type')
                     <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
+                    @if(old('type') === 'Totobola')
+                        <div class="alert alert-warning mt-3">
+                            Não é possível criar manualmente o jogo Totobola. Ele já existe de forma permanente no sistema.
+                        </div>
+                    @endif
                 </div>
 
                 <div class="mb-3">

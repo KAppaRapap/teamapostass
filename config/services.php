@@ -30,4 +30,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'football_data' => [
+        'base_uri' => env('FOOTBALL_DATA_BASE_URI', 'https://api.football-data.org/v2/'),
+        'token'    => env('FOOTBALL_DATA_TOKEN'),
+    ],
+
 ];

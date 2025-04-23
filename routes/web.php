@@ -108,6 +108,9 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/notifications/{notification}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
     Route::delete('/notifications', [NotificationController::class, 'destroyAll'])->name('notifications.destroy-all');
     
+    // AJAX para buscar jogos de uma liga para Totobola
+    Route::get('/betting-slips/league-matches/{league}', [App\Http\Controllers\BettingSlipController::class, 'getLeagueMatches'])->name('betting-slips.league-matches');
+    
     // Carteira Virtual
     Route::middleware(['auth'])->prefix('wallet')->name('wallet.')->group(function () {
         Route::get('/deposit', [WalletController::class, 'showDepositForm'])->name('deposit');

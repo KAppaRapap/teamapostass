@@ -3,7 +3,7 @@
 @section('content')
 <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="mb-0">Próximos Sorteios</h2>
+        <h2 class="mb-0">Próximos Jogos</h2>
         <a href="{{ route('dashboard') }}" class="btn btn-outline-secondary">
             <i class="fas fa-arrow-left me-1"></i> Voltar ao Dashboard
         </a>
@@ -58,6 +58,33 @@
                             </td>
                         </tr>
                         @endforeach
+                        @php $totobolaGame = App\Models\Game::where('name', 'Totobola')->first(); @endphp
+                        @if($totobolaGame)
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <span class="fw-bold">{{ $totobolaGame->name }}</span>
+                                    <span class="badge bg-primary ms-2">{{ $totobolaGame->type }}</span>
+                                </div>
+                            </td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>
+                                @php $userGroups = auth()->user()->groups()->where('game_id', $totobolaGame->id)->count(); @endphp
+                                {{ $userGroups }} {{ $userGroups == 1 ? 'grupo' : 'grupos' }}
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <a href="{{ route('games.show', $totobolaGame) }}" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-eye me-1"></i> Ver Jogo
+                                    </a>
+                                    <a href="{{ route('groups.index', ['game_id' => $totobolaGame->id]) }}" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-users me-1"></i> Ver Grupos
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        @endif
                     </tbody>
                 </table>
             </div>
@@ -67,8 +94,8 @@
             @else
             <div class="text-center py-5">
                 <i class="fas fa-calendar-times fa-4x text-muted mb-3"></i>
-                <h4>Nenhum sorteio agendado</h4>
-                <p class="text-muted">Não há sorteios agendados para os próximos dias.</p>
+                <h4>Nenhum jogo agendado</h4>
+                <p class="text-muted">Não há jogos agendados para os próximos dias.</p>
                 <a href="{{ route('games.index') }}" class="btn btn-primary mt-2">
                     <i class="fas fa-gamepad me-1"></i> Ver Jogos Disponíveis
                 </a>

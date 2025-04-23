@@ -33,17 +33,21 @@
                 
                 <div class="mb-3">
                     <label for="draw_id" class="form-label">Selecione o Sorteio</label>
-                    <select name="draw_id" id="draw_id" class="form-select @error('draw_id') is-invalid @enderror" required>
-                        <option value="">Selecione um sorteio</option>
-                        @foreach($draws as $draw)
-                        <option value="{{ $draw->id }}">
-                            {{ $draw->draw_date->format('d/m/Y H:i') }} - Jackpot: €{{ number_format($draw->jackpot_amount, 2) }}
-                        </option>
-                        @endforeach
-                    </select>
-                    @error('draw_id')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
+                    @if(empty($draws) || count($draws) == 0)
+                        <div class="alert alert-warning">Não há sorteios futuros disponíveis para este jogo.</div>
+                    @else
+                        <select name="draw_id" id="draw_id" class="form-select @error('draw_id') is-invalid @enderror" required>
+                            <option value="">Selecione um sorteio</option>
+                            @foreach($draws as $draw)
+                            <option value="{{ $draw->id }}">
+                                {{ $draw->draw_date->format('d/m/Y H:i') }} - Jackpot: €{{ number_format($draw->jackpot_amount, 2) }}
+                            </option>
+                            @endforeach
+                        </select>
+                        @error('draw_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    @endif
                 </div>
                 
                 <div class="mb-4">
@@ -52,7 +56,9 @@
                         @if($group->game->name == 'Euromilhões')
                         Selecione 5 números (1-50) e 2 estrelas (1-12)
                         @elseif($group->game->name == 'Totoloto')
-                        Selecione 6 números (1-49)
+                        Selecione 13 jogos
+                        @elseif($group->game->name == 'Totobola')
+                        Faça seu palpite nos 13 jogos
                         @else
                         Selecione os números conforme as regras do jogo
                         @endif
@@ -61,6 +67,13 @@
                     <div class="mb-3">
                         <div class="number-grid">
                             @if($group->game->name == 'Euromilhões')
+                                <div class="mb-2 d-flex align-items-center">
+                                    <span class="fw-bold">Números: <span id="selected-main-count">0</span>/5 &nbsp; Estrelas: <span id="selected-star-count">0</span>/2</span>
+                                    <button type="button" class="btn btn-sm btn-outline-primary ms-2" id="random-pick-euromains">Surpresinha Números</button>
+                                    <button type="button" class="btn btn-sm btn-outline-primary ms-2" id="random-pick-stars">Surpresinha Estrelas</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary ms-1" id="clear-pick-euromains">Limpar Números</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary ms-1" id="clear-pick-stars">Limpar Estrelas</button>
+                                </div>
                                 <div class="mb-3">
                                     <label class="form-label">Números (selecione 5)</label>
                                     <div class="d-flex flex-wrap">
@@ -103,7 +116,25 @@
                                 <div class="mt-3" id="bet-summary" style="display:none;">
                                     <strong>Aposta:</strong> <span id="summary-numbers"></span>
                                 </div>
+                            @elseif($group->game->name == 'Totobola')
+                                @if(empty($leagues) || count($leagues) == 0)
+                                    <div class="alert alert-warning">Não há ligas disponíveis para o Totobola no momento.</div>
+                                @else
+                                    <div class="mb-3">
+                                        <label for="league_select" class="form-label fw-bold">Escolha a Liga</label>
+                                        <select id="league_select" class="form-select mb-3">
+                                            <option value="">Selecione uma liga</option>
+                                            @foreach($leagues as $league)
+                                            <option value="{{ $league['code'] ?? $league['id'] }}">{{ $league['display_name'] ?? $league['name'] }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div id="totobola-matches">
+                                        <!-- Jogos serão carregados por JS -->
+                                    </div>
+                                @endif
                             @else
+                                <!-- Default number selection -->
                                 <div class="mb-2 d-flex align-items-center">
                                     <span class="fw-bold">Selecionados: <span id="selected-count">0</span></span>
                                     <button type="button" class="btn btn-sm btn-outline-primary ms-2" id="random-pick">Surpresinha</button>
@@ -128,13 +159,12 @@
                 </div>
                 
                 <div class="mb-3">
-                    <label for="custom_amount" class="form-label">Valor a Apostar (€)</label>
-                    <input type="number" min="0.01" step="0.01" class="form-control" id="custom_amount" name="custom_amount" value="" placeholder="Insira o valor a apostar" required>
-                    <div class="form-text">O valor deve ser igual ou maior ao custo estimado do sistema ou mínimo do jogo.</div>
-                    <div class="alert alert-info py-2 mt-2" id="system_cost_info" style="display:block;">
-                        Custo estimado: <span id="system_cost">-</span> €
-                    </div>
+                    <label for="main-bet-amount" class="form-label">Valor a Apostar Geral (€)</label>
+                    <input type="number" name="main_bet_amount" id="main-bet-amount" class="form-control" min="0" step="0.01" placeholder="Se quiser apostar o mesmo valor em todos os jogos">
+                    <div class="form-text">Preencha este campo <b>apenas</b> se quiser apostar o mesmo valor em todos os jogos. Caso contrário, use os campos de valor individuais de cada jogo.</div>
                 </div>
+                
+                @if($group->game->name != 'Totobola')
                 <div class="mb-3">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" id="is_system" name="is_system" value="1">
@@ -146,6 +176,7 @@
                         </label>
                     </div>
                 </div>
+                @endif
                 <div id="system_options" class="mb-4" style="display: none;">
                     <h5>Opções de Desdobramento</h5>
                     <div class="mb-3">
@@ -188,6 +219,42 @@
     }
     .btn-outline-primary:hover {
         background-color: #2563eb22;
+    }
+    /* Modern card and form UI */
+    .card {
+        border-radius: 18px;
+        box-shadow: 0 4px 24px 0 #00000012;
+        border: none;
+    }
+    .form-control, .form-select {
+        border-radius: 10px;
+        font-size: 1.08rem;
+    }
+    .btn-primary, .btn-outline-primary {
+        border-radius: 8px;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+    }
+    .form-label {
+        font-weight: 600;
+    }
+    .mb-4 > h5, .mb-4 > label {
+        color: #0d6efd;
+    }
+    .alert-info {
+        background: linear-gradient(90deg, #e3f0ff 0%, #f7fbff 100%);
+        border: none;
+        color: #2563eb;
+    }
+    .alert-warning {
+        background: linear-gradient(90deg, #fffbe6 0%, #fff8e1 100%);
+        border: none;
+        color: #8a6d3b;
+    }
+    .alert-danger {
+        background: linear-gradient(90deg, #ffe6e6 0%, #fff8f8 100%);
+        border: none;
+        color: #b94a48;
     }
 </style>
 
@@ -262,6 +329,9 @@
         const mainNumbers = document.querySelectorAll('.main-number');
         const customAmount = document.getElementById('custom_amount');
 
+        const gameId = {{ $group->game->id }};
+        const csrfToken = '{{ csrf_token() }}';
+
         function updateSystemExplanation() {
             let value = systemType.value;
             if (value === 'full') {
@@ -273,38 +343,34 @@
             }
         }
 
-        function calcularCombinacoes(n, k) {
-            // Combinação simples: n! / (k! * (n-k)!)
-            function fatorial(x) { return x <= 1 ? 1 : x * fatorial(x-1); }
-            return fatorial(n) / (fatorial(k) * fatorial(n-k));
-        }
         function updateSystemCost() {
-            let checked = document.querySelectorAll('.main-number:checked');
-            let numSelected = checked.length;
-            let tipo = systemType.value;
-            let preco = {{ $group->game->price_per_bet ?? 2 }};
-            let info = '-';
-            let show = false;
-            if (systemCheckbox.checked && numSelected > 0) {
-                if (tipo === 'full') {
-                    let k = {{ $group->game->name == 'Euromilhões' ? 5 : ($group->game->name == 'Totoloto' ? 6 : 0) }};
-                    if (numSelected >= k && k > 0) {
-                        let comb = calcularCombinacoes(numSelected, k);
-                        info = (comb * preco).toFixed(2);
-                        show = true;
-                    }
-                } else if (tipo === 'partial') {
-                    // Simulação: metade das combinações do sistema completo
-                    let k = {{ $group->game->name == 'Euromilhões' ? 5 : ($group->game->name == 'Totoloto' ? 6 : 0) }};
-                    if (numSelected >= k && k > 0) {
-                        let comb = calcularCombinacoes(numSelected, k);
-                        info = ((comb/2) * preco).toFixed(2);
-                        show = true;
-                    }
-                }
+            const preco = {{ $group->game->price_per_bet }};
+            if (systemCheckbox.checked) {
+                const mainSelected = Array.from(document.querySelectorAll('.main-number:checked')).map(cb => parseInt(cb.value));
+                const starSelected = Array.from(document.querySelectorAll('.star-number:checked')).map(cb => parseInt(cb.value) - 50);
+                const numbers = mainSelected.concat(starSelected);
+                fetch("{{ route('betting-slips.generate-system-combinations') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    body: JSON.stringify({
+                        game_id: gameId,
+                        numbers: numbers,
+                        system_type: systemType.value
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    systemCost.textContent = data.total_cost.toFixed(2);
+                    systemCostInfo.style.display = 'block';
+                })
+                .catch(err => console.error('Erro ao gerar combinações:', err));
+            } else {
+                systemCost.textContent = preco.toFixed(2);
+                systemCostInfo.style.display = 'block';
             }
-            systemCost.textContent = info;
-            systemCostInfo.style.display = show ? 'block' : 'none';
         }
 
         systemCheckbox.addEventListener('change', function() {
@@ -320,4 +386,120 @@
         updateSystemCost();
     });
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Euromilhões random pick
+        const euromainNumbers = document.querySelectorAll('.main-number');
+        const starNumbers = document.querySelectorAll('.star-number');
+        const selectedMainCount = document.getElementById('selected-main-count');
+        const selectedStarCount = document.getElementById('selected-star-count');
+        const randomPickMains = document.getElementById('random-pick-euromains');
+        const clearPickMains = document.getElementById('clear-pick-euromains');
+        const randomPickStars = document.getElementById('random-pick-stars');
+        const clearPickStars = document.getElementById('clear-pick-stars');
+        function updateEuroSelectionCounts() {
+            const mainChecked = document.querySelectorAll('.main-number:checked').length;
+            const starChecked = document.querySelectorAll('.star-number:checked').length;
+            selectedMainCount.textContent = mainChecked;
+            selectedStarCount.textContent = starChecked;
+            euromainNumbers.forEach(cb => cb.disabled = !cb.checked && mainChecked >= 5);
+            starNumbers.forEach(cb => cb.disabled = !cb.checked && starChecked >= 2);
+        }
+        euromainNumbers.forEach(cb => cb.addEventListener('change', updateEuroSelectionCounts));
+        starNumbers.forEach(cb => cb.addEventListener('change', updateEuroSelectionCounts));
+        randomPickMains.addEventListener('click', function() {
+            euromainNumbers.forEach(cb => cb.checked = false);
+            let nums = Array.from({length: 50}, (_, i) => i+1).sort(() => 0.5 - Math.random()).slice(0,5);
+            euromainNumbers.forEach(cb => { if (nums.includes(parseInt(cb.value))) cb.checked = true; });
+            updateEuroSelectionCounts();
+        });
+        clearPickMains.addEventListener('click', function() {
+            euromainNumbers.forEach(cb => cb.checked = false);
+            updateEuroSelectionCounts();
+        });
+        randomPickStars.addEventListener('click', function() {
+            starNumbers.forEach(cb => cb.checked = false);
+            let stars = Array.from({length: 12}, (_, i) => i+1).sort(() => 0.5 - Math.random()).slice(0,2).map(n => n + 50);
+            starNumbers.forEach(cb => { if (stars.includes(parseInt(cb.value))) cb.checked = true; });
+            updateEuroSelectionCounts();
+        });
+        clearPickStars.addEventListener('click', function() {
+            starNumbers.forEach(cb => cb.checked = false);
+            updateEuroSelectionCounts();
+        });
+        updateEuroSelectionCounts();
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const leagueSelect = document.getElementById('league_select');
+        const matchesDiv = document.getElementById('totobola-matches');
+        leagueSelect.addEventListener('change', function() {
+            const league = this.value;
+            matchesDiv.innerHTML = '<div class="text-center py-3"><span class="spinner-border"></span> Carregando jogos...</div>';
+            if (!league) {
+                matchesDiv.innerHTML = '';
+                return;
+            }
+            fetch(`/betting-slips/league-matches/${league}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (!data.matches || data.matches.length === 0) {
+                        matchesDiv.innerHTML = '<div class="alert alert-warning">Nenhum jogo disponível para esta liga neste período.</div>';
+                        return;
+                    }
+                    let html = '';
+                    data.matches.forEach((match, idx) => {
+                        html += `<div class='mb-3 p-3 rounded shadow-sm bg-white border'>` +
+                            `<div class='d-flex justify-content-between align-items-center mb-1'>` +
+                                `<span class='fw-bold fs-6'>${match.homeTeam} <span class="text-muted">vs</span> ${match.awayTeam}</span>` +
+                                `<span class='badge bg-primary'>${formatDate(match.date)} ${formatHour(match.date)}</span>` +
+                            `</div>` +
+                            `<div class='mb-1'><i class='fas fa-map-marker-alt text-danger'></i> <span class='text-secondary'>${match.venue ?? '-'}</span></div>` +
+                            `<div class='mb-1'><i class='fas fa-star text-warning'></i> Favorito: <b>${match.favorite}</b></div>` +
+                            `<div class='row'>` +
+                                `<div class='col-auto small'>Últimos 5 ${match.homeTeam}: <span>${renderResults(match.last5_home)}</span></div>` +
+                                `<div class='col-auto small'>Últimos 5 ${match.awayTeam}: <span>${renderResults(match.last5_away)}</span></div>` +
+                            `</div>` +
+                            `<div class='mt-2 d-flex gap-2'>` +
+                                `<input class='btn-check' type='radio' name='predictions[${idx}]' id='pred1-${idx}' value='1' autocomplete='off'>` +
+                                `<label class='btn btn-outline-dark fw-bold px-4' for='pred1-${idx}'>1</label>` +
+                                `<input class='btn-check' type='radio' name='predictions[${idx}]' id='predX-${idx}' value='X' autocomplete='off'>` +
+                                `<label class='btn btn-outline-dark fw-bold px-4' for='predX-${idx}'>X</label>` +
+                                `<input class='btn-check' type='radio' name='predictions[${idx}]' id='pred2-${idx}' value='2' autocomplete='off'>` +
+                                `<label class='btn btn-outline-dark fw-bold px-4' for='pred2-${idx}'>2</label>` +
+                                `<input type='number' class='form-control ms-3' name='amounts[${idx}]' min='0' step='0.01' placeholder='Valor (€)' style='width:110px;'>` +
+                            `</div>` +
+                        `</div>`;
+                    });
+                    matchesDiv.innerHTML = html;
+                })
+                .catch(() => {
+                    matchesDiv.innerHTML = '<div class="alert alert-danger">Erro ao carregar jogos.</div>';
+                });
+        });
+        function renderResults(arr) {
+            if (!arr || arr.length === 0) return '-';
+            return arr.map(r => {
+                if (r === 'V') return '<span class="text-success fw-bold">V</span>';
+                if (r === 'E') return '<span class="text-secondary fw-bold">E</span>';
+                if (r === 'D') return '<span class="text-danger fw-bold">D</span>';
+                return r;
+            }).join(' ');
+        }
+        function formatDate(str) {
+            if (!str) return '-';
+            const d = new Date(str);
+            return d.toLocaleDateString('pt-PT', { weekday: 'short', day: '2-digit', month: '2-digit' });
+        }
+        function formatHour(str) {
+            if (!str) return '';
+            const d = new Date(str);
+            return d.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' });
+        }
+    });
+</script>
+
 @endsection

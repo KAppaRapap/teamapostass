@@ -52,20 +52,23 @@ class BettingSlipController extends Controller
             return redirect()->route('groups.show', $group)
                 ->with('error', 'Você não é membro deste grupo.');
         }
-        
         // Get upcoming draws for the group's game
         $draws = Draw::where('game_id', $group->game_id)
             ->where('draw_date', '>', now())
             ->where('is_completed', false)
             ->orderBy('draw_date', 'asc')
             ->get();
-            
         if ($draws->isEmpty()) {
             return redirect()->route('groups.show', $group)
                 ->with('error', 'Não há sorteios futuros disponíveis para este jogo.');
         }
-        
-        return view('betting-slips.create', compact('group', 'draws'));
+        $matches = [];
+        $leagues = [];
+        if ($group->game->name === 'Totobola') {
+            $service = app(\App\Services\FootballApiService::class);
+            $leagues = $service->getLeagues();
+        }
+        return view('betting-slips.create', compact('group', 'draws', 'matches', 'leagues'));
     }
 
     /**
@@ -83,40 +86,46 @@ class BettingSlipController extends Controller
                 ->with('error', 'Você não é membro deste grupo.');
         }
         
-        $validated = $request->validate([
-            'draw_id' => 'required|exists:draws,id',
-            'numbers' => 'required|array',
-            'numbers.*' => 'required|integer|min:1',
-            'is_system' => 'boolean',
-            'system_details' => 'nullable|array',
-            'custom_amount' => 'required|numeric|min:0.01',
-        ]);
-        
-        // Get the draw and game
-        $draw = Draw::findOrFail($validated['draw_id']);
+        // Prepare inputs based on game type
         $game = $group->game;
-        
-        // Calculate total cost
-        $totalCost = $this->calculateTotalCost(
-            $game, 
-            $validated['numbers'], 
-            $validated['is_system'] ?? false, 
-            $validated['system_details'] ?? null
-        );
-
-        // Valor customizado é sempre obrigatório
-        $customAmount = $validated['custom_amount'];
-        if ($validated['is_system'] ?? false) {
-            $minCost = $totalCost;
-            if ($customAmount < $minCost) {
-                return redirect()->back()->withInput()->with('error', 'O valor a apostar deve ser igual ou maior ao custo estimado do sistema.');
-            }
-            $totalCost = $customAmount;
+        if ($game->name === 'Totobola') {
+            $v = $request->validate([
+                'draw_id' => 'required|exists:draws,id',
+                'predictions'   => 'required|array|size:13',
+                'predictions.*' => 'required|in:1,X,2',
+                'custom_amount' => 'required|numeric|min:0.01',
+            ]);
+            $draw         = Draw::findOrFail($v['draw_id']);
+            $numbers      = $v['predictions'];
+            $isSystem     = false;
+            $systemDetails= null;
+            $totalCost    = $v['custom_amount'];
         } else {
-            // Para apostas simples, aceita qualquer valor >= 0.01
-            $totalCost = $customAmount;
+            $v = $request->validate([
+                'draw_id'        => 'required|exists:draws,id',
+                'numbers'        => 'required|array',
+                'numbers.*'      => 'required|integer|min:1',
+                'is_system'      => 'boolean',
+                'system_details' => 'nullable|array',
+                'custom_amount'  => 'required|numeric|min:0.01',
+            ]);
+            $draw          = Draw::findOrFail($v['draw_id']);
+            $numbers       = $v['numbers'];
+            $isSystem      = $v['is_system'] ?? false;
+            $systemDetails = $v['system_details'] ?? null;
+            $totalCost     = $this->calculateTotalCost($game, $numbers, $isSystem, $systemDetails);
+            // Override custom amount
+            if ($isSystem) {
+                if ($v['custom_amount'] < $totalCost) {
+                    return redirect()->back()->withInput()->with('error', 'O valor a apostar deve ser igual ou maior ao custo estimado do sistema.');
+                }
+                $totalCost = $v['custom_amount'];
+            } else {
+                $totalCost = $v['custom_amount'];
+            }
         }
 
+        // Valor customizado é sempre obrigatório
         // Saldo do usuário
         $user = Auth::user();
         $saldo = $user->virtual_balance;
@@ -131,14 +140,14 @@ class BettingSlipController extends Controller
         
         // Create the betting slip
         $bettingSlip = BettingSlip::create([
-            'group_id' => $group->id,
-            'user_id' => Auth::id(),
-            'draw_id' => $validated['draw_id'],
-            'numbers' => $validated['numbers'],
-            'is_system' => $validated['is_system'] ?? false,
-            'system_details' => $validated['system_details'] ?? null,
-            'total_cost' => $totalCost,
-            'is_checked' => false,
+            'group_id'      => $group->id,
+            'user_id'       => Auth::id(),
+            'draw_id'       => $draw->id,
+            'numbers'       => $numbers,
+            'is_system'     => $isSystem,
+            'system_details'=> $systemDetails,
+            'total_cost'    => $totalCost,
+            'is_checked'    => false,
         ]);
         
         return redirect()->route('groups.show', $group)
@@ -276,7 +285,7 @@ class BettingSlipController extends Controller
         }
 
         // System bet (desdobramento)
-        $systemType = isset($systemDetails['system_type']) ? $systemDetails['system_type'] : null;
+        $systemType = $systemDetails['type'] ?? null;
         if (!$systemType) {
             // Em vez de lançar exceção, retorna 0 (ou pode mostrar mensagem user-friendly)
             return 0;
@@ -330,48 +339,61 @@ class BettingSlipController extends Controller
         return $combinations;
     }
     
-    /**
-     * Generate full system combinations.
-     *
-     * @param  array  $mainNumbers
-     * @param  array  $stars
-     * @return array
-     */
     private function generateFullSystemCombinations($mainNumbers, $stars)
     {
-        // Simplified implementation - in a real system, this would generate all possible combinations
-        // For example, for Euromilhões, it would generate all combinations of 5 numbers from mainNumbers
-        // and 2 stars from stars
-        
-        // This is a placeholder for the actual implementation
-        return [
-            // Example combinations
-            ['main' => [1, 2, 3, 4, 5], 'stars' => [1, 2]],
-            ['main' => [1, 2, 3, 4, 6], 'stars' => [1, 2]],
-            // More combinations would be generated here
-        ];
+        $combinations = [];
+        if (count($mainNumbers) < 5 || count($stars) < 2) {
+            return $combinations;
+        }
+        $mainCombos = $this->getCombinations($mainNumbers, 5);
+        $starCombos = $this->getCombinations($stars, 2);
+        foreach ($mainCombos as $m) {
+            foreach ($starCombos as $s) {
+                $combinations[] = ['main' => $m, 'stars' => $s];
+            }
+        }
+        return $combinations;
     }
-    
-    /**
-     * Generate partial system combinations.
-     *
-     * @param  array  $mainNumbers
-     * @param  array  $stars
-     * @param  string  $systemType
-     * @return array
-     */
+
     private function generatePartialSystemCombinations($mainNumbers, $stars, $systemType)
     {
-        // Simplified implementation - in a real system, this would generate combinations
-        // based on the specific partial system type
-        
-        // This is a placeholder for the actual implementation
-        return [
-            // Example combinations
-            ['main' => [1, 2, 3, 4, 5], 'stars' => [1, 2]],
-            ['main' => [1, 2, 3, 4, 6], 'stars' => [1, 2]],
-            // More combinations would be generated here
-        ];
+        $full = $this->generateFullSystemCombinations($mainNumbers, $stars);
+        $count = count($full);
+        if ($count === 0) {
+            return [];
+        }
+        $half = (int) ceil($count / 2);
+        return array_slice($full, 0, $half);
+    }
+
+    private function getCombinations($items, $k)
+    {
+        $results = [];
+        $n = count($items);
+        if ($k > $n) {
+            return $results;
+        }
+        $indexes = range(0, $k - 1);
+        while (true) {
+            $combo = [];
+            foreach ($indexes as $i) {
+                $combo[] = $items[$i];
+            }
+            $results[] = $combo;
+            for ($i = $k - 1; $i >= 0; $i--) {
+                if ($indexes[$i] < $i + $n - $k) {
+                    break;
+                }
+            }
+            if ($i < 0) {
+                break;
+            }
+            $indexes[$i]++;
+            for ($j = $i + 1; $j < $k; $j++) {
+                $indexes[$j] = $indexes[$j - 1] + 1;
+            }
+        }
+        return $results;
     }
     
     /**
@@ -395,28 +417,46 @@ class BettingSlipController extends Controller
      */
     private function calculateWinnings($bettingSlip, $draw)
     {
-        // Simplified implementation - in a real system, this would check the betting slip numbers
-        // against the winning numbers and calculate the prize based on the game rules
-        
-        // This is a placeholder for the actual implementation
-        $winningNumbers = $draw->winning_numbers;
-        $betNumbers = $bettingSlip->numbers;
-        
         // Count matching numbers
-        $matchingCount = count(array_intersect($winningNumbers, $betNumbers));
-        
-        // Simple prize calculation (would be more complex in a real system)
-        switch ($matchingCount) {
-            case 3:
-                return 5.00;
-            case 4:
-                return 50.00;
-            case 5:
-                return 500.00;
-            case 6:
-                return 5000.00;
-            default:
-                return 0.00;
+        $matchingCount = count(
+            array_intersect(
+                (array) $draw->winning_numbers,
+                (array) $bettingSlip->numbers
+            )
+        );
+        // Prize percentages per match count
+        $percentages = [
+            1 => 0.01,
+            2 => 0.05,
+            3 => 0.10,
+            4 => 0.20,
+            5 => 0.30,
+            6 => 1.00,
+        ];
+        // Calculate prize as percentage of jackpot
+        if (isset($percentages[$matchingCount])) {
+            return round($draw->jackpot_amount * $percentages[$matchingCount], 2);
         }
+        return 0.00;
+    }
+
+    /**
+     * AJAX: Get matches for a selected league (Totobola) with extended info
+     * @param string $league
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getLeagueMatches($league)
+    {
+        $service = app(\App\Services\FootballApiService::class);
+        $matches = $service->getMatchesForLeague($league);
+        $extended = [];
+        foreach (array_slice($matches, 0, 13) as $match) {
+            $info = $service->getMatchExtendedInfo($match);
+            $info['match_id'] = $match['id'] ?? null;
+            $info['homeTeam'] = $match['homeTeam']['name'] ?? '?';
+            $info['awayTeam'] = $match['awayTeam']['name'] ?? '?';
+            $extended[] = $info;
+        }
+        return response()->json(['matches' => $extended]);
     }
 }

@@ -309,7 +309,7 @@
                             <i class="fas fa-users"></i> Meus Grupos
                         </a>
                         <a href="{{ route('betting-slips.index') }}" class="sidebar-link {{ request()->routeIs('betting-slips.*') ? 'active' : '' }}">
-                            <i class="fas fa-ticket-alt"></i> Minhas Apostas
+                            <i class="fas fa-gamepad"></i> Jogos Disponíveis
                         </a>
                         <a href="{{ route('results.index') }}" class="sidebar-link {{ request()->routeIs('results.*') ? 'active' : '' }}">
                             <i class="fas fa-trophy"></i> Resultados

@@ -65,7 +65,9 @@
                             <td>{{ $draw->game->name }}</td>
                             <td>{{ $draw->draw_number ?: '-' }}</td>
                             <td>
-                                @if($draw->end_date)
+                                @if($draw->game->name === 'Totobola')
+                                    <span class="text-muted">-</span>
+                                @elseif($draw->end_date)
                                     {{ $draw->end_date->format('d/m/Y H:i') }}<br>
                                     <span class="text-muted small countdown" data-end="{{ $draw->end_date->format('Y-m-d H:i:s') }}" id="countdown-{{ $draw->id }}"></span>
                                 @else
@@ -74,14 +76,18 @@
                                 @endif
                             </td>
                             <td>
-                                @if(($draw->jackpot_amount ?? 0) > 0)
+                                @if($draw->game->name === 'Totobola')
+                                    <span class="text-muted">-</span>
+                                @elseif(($draw->jackpot_amount ?? 0) > 0)
                                     €{{ number_format($draw->jackpot_amount, 2) }}
                                 @else
                                     <span class="text-muted">Sem jackpot</span>
                                 @endif
                             </td>
                             <td>
-                                @if($draw->is_completed)
+                                @if($draw->game->name === 'Totobola')
+                                    <span class="text-muted">-</span>
+                                @elseif($draw->is_completed)
                                 <span class="badge bg-success">Realizado</span>
                                 @elseif($draw->draw_date < now())
                                 <span class="badge bg-warning">Pendente</span>

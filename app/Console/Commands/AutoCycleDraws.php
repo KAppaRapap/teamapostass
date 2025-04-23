@@ -16,7 +16,7 @@ class AutoCycleDraws extends Command
     protected $description = 'Gera e encerra automaticamente sorteios de 4 jogos automáticos de hora a hora';
 
     // IDs dos 4 jogos automáticos (ajuste conforme necessário)
-    protected $autoGameIds = [1, 2, 3, 4];
+    protected $autoGameIds = [1, 2, 4]; // Remover o ID do Totobola (ex: 3) da lista
 
     public function handle()
     {

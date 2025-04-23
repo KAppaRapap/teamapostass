@@ -24,12 +24,21 @@
                     <select class="form-select @error('game_id') is-invalid @enderror" id="game_id" name="game_id" required>
                         <option value="" selected disabled>Selecione o jogo</option>
                         @foreach($games as $game)
-                        <option value="{{ $game->id }}" {{ old('game_id') == $game->id ? 'selected' : '' }}>{{ $game->name }}</option>
+                        <option value="{{ $game->id }}" @if(old('game_id', $selectedGameId ?? null) == $game->id) selected @endif @if($game->name === 'Totobola') disabled @endif>
+                            {{ $game->name }}
+                        </option>
                         @endforeach
                     </select>
                     @error('game_id')
-                    <div class="invalid-feedback">{{ $message }}</div>
+                    <div class="invalid-feedback d-block">
+                        {{ $message }}
+                    </div>
                     @enderror
+                    @if(isset($selectedGame) && $selectedGame->name === 'Totobola')
+                    <div class="alert alert-warning mt-3">
+                        Não é possível criar sorteios para o Totobola. Ele é permanente.
+                    </div>
+                    @endif
                 </div>
 
                 <div class="mb-3">

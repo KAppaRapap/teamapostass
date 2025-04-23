@@ -64,18 +64,18 @@
                         <i class="fas fa-calendar-alt fa-2x"></i>
                     </div>
                     <div>
-                        <h6 class="text-muted mb-1">Próximos Sorteios</h6>
-                        <h3 class="mb-0">{{ App\Models\Draw::where('draw_date', '>', now())->where('is_completed', false)->count() }}</h3>
+                        <h6 class="text-muted mb-1">Próximos Jogos</h6>
+                        <h3 class="mb-0">{{ App\Models\Draw::where('draw_date', '>', now())->where('is_completed', false)->count() + App\Models\Game::where('name', 'Totobola')->count() }}</h3>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Próximos Sorteios -->
+    <!-- Próximos Jogos -->
     <div class="card mb-4">
         <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">Próximos Sorteios</h5>
+            <h5 class="mb-0">Próximos Jogos</h5>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -93,87 +93,49 @@
                         @php
                         $upcomingDraws = App\Models\Draw::where('draw_date', '>', now())
                             ->where('is_completed', false)
-                            ->with(['game', 'bettingSlips'])
                             ->orderBy('draw_date', 'asc')
                             ->take(5)
                             ->get();
+                        $totobolaGame = App\Models\Game::where('name', 'Totobola')->first();
                         @endphp
-                        
-                        @forelse($upcomingDraws as $draw)
+                        @foreach($upcomingDraws as $draw)
                         <tr>
                             <td>{{ $draw->game->name }}</td>
+                            <td>{{ $draw->draw_date->format('d/m/Y - H:i') }}</td>
+                            <td>€{{ number_format($draw->jackpot_amount, 2) }}</td>
                             <td>
-                                @php $end = $draw->draw_date->copy()->addHour(); @endphp
-                                {{ $end->format('d/m/Y - H:i') }}<br>
-                                <span class="text-muted small" id="countdown-{{ $draw->id }}"></span>
-                                <script>
-                                    document.addEventListener('DOMContentLoaded', function() {
-                                        var endTime = new Date(@json($end->format('Y-m-d H:i:s')));
-                                        var countdownElem = document.getElementById('countdown-{{ $draw->id }}');
-                                        function updateCountdown() {
-                                            var now = new Date();
-                                            var diff = endTime - now;
-                                            if (diff > 0) {
-                                                var hours = Math.floor(diff / 1000 / 60 / 60);
-                                                var minutes = Math.floor((diff / 1000 / 60) % 60);
-                                                var seconds = Math.floor((diff / 1000) % 60);
-                                                countdownElem.textContent = `Termina em ${hours}h ${minutes}m ${seconds}s`;
-                                            } else {
-                                                countdownElem.textContent = 'Sorteio encerrado';
-                                            }
-                                        }
-                                        updateCountdown();
-                                        setInterval(updateCountdown, 1000);
-                                    });
-                                </script>
+                                @php $userGroups = auth()->user()->groups()->where('game_id', $draw->game_id)->count(); @endphp
+                                {{ $userGroups }} {{ $userGroups == 1 ? 'grupo' : 'grupos' }}
                             </td>
                             <td>
-                                @if(($draw->jackpot_amount ?? 0) > 0)
-                                    €{{ number_format($draw->jackpot_amount, 2) }}
-                                @else
-                                    <span class="text-muted">Sem jackpot</span>
-                                @endif
-                            </td>
-                            <td>
-                                @php
-                                $userGroups = Auth::user()->groups()->where('game_id', $draw->game_id)->count();
-                                @endphp
-                                
-                                @if($userGroups > 0)
-                                    {{ $userGroups }} {{ $userGroups == 1 ? 'grupo' : 'grupos' }}
-                                @else
-                                    Nenhum grupo
-                                @endif
-                            </td>
-                            <td>
-                                @if($userGroups > 0)
-                                <div class="dropdown">
-                                    <button class="btn btn-sm btn-outline-primary w-100 dropdown-toggle"
-                                            type="button"
-                                            id="dropdownMenuButton{{ $draw->id }}"
-                                            data-bs-toggle="dropdown"
-                                            aria-expanded="false"
-                                            style="min-width:160px;max-width:260px;min-height:40px;">
-                                        Criar Aposta
-                                    </button>
-                                    <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton{{ $draw->id }}">
-                                        @foreach(Auth::user()->groups()->where('game_id', $draw->game_id)->get() as $group)
-                                        <li><a class="dropdown-item" href="{{ route('betting-slips.create', $group) }}">{{ $group->name }}</a></li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                                @else
-                                <a href="{{ route('groups.index') }}?game_id={{ $draw->game_id }}" class="btn btn-sm btn-outline-primary w-100" style="min-width:160px;max-width:260px;min-height:40px;">
-                                    Encontrar Grupos
+                                <a href="{{ route('games.show', $draw->game) }}" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-eye me-1"></i> Ver Jogo
                                 </a>
-                                @endif
+                                <a href="{{ route('groups.index', ['game_id' => $draw->game_id]) }}" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-users me-1"></i> Ver Grupos
+                                </a>
                             </td>
                         </tr>
-                        @empty
+                        @endforeach
+                        @if($totobolaGame)
                         <tr>
-                            <td colspan="5" class="text-center py-3">Não há sorteios futuros disponíveis no momento.</td>
+                            <td>{{ $totobolaGame->name }}</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>
+                                @php $userGroups = auth()->user()->groups()->where('game_id', $totobolaGame->id)->count(); @endphp
+                                {{ $userGroups }} {{ $userGroups == 1 ? 'grupo' : 'grupos' }}
+                            </td>
+                            <td>
+                                <a href="{{ route('games.show', $totobolaGame) }}" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-eye me-1"></i> Ver Jogo
+                                </a>
+                                <a href="{{ route('groups.index', ['game_id' => $totobolaGame->id]) }}" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-users me-1"></i> Ver Grupos
+                                </a>
+                            </td>
                         </tr>
-                        @endforelse
+                        @endif
                     </tbody>
                 </table>
             </div>

@@ -18,7 +18,7 @@
     <div class="card">
         <div class="card-body">
             <p class="alert alert-info">
-                Esta página permite adicionar os jogos padrão ao sistema. Clique no botão abaixo para adicionar Euromilhões, Totoloto, Totobola e Placard.
+                Esta página permite adicionar os jogos padrão ao sistema. Clique no botão abaixo para adicionar Euromilhões, Totoloto e Placard. <b>Totobola não pode ser criado manualmente.</b>
             </p>
             
             <form action="{{ route('admin.create-games') }}" method="POST">
