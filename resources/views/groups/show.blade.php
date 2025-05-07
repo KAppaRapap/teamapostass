@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+@php use Illuminate\Support\Str; @endphp
 <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="mb-0">{{ $group->name }}</h2>
@@ -44,6 +45,22 @@
     <div class="alert alert-danger">
         {{ session('error') }}
     </div>
+    @endif
+
+    {{-- Alerta de sorteios só para jogos que não são permanentes (ex: Totobola) --}}
+    @php
+        $gameName = $group->game ? Str::lower(trim($group->game->name)) : '';
+        $isPermanentGame = in_array($gameName, ['totobola']);
+    @endphp
+    @if(!$isPermanentGame)
+        @php
+            $hasFutureDraws = $group->game && $group->game->draws()->where('draw_date', '>', now())->where('is_completed', false)->exists();
+        @endphp
+        @if(!$hasFutureDraws)
+            <div class="alert alert-danger">
+                Não há sorteios futuros disponíveis para este jogo.
+            </div>
+        @endif
     @endif
 
     <div class="row">
@@ -224,38 +241,47 @@
                 </div>
             </div>
             
-            <!-- Próximo Sorteio -->
+            <!-- Próximo Sorteio / Jogo Permanente -->
             <div class="card mb-4">
                 <div class="card-header bg-white py-3">
-                    <h5 class="mb-0">Próximo Sorteio</h5>
+                    <h5 class="mb-0">@if($group->game && Str::lower(trim($group->game->name)) === 'totobola') Jogo Permanente @else Próximo Sorteio @endif</h5>
                 </div>
                 <div class="card-body">
-                    @php
-                    $nextDraw = $group->game->draws()
-                        ->where('draw_date', '>', now())
-                        ->where('is_completed', false)
-                        ->orderBy('draw_date', 'asc')
-                        ->first();
-                    @endphp
-                    
-                    @if($nextDraw)
-                    <div>
-                        <p class="mb-1"><strong>Data:</strong> {{ $nextDraw->draw_date->format('d/m/Y H:i') }}</p>
-                        <p class="mb-1"><strong>Jackpot:</strong> €{{ number_format($nextDraw->jackpot_amount, 2) }}</p>
-                        <p class="mb-3"><strong>Status:</strong> 
-                            <span class="badge bg-warning">Aguardando Sorteio</span>
-                        </p>
-                        
+                    @if($group->game && Str::lower(trim($group->game->name)) === 'totobola')
+                        <p class="text-center mb-0">Este jogo é permanente e está sempre disponível para apostas.</p>
                         @if($userIsMember)
-                        <div class="d-grid">
+                        <div class="d-grid mt-3">
                             <a href="{{ route('betting-slips.create', $group) }}" class="btn btn-primary">
-                                <i class="fas fa-ticket-alt me-1"></i> Criar Aposta para este Sorteio
+                                <i class="fas fa-ticket-alt me-1"></i> Criar Aposta
                             </a>
                         </div>
                         @endif
-                    </div>
                     @else
-                    <p class="text-center mb-0">Não há sorteios agendados para este jogo.</p>
+                        @php
+                        $nextDraw = $group->game->draws()
+                            ->where('draw_date', '>', now())
+                            ->where('is_completed', false)
+                            ->orderBy('draw_date', 'asc')
+                            ->first();
+                        @endphp
+                        @if($nextDraw)
+                        <div>
+                            <p class="mb-1"><strong>Data:</strong> {{ $nextDraw->draw_date->format('d/m/Y H:i') }}</p>
+                            <p class="mb-1"><strong>Jackpot:</strong> €{{ number_format($nextDraw->jackpot_amount, 2) }}</p>
+                            <p class="mb-3"><strong>Status:</strong> 
+                                <span class="badge bg-warning">Aguardando Sorteio</span>
+                            </p>
+                            @if($userIsMember)
+                            <div class="d-grid">
+                                <a href="{{ route('betting-slips.create', $group) }}" class="btn btn-primary">
+                                    <i class="fas fa-ticket-alt me-1"></i> Criar Aposta para este Sorteio
+                                </a>
+                            </div>
+                            @endif
+                        </div>
+                        @else
+                        <p class="text-center mb-0">Não há sorteios agendados para este jogo.</p>
+                        @endif
                     @endif
                 </div>
             </div>

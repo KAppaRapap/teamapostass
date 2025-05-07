@@ -173,13 +173,9 @@ class FootballApiService
      */
     public function getMatchesForLeague(string $leagueCode): array
     {
-        $today = Carbon::now()->toDateString();
-        $sunday = Carbon::now()->next(Carbon::SUNDAY)->toDateString();
         try {
             $response = $this->client->get("competitions/{$leagueCode}/matches", [
                 'query' => [
-                    'dateFrom' => $today,
-                    'dateTo'   => $sunday,
                     'status'   => 'SCHEDULED',
                 ],
             ]);

@@ -4,8 +4,8 @@
 <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="mb-0">Nova Aposta</h2>
-        <a href="{{ route('groups.show', $group) }}" class="btn btn-outline-secondary">
-            <i class="fas fa-arrow-left me-1"></i> Voltar ao Grupo
+        <a href="{{ isset($group) ? route('groups.show', $group) : url('/games/' . ($game->id ?? '')) }}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-1"></i> Voltar
         </a>
     </div>
 
@@ -23,15 +23,99 @@
 
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('betting-slips.store', $group) }}" method="POST">
-                @csrf
-                <input type="hidden" name="numbers[]" value="1"> 
-                <div class="mb-4">
-                    <h5>Informações da Aposta</h5>
-                    <p class="text-muted">Grupo: {{ $group->name }} ({{ $group->game->name }})</p>
-                </div>
-                
-                <div class="mb-3">
+            @if((isset($group) && $group->game->name == 'Totobola') || (isset($game) && $game->name == 'Totobola'))
+                <h5>Escolha a Liga</h5>
+                <form method="GET" action="">
+                    <input type="hidden" name="game_id" value="{{ $game->id ?? ($group->game->id ?? '') }}">
+                    <div class="d-flex flex-wrap gap-2 mb-3">
+                        @foreach($leagues as $league)
+                            <button type="submit" name="league" value="{{ $league['code'] ?? $league['id'] }}" class="btn btn-sm {{ (isset($selectedLeague) && $selectedLeague == ($league['code'] ?? $league['id'])) ? 'btn-primary' : 'btn-outline-primary' }}">
+                                {{ $league['display_name'] ?? $league['name'] }}
+                            </button>
+                        @endforeach
+                    </div>
+                </form>
+                @if(isset($matches) && count($matches) > 0)
+                    <form action="{{ isset($group) ? route('betting-slips.store', $group) : route('betting-slips.store-for-game') }}" method="POST">
+                        @csrf
+                        @if(isset($draws) && count($draws) > 0)
+                            <div class="mb-3">
+                                <label for="draw_id" class="form-label">Selecione o Sorteio</label>
+                                <select class="form-select @error('draw_id') is-invalid @enderror" id="draw_id" name="draw_id" required>
+                                    <option value="" selected disabled>Selecione o sorteio</option>
+                                    @foreach($draws as $draw)
+                                        <option value="{{ $draw->id }}">{{ $draw->name ?? 'Sorteio' }} - {{ \Carbon\Carbon::parse($draw->draw_date)->format('d/m/Y H:i') }}</option>
+                                    @endforeach
+                                </select>
+                                @error('draw_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        @else
+                            <div class="alert alert-warning mb-3">Nenhum sorteio disponível para este jogo.</div>
+                        @endif
+                        @if(isset($game))
+                            <input type="hidden" name="game_id" value="{{ $game->id }}">
+                        @endif
+                        <div id="totobola-matches">
+                            @foreach($matches as $idx => $match)
+                                <div class="mb-3 p-3 rounded shadow-sm bg-white border">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <span class="fw-bold fs-6">{{ $match['homeTeam'] ?? '?' }} <span class="text-muted">vs</span> {{ $match['awayTeam'] ?? '?' }}</span>
+                                        <span class="badge bg-primary">{{ \Carbon\Carbon::parse($match['date'])->format('d/m/Y H:i') }}</span>
+                                    </div>
+                                    <div class="mb-1"><i class="fas fa-map-marker-alt text-danger"></i> <span class="text-secondary">{{ $match['venue'] ?? '-' }}</span></div>
+                                    <div class="mb-1">
+                                        <span class="fw-bold text-success">Favorito: {{ $match['favorite'] }}</span>
+                                    </div>
+                                    <div class="mb-1 row">
+                                        <div class="col">
+                                            <span class="fw-bold">Últimos 5 jogos ({{ $match['homeTeam'] }}):</span>
+                                            <span>
+                                                @foreach($match['last5_home'] as $res)
+                                                    <span class="badge {{ $res == 'V' ? 'bg-success' : ($res == 'E' ? 'bg-secondary' : 'bg-danger') }}">{{ $res }}</span>
+                                                @endforeach
+                                            </span>
+                                        </div>
+                                        <div class="col">
+                                            <span class="fw-bold">Últimos 5 jogos ({{ $match['awayTeam'] }}):</span>
+                                            <span>
+                                                @foreach($match['last5_away'] as $res)
+                                                    <span class="badge {{ $res == 'V' ? 'bg-success' : ($res == 'E' ? 'bg-secondary' : 'bg-danger') }}">{{ $res }}</span>
+                                                @endforeach
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2 d-flex gap-2">
+                                        <input class="btn-check" type="radio" name="predictions[{{ $idx }}]" id="pred1-{{ $idx }}" value="1" autocomplete="off">
+                                        <label class="btn btn-outline-dark fw-bold px-4" for="pred1-{{ $idx }}">1</label>
+                                        <input class="btn-check" type="radio" name="predictions[{{ $idx }}]" id="predX-{{ $idx }}" value="X" autocomplete="off">
+                                        <label class="btn btn-outline-dark fw-bold px-4" for="predX-{{ $idx }}">X</label>
+                                        <input class="btn-check" type="radio" name="predictions[{{ $idx }}]" id="pred2-{{ $idx }}" value="2" autocomplete="off">
+                                        <label class="btn btn-outline-dark fw-bold px-4" for="pred2-{{ $idx }}">2</label>
+                                        <input type="number" class="form-control ms-3" name="amounts[{{ $idx }}]" min="0" step="0.01" placeholder="Valor (€)" style="width:110px;">
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="d-grid">
+                            <div class="mb-3">
+                                <label for="custom_amount" class="form-label">Valor Total da Aposta (€)</label>
+                                <input type="number" step="0.01" min="0.01" class="form-control @error('custom_amount') is-invalid @enderror" id="custom_amount" name="custom_amount" required>
+                                @error('custom_amount')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-1"></i> Registrar Aposta
+                            </button>
+                        </div>
+                    </form>
+                @else
+                    <div class="alert alert-warning">Nenhum jogo disponível para esta liga nesta semana.</div>
+                @endif
+            @else
+                @if(isset($group) && $group->game->name != 'Totobola')
                     <label for="draw_id" class="form-label">Selecione o Sorteio</label>
                     @if(empty($draws) || count($draws) == 0)
                         <div class="alert alert-warning">Não há sorteios futuros disponíveis para este jogo.</div>
@@ -48,123 +132,69 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     @endif
-                </div>
-                
+                @endif
                 <div class="mb-4">
                     <h5>Selecione os Números</h5>
                     <p class="text-muted">
-                        @if($group->game->name == 'Euromilhões')
+                        @if(isset($group) && $group->game->name == 'Euromilhões')
                         Selecione 5 números (1-50) e 2 estrelas (1-12)
-                        @elseif($group->game->name == 'Totoloto')
-                        Selecione 13 jogos
-                        @elseif($group->game->name == 'Totobola')
-                        Faça seu palpite nos 13 jogos
-                        @else
+                        @elseif(isset($group) && $group->game->name == 'Totoloto')
+                        Selecione 6 números (1-49)
+                        @elseif(isset($game))
                         Selecione os números conforme as regras do jogo
                         @endif
                     </p>
-                    
+                    <button type="button" class="btn btn-warning mb-2 me-2" id="btn-surpresinha">Surpresinha</button>
+                    <button type="button" class="btn btn-secondary mb-2" id="btn-clear">Limpar</button>
                     <div class="mb-3">
-                        <div class="number-grid">
-                            @if($group->game->name == 'Euromilhões')
-                                <div class="mb-2 d-flex align-items-center">
-                                    <span class="fw-bold">Números: <span id="selected-main-count">0</span>/5 &nbsp; Estrelas: <span id="selected-star-count">0</span>/2</span>
-                                    <button type="button" class="btn btn-sm btn-outline-primary ms-2" id="random-pick-euromains">Surpresinha Números</button>
-                                    <button type="button" class="btn btn-sm btn-outline-primary ms-2" id="random-pick-stars">Surpresinha Estrelas</button>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary ms-1" id="clear-pick-euromains">Limpar Números</button>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary ms-1" id="clear-pick-stars">Limpar Estrelas</button>
+                        <div class="number-grid d-flex flex-wrap gap-1">
+                            @for($i = 1; $i <= 49; $i++)
+                                <div class="number-cell">
+                                    <input type="checkbox" class="btn-check main-number" name="numbers[]" id="number-{{ $i }}" value="{{ $i }}" autocomplete="off">
+                                    <label class="btn btn-outline-primary mb-1 w-100" for="number-{{ $i }}">{{ $i }}</label>
                                 </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Números (selecione 5)</label>
-                                    <div class="d-flex flex-wrap">
-                                        @for($i = 1; $i <= 50; $i++)
-                                        <div class="number-button">
-                                            <input type="checkbox" name="numbers[]" id="number{{ $i }}" value="{{ $i }}" class="btn-check main-number" autocomplete="off">
-                                            <label for="number{{ $i }}" class="btn btn-outline-primary">{{ $i }}</label>
-                                        </div>
-                                        @endfor
-                                    </div>
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label class="form-label">Estrelas (selecione 2)</label>
-                                    <div class="d-flex flex-wrap">
-                                        @for($i = 1; $i <= 12; $i++)
-                                        <div class="number-button">
-                                            <input type="checkbox" name="numbers[]" id="star{{ $i }}" value="{{ $i + 50 }}" class="btn-check star-number" autocomplete="off">
-                                            <label for="star{{ $i }}" class="btn btn-outline-warning">{{ $i }}</label>
-                                        </div>
-                                        @endfor
-                                    </div>
-                                </div>
-                            @elseif($group->game->name == 'Totoloto')
-                                <div class="mb-2 d-flex align-items-center">
-                                    <span class="fw-bold">Selecionados: <span id="selected-count">0</span></span>
-                                    <button type="button" class="btn btn-sm btn-outline-primary ms-2" id="random-pick">Surpresinha</button>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary ms-1" id="clear-pick">Limpar</button>
-                                </div>
-                                <div class="mb-3">
-                                    <div class="number-grid">
-                                        @for($i = 1; $i <= 49; $i++)
-                                        <div class="number-button">
-                                            <input type="checkbox" name="numbers[]" id="number{{ $i }}" value="{{ $i }}" class="btn-check main-number" autocomplete="off">
-                                            <label for="number{{ $i }}" class="btn btn-outline-primary">{{ $i }}</label>
-                                        </div>
-                                        @endfor
-                                    </div>
-                                </div>
-                                <div class="mt-3" id="bet-summary" style="display:none;">
-                                    <strong>Aposta:</strong> <span id="summary-numbers"></span>
-                                </div>
-                            @elseif($group->game->name == 'Totobola')
-                                @if(empty($leagues) || count($leagues) == 0)
-                                    <div class="alert alert-warning">Não há ligas disponíveis para o Totobola no momento.</div>
-                                @else
-                                    <div class="mb-3">
-                                        <label for="league_select" class="form-label fw-bold">Escolha a Liga</label>
-                                        <select id="league_select" class="form-select mb-3">
-                                            <option value="">Selecione uma liga</option>
-                                            @foreach($leagues as $league)
-                                            <option value="{{ $league['code'] ?? $league['id'] }}">{{ $league['display_name'] ?? $league['name'] }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div id="totobola-matches">
-                                        <!-- Jogos serão carregados por JS -->
-                                    </div>
-                                @endif
-                            @else
-                                <!-- Default number selection -->
-                                <div class="mb-2 d-flex align-items-center">
-                                    <span class="fw-bold">Selecionados: <span id="selected-count">0</span></span>
-                                    <button type="button" class="btn btn-sm btn-outline-primary ms-2" id="random-pick">Surpresinha</button>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary ms-1" id="clear-pick">Limpar</button>
-                                </div>
-                                <div class="mb-3">
-                                    <div class="number-grid">
-                                        @for($i = 1; $i <= 49; $i++)
-                                        <div class="number-button">
-                                            <input type="checkbox" name="numbers[]" id="number{{ $i }}" value="{{ $i }}" class="btn-check main-number" autocomplete="off">
-                                            <label for="number{{ $i }}" class="btn btn-outline-primary">{{ $i }}</label>
-                                        </div>
-                                        @endfor
-                                    </div>
-                                </div>
-                                <div class="mt-3" id="bet-summary" style="display:none;">
-                                    <strong>Aposta:</strong> <span id="summary-numbers"></span>
-                                </div>
-                            @endif
+                            @endfor
                         </div>
                     </div>
                 </div>
-                
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const btnSurpresinha = document.getElementById('btn-surpresinha');
+                        const btnClear = document.getElementById('btn-clear');
+                        if(btnSurpresinha) {
+                            btnSurpresinha.addEventListener('click', function() {
+                                // Desmarcar todos
+                                document.querySelectorAll('.main-number').forEach(cb => cb.checked = false);
+                                // Sortear 6 números únicos entre 1 e 49
+                                let nums = [];
+                                while(nums.length < 6) {
+                                    let n = Math.floor(Math.random() * 49) + 1;
+                                    if(!nums.includes(n)) nums.push(n);
+                                }
+                                nums.forEach(n => {
+                                    let cb = document.getElementById('number-' + n);
+                                    if(cb) cb.checked = true;
+                                });
+                            });
+                        }
+                        if(btnClear) {
+                            btnClear.addEventListener('click', function() {
+                                document.querySelectorAll('.main-number').forEach(cb => cb.checked = false);
+                            });
+                        }
+                    });
+                </script>
+            @endif
+            <form action="{{ isset($group) ? route('betting-slips.store', $group) : route('betting-slips.store-for-game') }}" method="POST">
+                @csrf
+                <input type="hidden" name="numbers[]" value="1"> 
                 <div class="mb-3">
                     <label for="main-bet-amount" class="form-label">Valor a Apostar Geral (€)</label>
                     <input type="number" name="main_bet_amount" id="main-bet-amount" class="form-control" min="0" step="0.01" placeholder="Se quiser apostar o mesmo valor em todos os jogos">
                     <div class="form-text">Preencha este campo <b>apenas</b> se quiser apostar o mesmo valor em todos os jogos. Caso contrário, use os campos de valor individuais de cada jogo.</div>
                 </div>
                 
-                @if($group->game->name != 'Totobola')
+                @if(isset($group) && $group->game->name != 'Totobola')
                 <div class="mb-3">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" id="is_system" name="is_system" value="1">
@@ -176,7 +206,6 @@
                         </label>
                     </div>
                 </div>
-                @endif
                 <div id="system_options" class="mb-4" style="display: none;">
                     <h5>Opções de Desdobramento</h5>
                     <div class="mb-3">
@@ -190,7 +219,7 @@
                         </div>
                     </div>
                 </div>
-                
+                @endif
                 <div class="d-grid">
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-save me-1"></i> Registrar Aposta
@@ -329,7 +358,8 @@
         const mainNumbers = document.querySelectorAll('.main-number');
         const customAmount = document.getElementById('custom_amount');
 
-        const gameId = {{ $group->game->id }};
+        const gameId = {{ isset($group) ? $group->game->id : ($game->id ?? 'null') }};
+        const pricePerBet = {{ isset($group) ? $group->game->price_per_bet : ($game->price_per_bet ?? 'null') }};
         const csrfToken = '{{ csrf_token() }}';
 
         function updateSystemExplanation() {
@@ -344,7 +374,7 @@
         }
 
         function updateSystemCost() {
-            const preco = {{ $group->game->price_per_bet }};
+            const preco = pricePerBet;
             if (systemCheckbox.checked) {
                 const mainSelected = Array.from(document.querySelectorAll('.main-number:checked')).map(cb => parseInt(cb.value));
                 const starSelected = Array.from(document.querySelectorAll('.star-number:checked')).map(cb => parseInt(cb.value) - 50);

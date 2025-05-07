@@ -72,72 +72,81 @@
         </div>
     </div>
 
-    <!-- Próximos Jogos -->
+    <!-- Próximos Jogos - NOVO DESIGN -->
     <div class="card mb-4">
         <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
             <h5 class="mb-0">Próximos Jogos</h5>
         </div>
         <div class="card-body">
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Jogo</th>
-                            <th>Data</th>
-                            <th>Jackpot</th>
-                            <th>Grupos</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @php
-                        $upcomingDraws = App\Models\Draw::where('draw_date', '>', now())
-                            ->where('is_completed', false)
-                            ->orderBy('draw_date', 'asc')
-                            ->take(5)
-                            ->get();
-                        $totobolaGame = App\Models\Game::where('name', 'Totobola')->first();
-                        @endphp
-                        @foreach($upcomingDraws as $draw)
-                        <tr>
-                            <td>{{ $draw->game->name }}</td>
-                            <td>{{ $draw->draw_date->format('d/m/Y - H:i') }}</td>
-                            <td>€{{ number_format($draw->jackpot_amount, 2) }}</td>
-                            <td>
-                                @php $userGroups = auth()->user()->groups()->where('game_id', $draw->game_id)->count(); @endphp
-                                {{ $userGroups }} {{ $userGroups == 1 ? 'grupo' : 'grupos' }}
-                            </td>
-                            <td>
-                                <a href="{{ route('games.show', $draw->game) }}" class="btn btn-sm btn-outline-primary">
+            <div class="row g-3">
+                @php
+                $upcomingDraws = App\Models\Draw::where('draw_date', '>', now())
+                    ->where('is_completed', false)
+                    ->get();
+                $totobolaGame = App\Models\Game::where('name', 'Totobola')->first();
+                @endphp
+                @foreach($upcomingDraws as $draw)
+                <div class="col-md-6 col-lg-4">
+                    <div class="card border-0 shadow h-100">
+                        <div class="card-body d-flex flex-column">
+                            <div class="d-flex align-items-center mb-2">
+                                <span class="badge bg-primary me-2" style="font-size:1.2rem;">
+                                    <i class="fas fa-futbol"></i>
+                                </span>
+                                <h5 class="mb-0 flex-grow-1">{{ $draw->game->name }}</h5>
+                            </div>
+                            <div class="mb-2">
+                                <span class="text-muted small">Data:</span>
+                                <span class="fw-bold">{{ $draw->draw_date->format('d/m/Y - H:i') }}</span>
+                            </div>
+                            <div class="mb-2">
+                                <span class="text-muted small">Jackpot:</span>
+                                <span class="fw-bold text-success">€{{ number_format($draw->jackpot_amount, 2) }}</span>
+                            </div>
+                            <div class="mb-3">
+                                <span class="text-muted small">Grupos:</span>
+                                <span class="fw-bold">{{ auth()->user()->groups()->where('game_id', $draw->game_id)->count() }} grupo(s)</span>
+                            </div>
+                            <div class="d-flex gap-2 mt-auto">
+                                <a href="{{ route('games.show', $draw->game) }}" class="btn btn-outline-primary w-100">
                                     <i class="fas fa-eye me-1"></i> Ver Jogo
                                 </a>
-                                <a href="{{ route('groups.index', ['game_id' => $draw->game_id]) }}" class="btn btn-sm btn-primary">
+                                <a href="{{ route('groups.index', ['game_id' => $draw->game_id]) }}" class="btn btn-primary w-100">
                                     <i class="fas fa-users me-1"></i> Ver Grupos
                                 </a>
-                            </td>
-                        </tr>
-                        @endforeach
-                        @if($totobolaGame)
-                        <tr>
-                            <td>{{ $totobolaGame->name }}</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>
-                                @php $userGroups = auth()->user()->groups()->where('game_id', $totobolaGame->id)->count(); @endphp
-                                {{ $userGroups }} {{ $userGroups == 1 ? 'grupo' : 'grupos' }}
-                            </td>
-                            <td>
-                                <a href="{{ route('games.show', $totobolaGame) }}" class="btn btn-sm btn-outline-primary">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+                @if($totobolaGame)
+                <div class="col-md-6 col-lg-4">
+                    <div class="card border-0 shadow h-100">
+                        <div class="card-body d-flex flex-column">
+                            <div class="d-flex align-items-center mb-2">
+                                <span class="badge bg-warning me-2" style="font-size:1.2rem;">
+                                    <i class="fas fa-star"></i>
+                                </span>
+                                <h5 class="mb-0 flex-grow-1">{{ $totobolaGame->name }}</h5>
+                            </div>
+                            <div class="mb-2 text-muted small">Data: -</div>
+                            <div class="mb-2 text-muted small">Jackpot: -</div>
+                            <div class="mb-3">
+                                <span class="text-muted small">Grupos:</span>
+                                <span class="fw-bold">{{ auth()->user()->groups()->where('game_id', $totobolaGame->id)->count() }} grupo(s)</span>
+                            </div>
+                            <div class="d-flex gap-2 mt-auto">
+                                <a href="{{ route('games.show', $totobolaGame) }}" class="btn btn-outline-primary w-100">
                                     <i class="fas fa-eye me-1"></i> Ver Jogo
                                 </a>
-                                <a href="{{ route('groups.index', ['game_id' => $totobolaGame->id]) }}" class="btn btn-sm btn-primary">
+                                <a href="{{ route('groups.index', ['game_id' => $totobolaGame->id]) }}" class="btn btn-primary w-100">
                                     <i class="fas fa-users me-1"></i> Ver Grupos
                                 </a>
-                            </td>
-                        </tr>
-                        @endif
-                    </tbody>
-                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
             </div>
         </div>
     </div>

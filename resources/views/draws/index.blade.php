@@ -4,9 +4,18 @@
 <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="mb-0">Gerenciar Sorteios</h2>
-        <a href="{{ route('draws.create') }}" class="btn btn-primary">
-            <i class="fas fa-plus me-1"></i> Novo Sorteio
-        </a>
+        <div class="d-flex gap-2">
+            <a href="{{ route('draws.create') }}" class="btn btn-primary">
+                <i class="fas fa-plus me-1"></i> Novo Sorteio
+            </a>
+            <form action="{{ route('draws.destroyCompleted') }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir todos os sorteios realizados?');">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-trash me-1"></i> Excluir Concluídos
+                </button>
+            </form>
+        </div>
     </div>
 
     @if(session('success'))

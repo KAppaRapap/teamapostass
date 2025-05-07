@@ -64,11 +64,57 @@ class BettingSlipController extends Controller
         }
         $matches = [];
         $leagues = [];
+        $selectedLeague = request()->input('league');
         if ($group->game->name === 'Totobola') {
             $service = app(\App\Services\FootballApiService::class);
             $leagues = $service->getLeagues();
+            if ($selectedLeague) {
+                $rawMatches = $service->getMatchesForLeague($selectedLeague);
+                $matches = [];
+                foreach ($rawMatches as $match) {
+                    $matches[] = $service->getMatchExtendedInfo($match);
+                }
+            } else {
+                $matches = $service->getUpcomingSundayMatches();
+            }
         }
-        return view('betting-slips.create', compact('group', 'draws', 'matches', 'leagues'));
+        return view('betting-slips.create', compact('group', 'draws', 'matches', 'leagues', 'selectedLeague'));
+    }
+
+    /**
+     * Show the form for creating a new betting slip for a game (sem grupo, ex: Totobola).
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function createForGame(Request $request)
+    {
+        $gameId = $request->input('game_id');
+        $game = Game::findOrFail($gameId);
+        $group = null;
+        $draws = Draw::where('game_id', $gameId)
+            ->where('draw_date', '>', now())
+            ->where('is_completed', false)
+            ->orderBy('draw_date', 'asc')
+            ->get();
+        $matches = [];
+        $leagues = [];
+        $selectedLeague = $request->input('league');
+        if ($game->name === 'Totobola') {
+            $service = app(\App\Services\FootballApiService::class);
+            $leagues = $service->getLeagues();
+            if ($selectedLeague) {
+                $rawMatches = $service->getMatchesForLeague($selectedLeague);
+            } else {
+                $rawMatches = $service->getUpcomingSundayMatches();
+            }
+            $matches = [];
+            foreach ($rawMatches as $match) {
+                $matches[] = $service->getMatchExtendedInfo($match);
+            }
+        }
+        // Permite criar aposta mesmo sem draws (Totobola)
+        return view('betting-slips.create', compact('game', 'group', 'draws', 'matches', 'leagues', 'selectedLeague'));
     }
 
     /**
@@ -152,6 +198,49 @@ class BettingSlipController extends Controller
         
         return redirect()->route('groups.show', $group)
             ->with('success', 'Aposta registrada com sucesso. Valor debitado da carteira virtual.');
+    }
+
+    /**
+     * Store a newly created betting slip for a game (sem grupo, ex: Totobola).
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeForGame(Request $request)
+    {
+        $user = Auth::user();
+        $gameId = $request->input('game_id');
+        $game = Game::findOrFail($gameId);
+        // Para Totobola, predictions e amounts vêm do form
+        if ($game->name === 'Totobola') {
+            $request->validate([
+                'predictions'   => 'required|array',
+                'predictions.*' => 'required|in:1,X,2',
+                'amounts'       => 'required|array',
+                'amounts.*'     => 'required|numeric|min:0.01',
+            ]);
+            $predictions = $request->input('predictions');
+            $amounts = $request->input('amounts');
+            $totalCost = array_sum($amounts);
+            if ($user->virtual_balance < $totalCost) {
+                return back()->with('error', 'Saldo insuficiente na carteira virtual.');
+            }
+            // Salvar a aposta (BettingSlip)
+            $bettingSlip = BettingSlip::create([
+                'user_id' => $user->id,
+                'game_id' => $game->id,
+                'numbers' => json_encode($predictions),
+                'amounts' => json_encode($amounts),
+                'total_cost' => $totalCost,
+                'is_checked' => false,
+            ]);
+            // Debitar saldo
+            $user->virtual_balance -= $totalCost;
+            $user->save();
+            return redirect()->route('betting-slips.index')->with('success', 'Aposta registrada com sucesso! Valor debitado da carteira virtual.');
+        }
+        // Outros jogos: adaptar conforme necessário
+        return back()->with('error', 'Tipo de jogo não suportado para apostas diretas.');
     }
 
     /**

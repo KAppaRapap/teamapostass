@@ -169,6 +169,18 @@ class DrawController extends Controller
     }
     
     /**
+     * Remove all completed draws.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyCompleted()
+    {
+        Draw::where('is_completed', true)->delete();
+        return redirect()->route('draws.index')
+            ->with('success', 'Sorteios anteriores excluídos com sucesso.');
+    }
+    
+    /**
      * Notify users about a new draw.
      *
      * @param  \App\Models\Draw  $draw

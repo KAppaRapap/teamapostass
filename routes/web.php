@@ -63,35 +63,15 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/groups/{group}/ban/{user}', [GroupController::class, 'banUser'])->name('groups.ban-user');
     Route::post('/groups/{group}/unban/{user}', [GroupController::class, 'unbanUser'])->name('groups.unban-user');
     
+    // Draws CRUD routes
+    // Rota para excluir todos os sorteios concluídos
+    Route::delete('/draws/completed', [DrawController::class, 'destroyCompleted'])->name('draws.destroyCompleted');
+    Route::resource('draws', DrawController::class);
+    
     // Betting Slips routes
     Route::get('/betting-slips', [BettingSlipController::class, 'index'])->name('betting-slips.index');
-    Route::get('/betting-slips/{bettingSlip}', [BettingSlipController::class, 'show'])->name('betting-slips.show');
-    
-    // Results routes
-    Route::get('/results', [DrawController::class, 'results'])->name('results.index');
-    Route::get('/results/{draw}', [DrawController::class, 'showResult'])->name('results.show');
-    
-    // Notifications routes
-    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
-    Route::post('/notifications/{notification}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.mark-as-read');
-    Route::post('/notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.mark-all-as-read');
-    
-    // Settings routes
-    Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
-    Route::post('/settings/profile', [SettingsController::class, 'updateProfile'])->name('settings.update-profile');
-    Route::post('/settings/password', [SettingsController::class, 'updatePassword'])->name('settings.update-password');
-    Route::post('/settings/notifications', [SettingsController::class, 'updateNotificationPreferences'])->name('settings.update-notifications');
-    
-    // Draws routes
-    Route::get('/draws', [DrawController::class, 'index'])->name('draws.index');
-    Route::get('/draws/create', [DrawController::class, 'create'])->name('draws.create');
-    Route::post('/draws', [DrawController::class, 'store'])->name('draws.store');
-    Route::get('/draws/{draw}', [DrawController::class, 'show'])->name('draws.show');
-    Route::get('/draws/{draw}/edit', [DrawController::class, 'edit'])->name('draws.edit');
-    Route::put('/draws/{draw}', [DrawController::class, 'update'])->name('draws.update');
-    Route::delete('/draws/{draw}', [DrawController::class, 'destroy'])->name('draws.destroy');
-    
-    // Betting Slips routes
+    Route::get('/betting-slips/create', [BettingSlipController::class, 'createForGame'])->name('betting-slips.create-for-game');
+    Route::post('/betting-slips/store-for-game', [BettingSlipController::class, 'storeForGame'])->name('betting-slips.store-for-game');
     Route::get('/groups/{group}/betting-slips/create', [BettingSlipController::class, 'create'])->name('betting-slips.create');
     Route::post('/groups/{group}/betting-slips', [BettingSlipController::class, 'store'])->name('betting-slips.store');
     Route::get('/betting-slips/{bettingSlip}', [BettingSlipController::class, 'show'])->name('betting-slips.show');
@@ -110,6 +90,27 @@ Route::middleware(['auth'])->group(function () {
     
     // AJAX para buscar jogos de uma liga para Totobola
     Route::get('/betting-slips/league-matches/{league}', [App\Http\Controllers\BettingSlipController::class, 'getLeagueMatches'])->name('betting-slips.league-matches');
+    
+    // Results routes
+    Route::get('/results', function() {
+        $completedDraws = \App\Models\Draw::with('game')
+            ->where('is_completed', true)
+            ->orderBy('draw_date', 'desc')
+            ->get();
+        return view('results.index', compact('completedDraws'));
+    })->name('results.index');
+    Route::get('/results/{draw}', function(\App\Models\Draw $draw) {
+        $userBettingSlips = \Auth::check()
+            ? \Auth::user()->bettingSlips()->where('draw_id', $draw->id)->get()
+            : collect();
+        return view('results.show', compact('draw', 'userBettingSlips'));
+    })->name('results.show');
+    
+    // Settings routes
+    Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
+    Route::post('/settings/profile', [SettingsController::class, 'updateProfile'])->name('settings.update-profile');
+    Route::post('/settings/password', [SettingsController::class, 'updatePassword'])->name('settings.update-password');
+    Route::post('/settings/notifications', [SettingsController::class, 'updateNotificationPreferences'])->name('settings.update-notifications');
     
     // Carteira Virtual
     Route::middleware(['auth'])->prefix('wallet')->name('wallet.')->group(function () {

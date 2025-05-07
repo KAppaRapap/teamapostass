@@ -52,9 +52,16 @@
                             <h5 class="mb-0">Preço por Aposta</h5>
                             <p class="text-primary fw-bold mb-0">€{{ number_format($game->price_per_bet, 2) }}</p>
                         </div>
-                        <a href="{{ route('groups.index', ['game_id' => $game->id]) }}" class="btn btn-primary">
-                            <i class="fas fa-users me-1"></i> Ver Grupos
-                        </a>
+                        <div class="d-flex gap-2">
+                            <a href="{{ route('groups.index', ['game_id' => $game->id]) }}" class="btn btn-primary">
+                                <i class="fas fa-users me-1"></i> Ver Grupos
+                            </a>
+                            @if($game->name === 'Totobola')
+                            <a href="{{ route('betting-slips.create-for-game', ['game_id' => $game->id]) }}" class="btn btn-success">
+                                <i class="fas fa-ticket-alt me-1"></i> Apostar
+                            </a>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
@@ -73,7 +80,7 @@
                                 <span class="badge bg-warning">Aguardando Sorteio</span>
                             </p>
                         </div>
-                        <a href="#" class="btn btn-outline-primary">
+                        <a href="{{ route('betting-slips.create-for-game', ['game_id' => $game->id]) }}" class="btn btn-outline-primary">
                             <i class="fas fa-ticket-alt me-1"></i> Apostar
                         </a>
                     </div>
