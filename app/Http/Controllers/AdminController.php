@@ -13,7 +13,7 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function createGames()
+    public function createGames() //sigma
     {
         $games = [
             [
