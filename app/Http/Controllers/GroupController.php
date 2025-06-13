@@ -171,35 +171,20 @@ class GroupController extends Controller
      */
     public function join(Group $group)
     {
-        // Check if user is already a member
-        if ($group->members()->where('users.id', Auth::id())->exists()) {
-            return redirect()->route('groups.show', $group)
-                ->with('info', 'Você já é membro deste grupo.');
+        if ($group->isFull()) {
+            return redirect()->back()->with('error', 'Este grupo já está cheio.');
         }
-        
-        // Check if group has reached member limit
-        if ($group->hasReachedMemberLimit()) {
-            return redirect()->route('groups.show', $group)
-                ->with('error', 'Este grupo atingiu o limite máximo de membros.');
+
+        if ($group->isMember(auth()->user())) {
+            return redirect()->back()->with('error', 'Você já é membro deste grupo.');
         }
-        
-        // Add user to group
-        $group->members()->attach(Auth::id(), ['status' => 'active']);
-        
-        // Notify group admin
-        Notification::create([
-            'user_id' => $group->admin_id,
-            'type' => 'group_join',
-            'title' => 'Novo membro no grupo',
-            'message' => Auth::user()->name . ' entrou no grupo ' . $group->name,
-            'data' => [
-                'group_id' => $group->id,
-                'user_id' => Auth::id(),
-            ],
-        ]);
-        
-        return redirect()->route('groups.show', $group)
-            ->with('success', 'Você entrou no grupo com sucesso.');
+
+        if ($group->addMember(auth()->user())) {
+            return redirect()->route('groups.show', $group)
+                ->with('success', 'Você entrou no grupo com sucesso!');
+        }
+
+        return redirect()->back()->with('error', 'Não foi possível entrar no grupo.');
     }
     
     /**
@@ -210,35 +195,20 @@ class GroupController extends Controller
      */
     public function leave(Group $group)
     {
-        // Check if user is the admin
-        if ($group->admin_id === Auth::id()) {
-            return redirect()->route('groups.show', $group)
-                ->with('error', 'O administrador não pode sair do grupo. Transfira a administração primeiro ou exclua o grupo.');
+        if (!$group->isMember(auth()->user())) {
+            return redirect()->back()->with('error', 'Você não é membro deste grupo.');
         }
-        
-        // Check if user is a member
-        if (!$group->members()->where('users.id', Auth::id())->exists()) {
-            return redirect()->route('groups.show', $group)
-                ->with('error', 'Você não é membro deste grupo.');
+
+        if ($group->isAdmin(auth()->user())) {
+            return redirect()->back()->with('error', 'O administrador não pode sair do grupo. Transfira a administração primeiro.');
         }
-        
-        // Remove user from group
-        $group->members()->detach(Auth::id());
-        
-        // Notify group admin
-        Notification::create([
-            'user_id' => $group->admin_id,
-            'type' => 'group_leave',
-            'title' => 'Membro saiu do grupo',
-            'message' => Auth::user()->name . ' saiu do grupo ' . $group->name,
-            'data' => [
-                'group_id' => $group->id,
-                'user_id' => Auth::id(),
-            ],
-        ]);
-        
-        return redirect()->route('groups.index')
-            ->with('success', 'Você saiu do grupo com sucesso.');
+
+        if ($group->removeMember(auth()->user())) {
+            return redirect()->route('groups.index')
+                ->with('success', 'Você saiu do grupo com sucesso!');
+        }
+
+        return redirect()->back()->with('error', 'Não foi possível sair do grupo.');
     }
     
     /**

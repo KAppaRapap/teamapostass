@@ -1,211 +1,212 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container py-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="mb-0">Dashboard</h2>
-        <div class="d-flex gap-2">
-            @if(Auth::user()->is_admin)
-                <a href="{{ route('draws.create') }}" class="btn btn-primary"><i class="fas fa-gamepad me-1"></i> Novo Jogo</a>
-                <a href="{{ route('admin.users.index') }}" class="btn btn-outline-secondary"><i class="fas fa-users-cog me-1"></i> Gerenciar Usuários</a>
-            @endif
-            <a href="{{ route('groups.create') }}" class="btn btn-primary"><i class="fas fa-plus me-1"></i> Novo Grupo</a>
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="h3 mb-0">Dashboard</h1>
+            <p class="text-muted">Bem-vindo de volta, {{ auth()->user()->name }}!</p>
         </div>
     </div>
 
-    <!-- Carteira Virtual -->
-    @include('dashboard._virtual_wallet')
-
-    <!-- Stats Cards -->
+    <!-- Cards de Estatísticas -->
     <div class="row g-4 mb-4">
-        <div class="col-md-3">
+        <div class="col-md-6 col-lg-3">
             <div class="card h-100">
-                <div class="card-body d-flex align-items-center">
-                    <div class="me-3 text-primary">
-                        <i class="fas fa-users fa-2x"></i>
-                    </div>
-                    <div>
-                        <h6 class="text-muted mb-1">Meus Grupos</h6>
-                        <h3 class="mb-0">{{ Auth::user()->groups()->count() }}</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card h-100">
-                <div class="card-body d-flex align-items-center">
-                    <div class="me-3 text-primary">
-                        <i class="fas fa-ticket-alt fa-2x"></i>
-                    </div>
-                    <div>
-                        <h6 class="text-muted mb-1">Apostas Ativas</h6>
-                        <h3 class="mb-0">{{ Auth::user()->bettingSlips()->whereHas('draw', function($q){ $q->where('is_completed', false); })->count() }}</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card h-100">
-                <div class="card-body d-flex align-items-center">
-                    <div class="me-3 text-primary">
-                        <i class="fas fa-euro-sign fa-2x"></i>
-                    </div>
-                    <div>
-                        <h6 class="text-muted mb-1">Total Ganho</h6>
-                        <h3 class="mb-0">€{{ number_format(Auth::user()->bettingSlips()->sum('winnings'), 2) }}</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card h-100">
-                <div class="card-body d-flex align-items-center">
-                    <div class="me-3 text-primary">
-                        <i class="fas fa-calendar-alt fa-2x"></i>
-                    </div>
-                    <div>
-                        <h6 class="text-muted mb-1">Próximos Jogos</h6>
-                        <h3 class="mb-0">{{ App\Models\Draw::where('draw_date', '>', now())->where('is_completed', false)->count() + App\Models\Game::where('name', 'Totobola')->count() }}</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Próximos Jogos -->
-    <div class="card mb-4">
-        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">Próximos Jogos</h5>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Jogo</th>
-                            <th>Data</th>
-                            <th>Jackpot</th>
-                            <th>Grupos</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @php
-                        $upcomingDraws = App\Models\Draw::where('draw_date', '>', now())
-                            ->where('is_completed', false)
-                            ->orderBy('draw_date', 'asc')
-                            ->take(5)
-                            ->get();
-                        $totobolaGame = App\Models\Game::where('name', 'Totobola')->first();
-                        @endphp
-                        @foreach($upcomingDraws as $draw)
-                        <tr>
-                            <td>{{ $draw->game->name }}</td>
-                            <td>{{ $draw->draw_date->format('d/m/Y - H:i') }}</td>
-                            <td>€{{ number_format($draw->jackpot_amount, 2) }}</td>
-                            <td>
-                                @php $userGroups = auth()->user()->groups()->where('game_id', $draw->game_id)->count(); @endphp
-                                {{ $userGroups }} {{ $userGroups == 1 ? 'grupo' : 'grupos' }}
-                            </td>
-                            <td>
-                                <a href="{{ route('games.show', $draw->game) }}" class="btn btn-sm btn-outline-primary">
-                                    <i class="fas fa-eye me-1"></i> Ver Jogo
-                                </a>
-                                <a href="{{ route('groups.index', ['game_id' => $draw->game_id]) }}" class="btn btn-sm btn-primary">
-                                    <i class="fas fa-users me-1"></i> Ver Grupos
-                                </a>
-                            </td>
-                        </tr>
-                        @endforeach
-                        @if($totobolaGame)
-                        <tr>
-                            <td>{{ $totobolaGame->name }}</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>
-                                @php $userGroups = auth()->user()->groups()->where('game_id', $totobolaGame->id)->count(); @endphp
-                                {{ $userGroups }} {{ $userGroups == 1 ? 'grupo' : 'grupos' }}
-                            </td>
-                            <td>
-                                <a href="{{ route('games.show', $totobolaGame) }}" class="btn btn-sm btn-outline-primary">
-                                    <i class="fas fa-eye me-1"></i> Ver Jogo
-                                </a>
-                                <a href="{{ route('groups.index', ['game_id' => $totobolaGame->id]) }}" class="btn btn-sm btn-primary">
-                                    <i class="fas fa-users me-1"></i> Ver Grupos
-                                </a>
-                            </td>
-                        </tr>
-                        @endif
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <!-- Meus Grupos -->
-    <div class="card">
-        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">Meus Grupos</h5>
-            <a href="{{ route('groups.index') }}" class="btn btn-sm btn-primary">Ver Todos</a>
-        </div>
-        <div class="card-body">
-            <div class="row g-4">
-                @forelse(Auth::user()->groups as $group)
-                <div class="col-md-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <div class="row mb-2">
-                                <div class="col-8">
-                                    <h5 class="card-title mb-0">{{ $group->name }}</h5>
-                                    <div class="small text-muted mt-1">Administrador <b>{{ $group->admin->name ?? '' }}</b></div>
-                                </div>
-                                <div class="col-4 text-end">
-                                    <span class="badge bg-primary">{{ $group->game->name }}</span>
-                                </div>
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <div class="bg-primary bg-opacity-10 p-3 rounded">
+                                <i class="fas fa-users text-primary fa-2x"></i>
                             </div>
-                            <div class="row mb-2">
-                                <div class="col-4">
-                                    <span class="small">Membros<br><b>{{ $group->members()->count() }}/{{ $group->max_members ?? '-' }}</b></span>
-                                </div>
-                                <div class="col-8">
-                                    <span class="small">Localização<br><b>{{ $group->location ?? '-' }}</b></span>
-                                </div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-12">
-                                    <span class="badge bg-success">Público</span>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12 text-end">
-                                    <a href="{{ route('groups.show', $group) }}" class="btn btn-outline-primary"><i class="fas fa-eye me-1"></i> Ver</a>
-                                </div>
-                            </div>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h6 class="card-title mb-1">Meus Grupos</h6>
+                            <h3 class="mb-0">{{ auth()->user()->groups->count() }}</h3>
                         </div>
                     </div>
                 </div>
-                @empty
-                <div class="col-12">
-                    <div class="alert alert-info text-center">
-                        <p class="mb-0">Você ainda não participa de nenhum grupo.</p>
-                        <a href="{{ route('groups.index') }}" class="btn btn-primary mt-2">Encontrar Grupos</a>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <div class="bg-success bg-opacity-10 p-3 rounded">
+                                <i class="fas fa-ticket-alt text-success fa-2x"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h6 class="card-title mb-1">Apostas Ativas</h6>
+                            <h3 class="mb-0">{{ auth()->user()->bettingSlips()->where('status', 'pending')->count() }}</h3>
+                        </div>
                     </div>
                 </div>
-                @endforelse
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <div class="bg-warning bg-opacity-10 p-3 rounded">
+                                <i class="fas fa-trophy text-warning fa-2x"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h6 class="card-title mb-1">Ganhos Totais</h6>
+                            <h3 class="mb-0">€{{ number_format(auth()->user()->bettingSlips()->where('status', 'won')->sum('prize_amount'), 2) }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <div class="bg-info bg-opacity-10 p-3 rounded">
+                                <i class="fas fa-wallet text-info fa-2x"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h6 class="card-title mb-1">Saldo Atual</h6>
+                            <h3 class="mb-0">€{{ number_format(auth()->user()->virtual_balance, 2) }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Próximos Sorteios -->
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header bg-transparent border-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">Próximos Sorteios</h5>
+                        <a href="{{ route('games.upcoming-draws') }}" class="btn btn-sm btn-primary">Ver Todos</a>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Jogo</th>
+                                    <th>Data</th>
+                                    <th>Prêmio</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($upcomingDraws as $draw)
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="{{ asset('storage/' . $draw->game->logo) }}" alt="{{ $draw->game->name }}" class="rounded me-2" width="32">
+                                            <span>{{ $draw->game->name }}</span>
+                                        </div>
+                                    </td>
+                                    <td>{{ $draw->draw_date->format('d/m/Y H:i') }}</td>
+                                    <td>€{{ number_format($draw->jackpot, 2) }}</td>
+                                    <td>
+                                        @php
+                                            $userGroup = auth()->user()->groups->where('game_id', $draw->game_id)->first();
+                                        @endphp
+                                        @if($userGroup)
+                                            <a href="{{ route('betting-slips.create', ['group' => $userGroup->id]) }}" class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-plus me-1"></i> Apostar
+                                            </a>
+                                        @else
+                                            <span class="text-muted small">Entre em um grupo para apostar</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="4" class="text-center py-4">
+                                        <div class="text-muted">
+                                            <i class="fas fa-calendar-times fa-2x mb-2"></i>
+                                            <p class="mb-0">Nenhum sorteio próximo</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Atividades Recentes -->
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header bg-transparent border-0">
+                    <h5 class="card-title mb-0">Atividades Recentes</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group list-group-flush">
+                        @forelse($recentActivities as $activity)
+                        <div class="list-group-item">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0">
+                                    @switch($activity->type)
+                                        @case('bet_placed')
+                                            <div class="bg-primary bg-opacity-10 p-2 rounded">
+                                                <i class="fas fa-ticket-alt text-primary"></i>
+                                            </div>
+                                            @break
+                                        @case('bet_won')
+                                            <div class="bg-success bg-opacity-10 p-2 rounded">
+                                                <i class="fas fa-trophy text-success"></i>
+                                            </div>
+                                            @break
+                                        @case('group_joined')
+                                            <div class="bg-info bg-opacity-10 p-2 rounded">
+                                                <i class="fas fa-users text-info"></i>
+                                            </div>
+                                            @break
+                                        @default
+                                            <div class="bg-secondary bg-opacity-10 p-2 rounded">
+                                                <i class="fas fa-bell text-secondary"></i>
+                                            </div>
+                                    @endswitch
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <p class="mb-0">{{ $activity->description }}</p>
+                                    <small class="text-muted">{{ $activity->created_at->diffForHumans() }}</small>
+                                </div>
+                            </div>
+                        </div>
+                        @empty
+                        <div class="list-group-item text-center py-4">
+                            <div class="text-muted">
+                                <i class="fas fa-history fa-2x mb-2"></i>
+                                <p class="mb-0">Nenhuma atividade recente</p>
+                            </div>
+                        </div>
+                        @endforelse
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-<style>
-    .btn.btn-outline-primary.w-100 {
-        min-width: 160px;
-        max-width: 260px;
-        min-height: 40px;
-        font-size: 15px;
-        box-sizing: border-box;
-    }
-    .dropdown-menu.w-100 {
-        min-width: 100% !important;
-    }
-</style>
 @endsection
+
+@push('scripts')
+<script>
+    // Atualizar estatísticas a cada 5 minutos
+    setInterval(function() {
+        location.reload();
+    }, 300000);
+</script>
+@endpush

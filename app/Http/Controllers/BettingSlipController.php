@@ -8,6 +8,8 @@ use App\Models\Draw;
 use App\Models\Game;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class BettingSlipController extends Controller
 {
@@ -47,28 +49,12 @@ class BettingSlipController extends Controller
      */
     public function create(Group $group)
     {
-        // Check if user is a member of the group
-        if (!$group->members()->where('users.id', Auth::id())->exists()) {
-            return redirect()->route('groups.show', $group)
+        if (!$group->members()->where('user_id', Auth::id())->exists()) {
+            return redirect()->route('groups.index')
                 ->with('error', 'Você não é membro deste grupo.');
         }
-        // Get upcoming draws for the group's game
-        $draws = Draw::where('game_id', $group->game_id)
-            ->where('draw_date', '>', now())
-            ->where('is_completed', false)
-            ->orderBy('draw_date', 'asc')
-            ->get();
-        if ($draws->isEmpty()) {
-            return redirect()->route('groups.show', $group)
-                ->with('error', 'Não há sorteios futuros disponíveis para este jogo.');
-        }
-        $matches = [];
-        $leagues = [];
-        if ($group->game->name === 'Totobola') {
-            $service = app(\App\Services\FootballApiService::class);
-            $leagues = $service->getLeagues();
-        }
-        return view('betting-slips.create', compact('group', 'draws', 'matches', 'leagues'));
+
+        return view('betting-slips.create', compact('group'));
     }
 
     /**
@@ -80,78 +66,60 @@ class BettingSlipController extends Controller
      */
     public function store(Request $request, Group $group)
     {
-        // Check if user is a member of the group
-        if (!$group->members()->where('users.id', Auth::id())->exists()) {
-            return redirect()->route('groups.show', $group)
-                ->with('error', 'Você não é membro deste grupo.');
-        }
-        
-        // Prepare inputs based on game type
-        $game = $group->game;
-        if ($game->name === 'Totobola') {
-            $v = $request->validate([
-                'draw_id' => 'required|exists:draws,id',
-                'predictions'   => 'required|array|size:13',
-                'predictions.*' => 'required|in:1,X,2',
-                'custom_amount' => 'required|numeric|min:0.01',
-            ]);
-            $draw         = Draw::findOrFail($v['draw_id']);
-            $numbers      = $v['predictions'];
-            $isSystem     = false;
-            $systemDetails= null;
-            $totalCost    = $v['custom_amount'];
-        } else {
-            $v = $request->validate([
-                'draw_id'        => 'required|exists:draws,id',
-                'numbers'        => 'required|array',
-                'numbers.*'      => 'required|integer|min:1',
-                'is_system'      => 'boolean',
-                'system_details' => 'nullable|array',
-                'custom_amount'  => 'required|numeric|min:0.01',
-            ]);
-            $draw          = Draw::findOrFail($v['draw_id']);
-            $numbers       = $v['numbers'];
-            $isSystem      = $v['is_system'] ?? false;
-            $systemDetails = $v['system_details'] ?? null;
-            $totalCost     = $this->calculateTotalCost($game, $numbers, $isSystem, $systemDetails);
-            // Override custom amount
-            if ($isSystem) {
-                if ($v['custom_amount'] < $totalCost) {
-                    return redirect()->back()->withInput()->with('error', 'O valor a apostar deve ser igual ou maior ao custo estimado do sistema.');
-                }
-                $totalCost = $v['custom_amount'];
-            } else {
-                $totalCost = $v['custom_amount'];
-            }
+        $user = auth()->user();
+
+        try {
+            $draw = Draw::findOrFail($request->draw_id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            dd("Erro: Sorteio não encontrado para o ID: " . $request->draw_id);
         }
 
-        // Valor customizado é sempre obrigatório
-        // Saldo do usuário
-        $user = Auth::user();
-        $saldo = $user->virtual_balance;
-        if ($saldo < $totalCost) {
-            return redirect()->route('groups.show', $group)
-                ->with('error', 'Saldo insuficiente na carteira virtual para realizar esta aposta.');
+        // Verificar se o usuário é membro do grupo
+        if (!$group->isMember($user)) {
+            return redirect()->back()->with('error', 'Você não é membro deste grupo.');
         }
 
-        // Desconta o saldo
-        $user->virtual_balance -= $totalCost;
-        $user->save();
-        
-        // Create the betting slip
-        $bettingSlip = BettingSlip::create([
-            'group_id'      => $group->id,
-            'user_id'       => Auth::id(),
-            'draw_id'       => $draw->id,
-            'numbers'       => $numbers,
-            'is_system'     => $isSystem,
-            'system_details'=> $systemDetails,
-            'total_cost'    => $totalCost,
-            'is_checked'    => false,
+        // Validar a aposta
+        $validator = $this->validateBet($request, $draw->game);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Calcular o custo total
+        $totalCost = $this->calculateTotalCost($request, $draw->game);
+
+        // Verificar saldo
+        if ($user->virtual_balance < $totalCost) {
+            return redirect()->back()->with('error', 'Saldo insuficiente para realizar a aposta.');
+        }
+
+        // Criar a aposta
+        $bettingSlip = new BettingSlip([
+            'user_id' => $user->id,
+            'group_id' => $group->id,
+            'draw_id' => $draw->id,
+            'numbers' => $request->numbers ?? [],
+            'stars' => $request->stars ?? [],
+            'predictions' => $request->predictions ?? [],
+            'bet_type' => $request->bet_type ?? 'single',
+            'system_details' => $request->system_details ?? null,
+            'total_cost' => $totalCost,
+            'status' => 'pending'
         ]);
-        
-        return redirect()->route('groups.show', $group)
-            ->with('success', 'Aposta registrada com sucesso. Valor debitado da carteira virtual.');
+
+        // Validar a aposta antes de salvar
+        if (!$bettingSlip->validateBet()) {
+            return redirect()->back()->with('error', $bettingSlip->validation_errors)->withInput();
+        }
+
+        // Atualizar o saldo do usuário
+        $user->updateBalance($totalCost, 'debit');
+
+        // Salvar a aposta
+        $bettingSlip->save();
+
+        return redirect()->route('betting-slips.show', $bettingSlip)
+            ->with('success', 'Aposta realizada com sucesso!');
     }
 
     /**
@@ -162,10 +130,12 @@ class BettingSlipController extends Controller
      */
     public function show(BettingSlip $bettingSlip)
     {
-        // Processa automaticamente o sorteio associado se já passou
-        $bettingSlip->draw->processIfDue();
-        // Atualiza atributos do bettingSlip após processamento do sorteio
-        $bettingSlip->refresh();
+        if ($bettingSlip->user_id !== Auth::id() && 
+            (!$bettingSlip->group || $bettingSlip->group->admin_id !== Auth::id())) {
+            return redirect()->route('groups.index')
+                ->with('error', 'Você não tem permissão para ver esta aposta.');
+        }
+
         return view('betting-slips.show', compact('bettingSlip'));
     }
 
@@ -205,258 +175,269 @@ class BettingSlipController extends Controller
      * @param  \App\Models\BettingSlip  $bettingSlip
      * @return \Illuminate\Http\Response
      */
-    public function checkResults(BettingSlip $bettingSlip)
+    public function checkResults(Request $request, BettingSlip $bettingSlip)
     {
-        $group = $bettingSlip->group;
-        
-        // Check if user is admin of the group
-        if ($group->admin_id !== Auth::id()) {
-            return redirect()->route('groups.show', $group)
-                ->with('error', 'Apenas o administrador do grupo pode verificar os resultados.');
+        // Verificar se o usuário é o administrador do grupo
+        if (!$bettingSlip->group->isAdmin(auth()->user())) {
+            return redirect()->back()->with('error', 'Apenas o administrador do grupo pode verificar os resultados.');
         }
-        
-        $draw = $bettingSlip->draw;
-        
-        // Check if draw is completed
-        if (!$draw->is_completed) {
-            return redirect()->route('betting-slips.show', $bettingSlip)
-                ->with('error', 'O sorteio ainda não foi realizado.');
+
+        // Verificar se o sorteio foi concluído
+        if (!$bettingSlip->draw->is_completed) {
+            return redirect()->back()->with('error', 'O sorteio ainda não foi concluído.');
         }
-        
-        // Check if already checked
-        if ($bettingSlip->is_checked) {
-            return redirect()->route('betting-slips.show', $bettingSlip)
-                ->with('info', 'Esta aposta já foi verificada.');
+
+        // Verificar se os resultados já foram verificados
+        if ($bettingSlip->status !== 'pending') {
+            return redirect()->back()->with('error', 'Os resultados já foram verificados.');
         }
-        
-        // Calculate winnings
-        $winnings = $this->calculateWinnings($bettingSlip, $draw);
-        
-        // Update betting slip
+
+        // Calcular o prêmio
+        $prize = $bettingSlip->calculatePrize();
+
+        // Atualizar a aposta
         $bettingSlip->update([
-            'winnings' => $winnings,
-            'is_checked' => true,
-            'has_won' => $winnings > 0,
+            'status' => $prize > 0 ? 'won' : 'lost',
+            'prize_amount' => $prize
         ]);
-        
-        return redirect()->route('betting-slips.show', $bettingSlip)
-            ->with('success', 'Resultados verificados com sucesso.');
+
+        // Se ganhou, atualizar o saldo do usuário
+        if ($prize > 0) {
+            $bettingSlip->user->updateBalance($prize, 'credit');
+        }
+
+        return redirect()->back()->with('success', 'Resultados verificados com sucesso!');
     }
-    
+
     /**
-     * Claim/prize a betting slip (admin only)
+     * Handle the claim of a betting slip prize.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\BettingSlip  $bettingSlip
+     * @return \Illuminate\Http\Response
      */
     public function claim(Request $request, BettingSlip $bettingSlip)
     {
-        $user = Auth::user();
-        $group = $bettingSlip->group;
-        if (!$group || $group->admin_id !== $user->id) {
-            return redirect()->back()->with('error', 'Apenas o admin do grupo pode premiar esta aposta.');
-        }
-        if (!$bettingSlip->isWinner() || !$bettingSlip->draw->is_completed) {
-            return redirect()->back()->with('error', 'Apenas apostas vencedoras e sorteios concluídos podem ser premiados.');
-        }
-        if ($bettingSlip->is_claimed) {
-            return redirect()->back()->with('info', 'Este prêmio já foi creditado.');
-        }
-        // Creditar prêmio ao usuário da aposta
-        $winner = $bettingSlip->user;
-        $winner->virtual_balance += $bettingSlip->winnings;
-        $winner->save();
-        $bettingSlip->is_claimed = true;
-        $bettingSlip->save();
-        return redirect()->back()->with('success', 'Prêmio creditado ao apostador com sucesso!');
-    }
-    
-    /**
-     * Calculate total cost of a bet.
-     *
-     * @param  \App\Models\Game  $game
-     * @param  array  $numbers
-     * @param  bool  $isSystem
-     * @param  array|null  $systemDetails
-     * @return float
-     */
-    private function calculateTotalCost($game, $numbers, $isSystem, $systemDetails)
-    {
-        if (!$isSystem) {
-            // Regular bet
-            return $game->price_per_bet;
+        if ($bettingSlip->user_id !== Auth::id()) {
+            return redirect()->back()->with('error', 'Você não tem permissão para reivindicar este prêmio.');
         }
 
-        // System bet (desdobramento)
-        $systemType = $systemDetails['type'] ?? null;
-        if (!$systemType) {
-            // Em vez de lançar exceção, retorna 0 (ou pode mostrar mensagem user-friendly)
-            return 0;
+        if ($bettingSlip->status !== 'won') {
+            return redirect()->back()->with('error', 'Esta aposta não foi vencedora ou o prêmio já foi reivindicado.');
         }
-        $combinations = $this->generateCombinations($game, $numbers, $systemType);
-        return $this->calculateSystemCost($game, $combinations);
+
+        if ($bettingSlip->prize_amount <= 0) {
+            return redirect()->back()->with('error', 'Não há prêmio para reivindicar para esta aposta.');
+        }
+
+        // Atualizar o saldo do usuário
+        $bettingSlip->user->updateBalance($bettingSlip->prize_amount, 'credit');
+
+        // Marcar a aposta como reivindicada (assumindo que você adiciona uma coluna is_claimed na tabela betting_slips)
+        $bettingSlip->is_claimed = true;
+        $bettingSlip->save();
+
+        return redirect()->back()->with('success', 'Prêmio reivindicado com sucesso!');
     }
-    
+
     /**
-     * Generate combinations for system bet.
+     * Validate betting slip data.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Game  $game
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    private function validateBet(Request $request, Game $game)
+    {
+        $rules = [
+            'draw_id' => 'required|exists:draws,id',
+            'group_id' => 'required|exists:groups,id',
+            'bet_type' => 'required|in:single,system',
+            'custom_amount' => 'required|numeric|min:0.01',
+        ];
+
+        if ($game->name === 'Totobola') {
+            $rules['predictions'] = 'required|array|size:13';
+            $rules['predictions.*'] = 'required|in:1,X,2';
+        } else {
+            // Para Totoloto/Euromilhões
+            $rules['numbers'] = ['required', 'array'];
+            $rules['numbers.*'] = 'required|integer|min:1';
+
+            if ($game->name === 'Euromilhões') {
+                $rules['numbers'][] = 'size:5'; // 5 números
+                $rules['stars'] = ['required', 'array', 'size:2']; // 2 estrelas
+                $rules['stars.*'] = 'required|integer|min:1';
+            } else { // Totoloto
+                $rules['numbers'][] = 'size:5'; // 5 números
+            }
+        }
+
+        if ($request->input('bet_type') === 'system') {
+            $rules['system_details.type'] = 'required|in:full,partial';
+            // Adicione mais regras de validação para system_details se necessário
+        }
+
+        return Validator::make($request->all(), $rules);
+    }
+
+    /**
+     * Calculate the total cost of the bet.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Game  $game
+     * @return float
+     */
+    private function calculateTotalCost(Request $request, Game $game)
+    {
+        $totalCost = 0;
+        $basePrice = $game->price_per_bet;
+
+        if ($request->input('bet_type') === 'system') {
+            $numbers = $request->input('numbers', []);
+            $stars = $request->input('stars', []);
+            $systemType = $request->input('system_details.type');
+
+            $combinations = $this->generateCombinations($game, $numbers, $systemType);
+            $totalCost = count($combinations) * $basePrice;
+        } else {
+            $totalCost = $basePrice;
+        }
+
+        // Se houver um valor customizado, usá-lo, desde que seja maior que 0 e atenda ao mínimo
+        $customAmount = (float) $request->input('custom_amount', 0);
+        if ($customAmount > 0 && $customAmount >= $totalCost) {
+            $totalCost = $customAmount;
+        }
+        
+        return $totalCost;
+    }
+
+    /**
+     * Generate system bet combinations (desdobramentos).
      *
      * @param  \App\Models\Game  $game
      * @param  array  $numbers
      * @param  string  $systemType
      * @return array
      */
-    private function generateCombinations($game, $numbers, $systemType)
+    private function generateCombinations(Game $game, array $numbers, string $systemType)
     {
         $combinations = [];
-        
-        // Different logic based on game type
-        switch ($game->type) {
-            case 'Euromilhões':
-                // For Euromilhões, we need to handle main numbers and stars
-                // This is a simplified example
-                $mainNumbers = array_slice($numbers, 0, 5);
-                $stars = array_slice($numbers, 5);
-                
-                // Generate combinations based on system type
-                if ($systemType === 'full') {
-                    // Full system - all possible combinations
-                    $combinations = $this->generateFullSystemCombinations($mainNumbers, $stars);
-                } else {
-                    // Partial system
-                    $combinations = $this->generatePartialSystemCombinations($mainNumbers, $stars, $systemType);
-                }
-                break;
-                
-            case 'Totoloto':
-            case 'Totobola':
-            case 'Placard':
-                // Simplified for other games
-                if ($systemType === 'full') {
-                    $combinations = $this->generateFullSystemCombinations($numbers, []);
-                } else {
-                    $combinations = $this->generatePartialSystemCombinations($numbers, [], $systemType);
-                }
-                break;
-        }
-        
-        return $combinations;
-    }
-    
-    private function generateFullSystemCombinations($mainNumbers, $stars)
-    {
-        $combinations = [];
-        if (count($mainNumbers) < 5 || count($stars) < 2) {
-            return $combinations;
-        }
-        $mainCombos = $this->getCombinations($mainNumbers, 5);
-        $starCombos = $this->getCombinations($stars, 2);
-        foreach ($mainCombos as $m) {
-            foreach ($starCombos as $s) {
-                $combinations[] = ['main' => $m, 'stars' => $s];
+        if ($game->name === 'Euromilhões') {
+            $mainNumbers = array_slice($numbers, 0, 5);
+            $stars = array_slice($numbers, 5); // Assumindo que as estrelas vêm depois dos números principais
+
+            if ($systemType === 'full') {
+                $combinations = $this->generateFullSystemCombinations($mainNumbers, $stars);
+            } else if ($systemType === 'partial') {
+                $combinations = $this->generatePartialSystemCombinations($mainNumbers, $stars, $systemType);
+            }
+        } else { // Totoloto
+            if ($systemType === 'full') {
+                $combinations = $this->getCombinations($numbers, 5); // Assumindo 5 números para Totoloto
             }
         }
         return $combinations;
     }
 
-    private function generatePartialSystemCombinations($mainNumbers, $stars, $systemType)
+    /**
+     * Generate full system combinations for Euromilhões (5 main numbers + stars).
+     *
+     * @param array $mainNumbers
+     * @param array $stars
+     * @return array
+     */
+    private function generateFullSystemCombinations(array $mainNumbers, array $stars)
     {
-        $full = $this->generateFullSystemCombinations($mainNumbers, $stars);
-        $count = count($full);
-        if ($count === 0) {
+        $combinations = [];
+        $mainCombinations = $this->getCombinations($mainNumbers, 5);
+
+        foreach ($mainCombinations as $mCombo) {
+            foreach ($this->getCombinations($stars, 2) as $sCombo) {
+                $combinations[] = [
+                    'numbers' => $mCombo,
+                    'stars' => $sCombo
+                ];
+            }
+        }
+        return $combinations;
+    }
+
+    /**
+     * Generate partial system combinations (implement based on specific rules).
+     *
+     * @param array $mainNumbers
+     * @param array $stars
+     * @param string $systemType
+     * @return array
+     */
+    private function generatePartialSystemCombinations(array $mainNumbers, array $stars, string $systemType)
+    {
+        // Implemente a lógica para sistemas parciais com base nas suas regras específicas
+        // Por enquanto, retorna um array vazio ou uma única combinação padrão
+        return [];
+    }
+
+    /**
+     * Get all combinations of k elements from a set.
+     *
+     * @param array $items
+     * @param int $k
+     * @return array
+     */
+    private function getCombinations(array $items, int $k)
+    {
+        if ($k == 0) {
+            return [[]];
+        }
+
+        if (empty($items)) {
             return [];
         }
-        $half = (int) ceil($count / 2);
-        return array_slice($full, 0, $half);
+
+        $head = array_shift($items);
+        $combinations = [];
+
+        // Combinations including the head
+        foreach ($this->getCombinations($items, $k - 1) as $combo) {
+            array_unshift($combo, $head);
+            $combinations[] = $combo;
+        }
+
+        // Combinations not including the head
+        foreach ($this->getCombinations($items, $k) as $combo) {
+            $combinations[] = $combo;
+        }
+
+        return $combinations;
     }
 
-    private function getCombinations($items, $k)
-    {
-        $results = [];
-        $n = count($items);
-        if ($k > $n) {
-            return $results;
-        }
-        $indexes = range(0, $k - 1);
-        while (true) {
-            $combo = [];
-            foreach ($indexes as $i) {
-                $combo[] = $items[$i];
-            }
-            $results[] = $combo;
-            for ($i = $k - 1; $i >= 0; $i--) {
-                if ($indexes[$i] < $i + $n - $k) {
-                    break;
-                }
-            }
-            if ($i < 0) {
-                break;
-            }
-            $indexes[$i]++;
-            for ($j = $i + 1; $j < $k; $j++) {
-                $indexes[$j] = $indexes[$j - 1] + 1;
-            }
-        }
-        return $results;
-    }
-    
     /**
-     * Calculate system cost.
+     * Calculate the cost for system bets.
      *
      * @param  \App\Models\Game  $game
      * @param  array  $combinations
      * @return float
      */
-    private function calculateSystemCost($game, $combinations)
+    private function calculateSystemCost(Game $game, array $combinations)
     {
         return count($combinations) * $game->price_per_bet;
     }
-    
-    /**
-     * Calculate winnings for a betting slip.
-     *
-     * @param  \App\Models\BettingSlip  $bettingSlip
-     * @param  \App\Models\Draw  $draw
-     * @return float
-     */
-    private function calculateWinnings($bettingSlip, $draw)
-    {
-        // Count matching numbers
-        $matchingCount = count(
-            array_intersect(
-                (array) $draw->winning_numbers,
-                (array) $bettingSlip->numbers
-            )
-        );
-        // Prize percentages per match count
-        $percentages = [
-            1 => 0.01,
-            2 => 0.05,
-            3 => 0.10,
-            4 => 0.20,
-            5 => 0.30,
-            6 => 1.00,
-        ];
-        // Calculate prize as percentage of jackpot
-        if (isset($percentages[$matchingCount])) {
-            return round($draw->jackpot_amount * $percentages[$matchingCount], 2);
-        }
-        return 0.00;
-    }
 
     /**
-     * AJAX: Get matches for a selected league (Totobola) with extended info
-     * @param string $league
-     * @return \Illuminate\Http\JsonResponse
+     * Get league matches for Totobola.
+     *
+     * @param  string  $league
+     * @return \Illuminate\Http\Response
      */
     public function getLeagueMatches($league)
     {
-        $service = app(\App\Services\FootballApiService::class);
-        $matches = $service->getMatchesForLeague($league);
-        $extended = [];
-        foreach (array_slice($matches, 0, 13) as $match) {
-            $info = $service->getMatchExtendedInfo($match);
-            $info['match_id'] = $match['id'] ?? null;
-            $info['homeTeam'] = $match['homeTeam']['name'] ?? '?';
-            $info['awayTeam'] = $match['awayTeam']['name'] ?? '?';
-            $extended[] = $info;
-        }
-        return response()->json(['matches' => $extended]);
+        // Esta função precisaria de uma lógica real para buscar jogos de uma liga
+        // Por enquanto, retorna um mock de dados
+        return response()->json([
+            ['id' => 1, 'home_team' => 'Benfica', 'away_team' => 'Porto', 'date' => '2024-06-20', 'time' => '20:00'],
+            ['id' => 2, 'home_team' => 'Sporting', 'away_team' => 'Braga', 'date' => '2024-06-20', 'time' => '20:30'],
+        ]);
     }
 }

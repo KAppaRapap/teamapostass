@@ -7,21 +7,24 @@
             <div class="card shadow-sm border-0">
                 <div class="card-body p-4 p-md-5">
                     <div class="text-center mb-4">
-                        <h1 class="h3">Bem-vindo de volta!</h1>
-                        <p class="text-muted">Entre com sua conta para continuar</p>
+                        <h1 class="h3">Redefinir Senha</h1>
+                        <p class="text-muted">Digite sua nova senha</p>
                     </div>
 
                     <!-- Session Status -->
                     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="{{ route('password.update') }}">
                         @csrf
+
+                        <!-- Password Reset Token -->
+                        <input type="hidden" name="token" value="{{ $request->route('token') }}">
 
                         <!-- Email Address -->
                         <div class="mb-3">
                             <label for="email" class="form-label">E-mail</label>
                             <input type="email" class="form-control @error('email') is-invalid @enderror" 
-                                   id="email" name="email" value="{{ old('email') }}" required autofocus>
+                                   id="email" name="email" value="{{ old('email', $request->email) }}" required autofocus>
                             @error('email')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -29,59 +32,57 @@
 
                         <!-- Password -->
                         <div class="mb-3">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <label for="password" class="form-label">Senha</label>
-                                @if (Route::has('password.request'))
-                                <a href="{{ route('password.request') }}" class="text-decoration-none small">
-                                    Esqueceu a senha?
-                                </a>
-                                @endif
-                            </div>
+                            <label for="password" class="form-label">Nova Senha</label>
                             <input type="password" class="form-control @error('password') is-invalid @enderror" 
                                    id="password" name="password" required>
                             @error('password')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
+                            <div class="form-text">
+                                A senha deve ter pelo menos 8 caracteres, incluindo letras e números.
+                            </div>
                         </div>
 
-                        <!-- Remember Me -->
+                        <!-- Confirm Password -->
                         <div class="mb-4">
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="remember" name="remember">
-                                <label class="form-check-label" for="remember">Lembrar-me</label>
-                            </div>
+                            <label for="password_confirmation" class="form-label">Confirmar Nova Senha</label>
+                            <input type="password" class="form-control" 
+                                   id="password_confirmation" name="password_confirmation" required>
                         </div>
 
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-sign-in-alt me-2"></i> Entrar
+                                <i class="fas fa-key me-2"></i> Redefinir Senha
                             </button>
                         </div>
                     </form>
 
                     <div class="text-center mt-4">
                         <p class="text-muted mb-0">
-                            Não tem uma conta? 
-                            <a href="{{ route('register') }}" class="text-decoration-none">Registre-se</a>
+                            Lembrou sua senha? 
+                            <a href="{{ route('login') }}" class="text-decoration-none">Entrar</a>
                         </p>
                     </div>
                 </div>
             </div>
 
-            <!-- Social Login -->
+            <!-- Security Tips -->
             <div class="card shadow-sm border-0 mt-4">
                 <div class="card-body p-4">
-                    <div class="text-center mb-3">
-                        <p class="text-muted mb-0">Ou entre com</p>
-                    </div>
-                    <div class="d-grid gap-2">
-                        <a href="#" class="btn btn-outline-primary">
-                            <i class="fab fa-google me-2"></i> Google
-                        </a>
-                        <a href="#" class="btn btn-outline-primary">
-                            <i class="fab fa-facebook-f me-2"></i> Facebook
-                        </a>
-                    </div>
+                    <h5 class="card-title mb-3">
+                        <i class="fas fa-shield-alt me-2"></i> Dicas de Segurança
+                    </h5>
+                    <ul class="list-unstyled text-muted mb-0">
+                        <li class="mb-2">
+                            <i class="fas fa-check-circle me-2"></i> Use uma senha forte e única
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check-circle me-2"></i> Não compartilhe sua senha com ninguém
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle me-2"></i> Ative a autenticação em duas etapas
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -118,14 +119,8 @@
     border-color: #1565c0;
 }
 
-.btn-outline-primary {
-    color: var(--primary-color);
-    border-color: var(--primary-color);
-}
-
-.btn-outline-primary:hover {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
+.list-unstyled li {
+    font-size: 0.9rem;
 }
 </style>
-@endsection
+@endsection 

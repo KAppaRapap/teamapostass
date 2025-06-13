@@ -88,4 +88,32 @@ class User extends Authenticatable
     {
         return $this->hasMany(BettingSlip::class);
     }
+
+    public function activities()
+    {
+        return $this->hasMany(Activity::class);
+    }
+
+    public function recentActivities($limit = 5)
+    {
+        return $this->activities()
+            ->orWhere(function($query) {
+                $query->whereIn('group_id', $this->groups->pluck('id'));
+            })
+            ->orderBy('created_at', 'desc')
+            ->take($limit)
+            ->get();
+    }
+
+    public function updateBalance($amount, $type = 'credit')
+    {
+        if ($type === 'credit') {
+            $this->virtual_balance += $amount;
+        } else {
+            $this->virtual_balance -= $amount;
+        }
+        $this->save();
+        Activity::logBalanceUpdated($this, $amount, $type);
+        return $this->virtual_balance;
+    }
 }

@@ -124,4 +124,13 @@ class Draw extends Model
             }
         }
     }
+
+    protected static function booted()
+    {
+        static::updated(function ($draw) {
+            if ($draw->isDirty('is_completed') && $draw->is_completed) {
+                Activity::logDrawCompleted($draw);
+            }
+        });
+    }
 }
