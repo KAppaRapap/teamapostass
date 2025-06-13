@@ -1,64 +1,63 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Entendido! O HeidiSQL é uma ótima ferramenta para gerenciar bancos de dados MySQL. Vou explicar como exportar e importar o banco de dados usando o HeidiSQL.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### **Passo 1: Exportar o Banco de Dados no Computador da Empresa**
 
-## Learning Laravel
+1. **Abra o HeidiSQL** e conecte-se ao servidor do banco de dados.
+2. Na lista de bancos de dados à esquerda, clique com o botão direito sobre o banco que você deseja exportar.
+3. Selecione a opção **Exportar banco de dados como SQL**.
+4. Na janela que abrir:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+   * Certifique-se de que a opção **Exportar estrutura e dados** está selecionada.
+   * Escolha onde salvar o arquivo `.sql` (por exemplo, `banco.sql`).
+5. Clique em **Iniciar** para exportar o banco.
+6. Transfira o arquivo `.sql` para o seu computador de casa (por exemplo, usando um pendrive ou um serviço na nuvem).
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+### **Passo 2: Importar o Banco de Dados no Computador de Casa**
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+1. **Abra o HeidiSQL** no seu computador de casa e conecte-se ao servidor do banco de dados local.
+2. Crie um novo banco de dados:
 
-### Premium Partners
+   * Clique com o botão direito em um espaço vazio na lista de bancos de dados e selecione **Criar novo banco de dados**.
+   * Escolha um nome para o banco (por exemplo, `meu_banco`).
+3. Clique duas vezes no banco recém-criado para selecioná-lo.
+4. Clique no menu **Ferramentas** e escolha a opção **Carregar arquivo SQL**.
+5. Selecione o arquivo `.sql` exportado no computador da empresa.
+6. Clique em **Iniciar** para importar os dados.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+---
 
-## Contributing
+### **Passo 3: Configurar o `.env` no Projeto Laravel**
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+1. No arquivo `.env` do projeto em casa, atualize as informações para refletir o banco de dados local:
 
-## Code of Conduct
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=meu_banco
+   DB_USERNAME=usuario_local
+   DB_PASSWORD=senha_local
+   ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+   Substitua `meu_banco`, `usuario_local` e `senha_local` pelos dados configurados no seu servidor MySQL local.
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### **Passo 4: Testar o Projeto**
 
-## License
+Depois de configurar o banco de dados, inicie o servidor do Laravel e acesse o projeto para garantir que tudo está funcionando corretamente:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+php artisan serve
+```
+
+Abra o navegador e acesse `http://127.0.0.1:8000`.
+
+Se encontrar algum problema, pode compartilhar os detalhes que te ajudo a resolver! 😊

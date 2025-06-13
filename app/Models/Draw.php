@@ -31,6 +31,7 @@ class Draw extends Model
      */
     protected $casts = [
         'winning_numbers' => 'array',
+        'additional_info' => 'array',
         'draw_date' => 'datetime',
         'is_completed' => 'boolean',
     ];
@@ -76,52 +77,71 @@ class Draw extends Model
             return null;
         }
 
-        return implode(', ', $this->winning_numbers);
+        // Ajuste para lidar com diferentes formatos de 'winning_numbers'
+        if (is_array($this->winning_numbers)) {
+            if (isset($this->winning_numbers['numbers']) && isset($this->winning_numbers['stars'])) { // Euromilhões
+                return 'Números: ' . implode(', ', $this->winning_numbers['numbers']) . ' - Estrelas: ' . implode(', ', $this->winning_numbers['stars']);
+            }
+            return implode(', ', $this->winning_numbers); // Para Totoloto, Totobola
+        }
+        return $this->winning_numbers; // Caso seja uma string simples (improvável com o cast)
     }
 
     /**
-     * Fecha automaticamente o sorteio e gera números se a data já passou.
+     * Gera números vencedores com base no tipo de jogo.
+     * Este método é privado e usado internamente.
      */
-    public function autoCloseIfNeeded()
+    private function generateWinningNumbersForGame()
     {
-        if (!$this->is_completed && $this->draw_date->isPast()) {
-            $this->is_completed = true;
-            // Gerar 6 números de 1 a 49 (ajuste conforme o jogo)
-            $this->winning_numbers = collect(range(1,49))->shuffle()->take(6)->sort()->values()->all();
-            $this->save();
+        if (!$this->game) { // Certifica-se de que a relação game foi carregada
+            $this->load('game');
+        }
+
+        switch ($this->game->type) {
+            case 'Euromilhões':
+                $numbers = collect(range(1, 50))->shuffle()->take(5)->sort()->values()->all();
+                $stars = collect(range(1, 12))->shuffle()->take(2)->sort()->values()->all();
+                return ['numbers' => $numbers, 'stars' => $stars];
+            case 'Totoloto':
+                return collect(range(1, 49))->shuffle()->take(6)->sort()->values()->all();
+            case 'Totobola':
+                $results = [];
+                for ($i = 0; $i < 13; $i++) {
+                    $results[] = collect(['1', 'X', '2'])->random();
+                }
+                return $results;
+            case 'Placard':
+                return ['message' => 'Resultados do Placard são baseados em eventos reais e não são gerados automaticamente aqui.'];
+            default:
+                return ['error' => 'Tipo de jogo desconhecido para geração de resultados: ' . $this->game->type];
         }
     }
 
     /**
-     * Processa o sorteio se já passou a data (encerra e gera números).
+     * Processa o sorteio se já passou a data e hora do resultado (encerra e gera números).
+     * A hora do resultado é considerada 1 hora após draw_date.
      */
     public function processIfDue()
     {
-        if (!$this->is_completed && $this->draw_date->isPast()) {
+        // Considera a hora do resultado como 1 hora após a draw_date
+        $resultTime = $this->draw_date->copy()->addHour();
+
+        if (!$this->is_completed && $resultTime->isPast()) {
             $this->is_completed = true;
-            if (empty($this->winning_numbers)) {
-                $this->winning_numbers = collect(range(1,49))->shuffle()->take(6)->sort()->values()->all();
+            if (empty($this->winning_numbers)) { // Só gera se não houver números (para não sobrescrever se já existirem)
+                $this->winning_numbers = $this->generateWinningNumbersForGame();
             }
             $this->save();
 
-            // Atualiza cada aposta associada ao sorteio
-            foreach ($this->bettingSlips as $slip) {
-                $matchingCount = is_array($slip->numbers) && is_array($this->winning_numbers)
-                    ? count(array_intersect($slip->numbers, $this->winning_numbers))
-                    : 0;
-                switch ($matchingCount) {
-                    case 3: $prize = 5.00; break;
-                    case 4: $prize = 50.00; break;
-                    case 5: $prize = 500.00; break;
-                    case 6: $prize = 5000.00; break;
-                    default: $prize = 0.00; break;
-                }
-                $slip->update([
-                    'winnings' => $prize,
-                    'has_won' => $prize > 0,
-                    'is_checked' => true,
-                ]);
-            }
+            // Lógica para atualizar apostas (betting slips) pode ser adicionada aqui ou em um evento/listener separado
+            // Exemplo básico (você precisará adaptar ao seu sistema de prêmios):
+            // foreach ($this->bettingSlips as $slip) {
+            //     $matchingCount = is_array($slip->numbers) && is_array($this->winning_numbers)
+            //         ? count(array_intersect($slip->numbers, $this->winning_numbers['numbers'] ?? $this->winning_numbers)) // Adapte a chave para Euromilhões
+            //         : 0;
+            //     // Lógica de prêmios...
+            //     // $slip->update([...]);
+            // }
         }
     }
 }
