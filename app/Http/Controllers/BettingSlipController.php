@@ -163,6 +163,9 @@ class BettingSlipController extends Controller
             // Override custom amount
             if ($isSystem) {
                 if ($v['custom_amount'] < $totalCost) {
+                    if ($request->expectsJson()) {
+                        return response()->json(['error' => 'O valor a apostar deve ser igual ou maior ao custo estimado do sistema.'], 400);
+                    }
                     return redirect()->back()->withInput()->with('error', 'O valor a apostar deve ser igual ou maior ao custo estimado do sistema.');
                 }
                 $totalCost = $v['custom_amount'];
@@ -176,6 +179,9 @@ class BettingSlipController extends Controller
         $user = Auth::user();
         $saldo = $user->virtual_balance;
         if ($saldo < $totalCost) {
+            if ($request->expectsJson()) {
+                return response()->json(['error' => 'Saldo insuficiente na carteira virtual para realizar esta aposta.'], 403);
+            }
             return redirect()->route('groups.show', $group)
                 ->with('error', 'Saldo insuficiente na carteira virtual para realizar esta aposta.');
         }
@@ -196,6 +202,10 @@ class BettingSlipController extends Controller
             'is_checked'    => false,
         ]);
         
+        if ($request->expectsJson()) {
+            return response()->json(['success' => 'Aposta registrada com sucesso. Valor debitado da carteira virtual.', 'betting_slip' => $bettingSlip], 200);
+        }
+
         return redirect()->route('groups.show', $group)
             ->with('success', 'Aposta registrada com sucesso. Valor debitado da carteira virtual.');
     }
@@ -219,12 +229,18 @@ class BettingSlipController extends Controller
                 'amounts'       => 'required|array',
                 'amounts.*'     => 'required|numeric|min:0.01',
             ]);
+
             $predictions = $request->input('predictions');
             $amounts = $request->input('amounts');
             $totalCost = array_sum($amounts);
+
             if ($user->virtual_balance < $totalCost) {
+                if ($request->expectsJson()) {
+                    return response()->json(['error' => 'Saldo insuficiente na carteira virtual.'], 403);
+                }
                 return back()->with('error', 'Saldo insuficiente na carteira virtual.');
             }
+
             // Salvar a aposta (BettingSlip)
             $bettingSlip = BettingSlip::create([
                 'user_id' => $user->id,
@@ -234,10 +250,20 @@ class BettingSlipController extends Controller
                 'total_cost' => $totalCost,
                 'is_checked' => false,
             ]);
+
             // Debitar saldo
             $user->virtual_balance -= $totalCost;
             $user->save();
+
+            if ($request->expectsJson()) {
+                return response()->json(['success' => 'Aposta registrada com sucesso! Valor debitado da carteira virtual.', 'betting_slip' => $bettingSlip], 200);
+            }
+
             return redirect()->route('betting-slips.index')->with('success', 'Aposta registrada com sucesso! Valor debitado da carteira virtual.');
+        }
+
+        if ($request->expectsJson()) {
+            return response()->json(['error' => 'Tipo de jogo não suportado para apostas diretas.'], 400);
         }
         // Outros jogos: adaptar conforme necessário
         return back()->with('error', 'Tipo de jogo não suportado para apostas diretas.');

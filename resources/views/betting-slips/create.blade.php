@@ -36,7 +36,7 @@
                     </div>
                 </form>
                 @if(isset($matches) && count($matches) > 0)
-                    <form action="{{ isset($group) ? route('betting-slips.store', $group) : route('betting-slips.store-for-game') }}" method="POST">
+                    <form id="totobolaBetForm" action="{{ isset($group) ? route('betting-slips.store', $group) : route('betting-slips.store-for-game') }}" method="POST">
                         @csrf
                         @if(isset($draws) && count($draws) > 0)
                             <div class="mb-3">
@@ -185,7 +185,7 @@
                     });
                 </script>
             @endif
-            <form action="{{ isset($group) ? route('betting-slips.store', $group) : route('betting-slips.store-for-game') }}" method="POST">
+            <form id="otherGamesBetForm" action="{{ isset($group) ? route('betting-slips.store', $group) : route('betting-slips.store-for-game') }}" method="POST">
                 @csrf
                 <input type="hidden" name="numbers[]" value="1"> 
                 <div class="mb-3">
@@ -286,6 +286,71 @@
         color: #b94a48;
     }
 </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const totobolaBetForm = document.getElementById('totobolaBetForm');
+        const otherGamesBetForm = document.getElementById('otherGamesBetForm');
+        const successAlert = document.querySelector('.alert-success');
+        const errorAlert = document.querySelector('.alert-danger');
+
+        function handleFormSubmission(event, form) {
+            event.preventDefault();
+
+            // Clear previous alerts
+            if (successAlert) successAlert.style.display = 'none';
+            if (errorAlert) errorAlert.style.display = 'none';
+
+            const formData = new FormData(form);
+            const url = form.action;
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: formData,
+            })
+            .then(response => response.json().then(data => ({
+                status: response.status,
+                ok: response.ok,
+                data: data
+            })))
+            .then(({ status, ok, data }) => {
+                if (ok) {
+                    if (successAlert) {
+                        successAlert.textContent = data.success;
+                        successAlert.style.display = 'block';
+                    }
+                    // Redirecionar para a página de apostas ou recarregar para mostrar a nova aposta
+                    window.location.href = '{{ route('betting-slips.index') }}'; 
+                } else {
+                    if (errorAlert) {
+                        errorAlert.textContent = data.error || 'Ocorreu um erro ao registrar a aposta.';
+                        errorAlert.style.display = 'block';
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao enviar aposta:', error);
+                if (errorAlert) {
+                    errorAlert.textContent = 'Ocorreu um erro de rede ou de servidor. Tente novamente.';
+                    errorAlert.style.display = 'block';
+                }
+            });
+        }
+
+        if (totobolaBetForm) {
+            totobolaBetForm.addEventListener('submit', (event) => handleFormSubmission(event, totobolaBetForm));
+        }
+
+        if (otherGamesBetForm) {
+            otherGamesBetForm.addEventListener('submit', (event) => handleFormSubmission(event, otherGamesBetForm));
+        }
+    });
+</script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
