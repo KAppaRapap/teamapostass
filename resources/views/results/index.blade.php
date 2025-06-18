@@ -44,41 +44,89 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($completedDraws->where('game.name', 'Euromilhões') as $draw)
-                                <tr>
-                                    <td>{{ $draw->draw_date->format('d/m/Y') }}</td>
-                                    <td>
-                                        <div class="d-flex gap-1">
-                                            @foreach($draw->winning_numbers as $number)
-                                                @if($number <= 50)
-                                                <span class="badge rounded-pill bg-primary p-2">{{ $number }}</span>
+                                @forelse ($completedDraws as $draw)
+                                    <tr>
+                                        <td>{{ $draw->draw_date->format('d/m/Y') }}</td>
+                                        <td>
+                                            <div class="d-flex gap-1">
+                                                @if ($draw->game->type === 'Euromilhões')
+                                                    @if (isset($draw->winning_numbers['numbers']) && is_array($draw->winning_numbers['numbers']))
+                                                        @foreach ($draw->winning_numbers['numbers'] as $number)
+                                                            <span class="badge rounded-pill bg-primary p-2">{{ $number }}</span>
+                                                        @endforeach
+                                                    @endif
+                                                    @if (isset($draw->winning_numbers['stars']) && is_array($draw->winning_numbers['stars']))
+                                                        @foreach ($draw->winning_numbers['stars'] as $star)
+                                                            <span class="badge rounded-pill bg-warning p-2"><i class="fas fa-star me-1"></i>{{ $star }}</span>
+                                                        @endforeach
+                                                    @endif
+                                                @elseif ($draw->game->type === 'Totoloto')
+                                                    @if (is_array($draw->winning_numbers))
+                                                        @foreach ($draw->winning_numbers as $number)
+                                                            <span class="badge rounded-pill bg-primary p-2">{{ $number }}</span>
+                                                        @endforeach
+                                                    @endif
+                                                @elseif ($draw->game->type === 'Totobola')
+                                                    @if (is_array($draw->winning_numbers))
+                                                        @foreach ($draw->winning_numbers as $result)
+                                                            <span class="badge rounded-pill bg-info p-2">{{ $result }}</span>
+                                                        @endforeach
+                                                    @endif
+                                                @elseif ($draw->game->type === 'Placard')
+                                                    @if (isset($draw->winning_numbers['message']))
+                                                        <span>{{ $draw->winning_numbers['message'] }}</span>
+                                                    @else
+                                                        {{-- Fallback if Placard has a different array structure --}}
+                                                        <span>{{ implode(', ', (array) $draw->winning_numbers) }}</span>
+                                                    @endif
                                                 @else
-                                                <span class="badge rounded-pill bg-warning p-2">{{ $number - 50 }}</span>
+                                                    {{-- Fallback for unknown game types or simple arrays --}}
+                                                    @if (is_array($draw->winning_numbers))
+                                                        <span>{{ implode(', ', $draw->winning_numbers) }}</span>
+                                                    @else
+                                                        <span>{{ $draw->winning_numbers }}</span>
+                                                    @endif
                                                 @endif
-                                            @endforeach
-                                        </div>
-                                    </td>
-                                    <td>€{{ number_format($draw->jackpot_amount, 2) }}</td>
-                                    <td>
-                                        @if(Auth::check())
-                                            {{ Auth::user()->bettingSlips()->where('draw_id', $draw->id)->count() }} apostas
-                                        @else
-                                            -
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <a href="{{ route('results.show', $draw) }}" class="btn btn-sm btn-outline-primary">
-                                            <i class="fas fa-eye me-1"></i> Ver Detalhes
-                                        </a>
-                                    </td>
-                                </tr>
+                                            </div>
+                                        </td>
+                                        <td>{{ $draw->jackpot_amount ?? 'N/A' }}</td>
+                                        <td>
+                                            @php
+                                                $userBettingSlipsForDraw = $userBettingSlips->where('draw_id', $draw->id);
+                                            @endphp
+                                            @if($userBettingSlipsForDraw->isNotEmpty())
+                                                <ul class="list-unstyled mb-0">
+                                                    @foreach($userBettingSlipsForDraw as $slip)
+                                                        <li>
+                                                            #{{ $slip->id }}:
+                                                            @if($slip->is_system)
+                                                                Desdobramento ({{ count(json_decode($slip->system_details->combinations ?? '[]')) }} apostas)
+                                                            @else
+                                                                Aposta Simples
+                                                            @endif
+                                                            @if($slip->has_won)
+                                                                <span class="badge bg-success">Ganhou</span>
+                                                            @else
+                                                                <span class="badge bg-danger">Não Ganhou</span>
+                                                            @endif
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            @else
+                                                Nenhuma aposta sua
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('results.show', $draw) }}" class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-eye me-1"></i> Ver Detalhes
+                                            </a>
+                                        </td>
+                                    </tr>
                                 @empty
-                                <tr>
-                                    <td colspan="5" class="text-center py-3">Nenhum resultado disponível para Euromilhões</td>
-                                </tr>
+                                    <tr>
+                                        <td colspan="5" class="text-center py-4">Nenhum sorteio concluído encontrado.</td>
+                                    </tr>
                                 @endforelse
-
-
                             </tbody>
                         </table>
                     </div>

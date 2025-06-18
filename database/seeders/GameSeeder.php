@@ -45,8 +45,13 @@ class GameSeeder extends Seeder
             ],
         ];
 
-        foreach ($games as $game) {
-            Game::create($game);
+        foreach ($games as $gameData) {
+            // Usa 'name' como chave única para verificar se o jogo já existe
+            // Se existir, não faz nada. Se não existir, cria com todos os dados de $gameData.
+            Game::firstOrCreate(
+                ['name' => $gameData['name']], // Atributos para encontrar
+                $gameData                      // Atributos para criar/atualizar (se usando updateOrCreate)
+            );
         }
     }
 }

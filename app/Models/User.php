@@ -24,6 +24,8 @@ class User extends Authenticatable
         'city',
         'is_admin',
         'is_banned',
+        'profile_photo',
+        'virtual_balance',
     ];
 
     /**
@@ -87,5 +89,25 @@ class User extends Authenticatable
     public function bettingSlips()
     {
         return $this->hasMany(BettingSlip::class);
+    }
+
+    /**
+     * Get the URL for the user's profile photo.
+     *
+     * @return string
+     */
+    public function getProfilePhotoUrlAttribute()
+    {
+        return $this->profile_photo
+            ? asset('storage/' . $this->profile_photo)
+            : asset('img/default-avatar.png');
+    }
+
+    /**
+     * Get the activities related to the user
+     */
+    public function activities()
+    {
+        return $this->hasMany(Activity::class);
     }
 }

@@ -1,0 +1,114 @@
+/* Cyberpunk Navs Styles */
+
+.nav-cyber {
+  background: linear-gradient(90deg, #1a1a2e 0%, #23234d 100%);
+  border-bottom: 2px solid var(--cyber-blue, #00fff7);
+  box-shadow: 0 2px 12px 0 rgba(0,255,247,0.08);
+  font-family: 'Rajdhani', 'Orbitron', 'Segoe UI', Arial, sans-serif;
+  padding: 0.5rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1000;
+}
+
+.nav-cyber .navbar-brand {
+  color: var(--cyber-blue, #00fff7);
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+  text-shadow: 0 0 8px #00fff7, 0 0 2px #fff;
+  transition: color 0.2s;
+}
+
+.nav-cyber .navbar-brand:hover {
+  color: #fff;
+}
+
+.nav-cyber .nav-link {
+  color: var(--text-light, #e0e0e0);
+  font-size: 1.1rem;
+  margin: 0 0.75rem;
+  position: relative;
+  transition: color 0.2s;
+}
+
+.nav-cyber .nav-link.active,
+.nav-cyber .nav-link:focus,
+.nav-cyber .nav-link:hover {
+  color: var(--cyber-blue, #00fff7);
+  text-shadow: 0 0 6px #00fff7;
+}
+
+.nav-cyber .nav-link::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background: var(--cyber-blue, #00fff7);
+  transition: width 0.3s;
+  margin-top: 2px;
+}
+
+.nav-cyber .nav-link:hover::after,
+.nav-cyber .nav-link.active::after {
+  width: 100%;
+}
+
+.nav-cyber .nav-item {
+  position: relative;
+}
+
+.nav-cyber .dropdown-menu {
+  background: #23234d;
+  border: 1.5px solid var(--cyber-blue, #00fff7);
+  box-shadow: 0 4px 24px 0 rgba(0,255,247,0.12);
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.nav-cyber .dropdown-item {
+  color: var(--text-light, #e0e0e0);
+  padding: 0.5rem 1.25rem;
+  transition: background 0.2s, color 0.2s;
+}
+
+.nav-cyber .dropdown-item:hover,
+.nav-cyber .dropdown-item:focus {
+  background: var(--cyber-blue, #00fff7);
+  color: #23234d;
+}
+
+.nav-cyber .navbar-toggler {
+  border: none;
+  background: transparent;
+  color: var(--cyber-blue, #00fff7);
+  font-size: 1.5rem;
+  outline: none;
+}
+
+/* Light mode override */
+body.light-mode .nav-cyber {
+  background: linear-gradient(90deg, #f8fafc 0%, #e0e7ef 100%);
+  border-bottom: 2px solid var(--cyber-blue, #00fff7);
+}
+body.light-mode .nav-cyber .nav-link {
+  color: #23234d;
+}
+body.light-mode .nav-cyber .nav-link.active,
+body.light-mode .nav-cyber .nav-link:focus,
+body.light-mode .nav-cyber .nav-link:hover {
+  color: var(--cyber-blue, #00fff7);
+}
+body.light-mode .nav-cyber .dropdown-menu {
+  background: #fff;
+  border-color: var(--cyber-blue, #00fff7);
+}
+body.light-mode .nav-cyber .dropdown-item {
+  color: #23234d;
+}
+body.light-mode .nav-cyber .dropdown-item:hover,
+body.light-mode .nav-cyber .dropdown-item:focus {
+  background: var(--cyber-blue, #00fff7);
+  color: #fff;
+} 

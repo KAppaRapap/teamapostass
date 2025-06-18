@@ -50,17 +50,42 @@
                         <h6>Números Sorteados</h6>
                         <div class="d-flex flex-wrap gap-2 mt-2">
                             @if($draw->game->name == 'Euromilhões')
-                                @foreach($draw->winning_numbers as $number)
-                                    @if($number <= 50)
+                                @if(isset($draw->winning_numbers['numbers']) && is_array($draw->winning_numbers['numbers']))
+                                    @foreach($draw->winning_numbers['numbers'] as $number)
                                         <span class="badge rounded-pill bg-primary p-2">{{ $number }}</span>
-                                    @else
-                                        <span class="badge rounded-pill bg-warning p-2">{{ $number - 50 }}</span>
-                                    @endif
-                                @endforeach
+                                    @endforeach
+                                @endif
+                                @if(isset($draw->winning_numbers['stars']) && is_array($draw->winning_numbers['stars']))
+                                    @foreach($draw->winning_numbers['stars'] as $star)
+                                        <span class="badge rounded-pill bg-warning p-2"><i class="fas fa-star me-1"></i>{{ $star }}</span>
+                                    @endforeach
+                                @endif
+                            @elseif($draw->game->name == 'Totoloto')
+                                @if(is_array($draw->winning_numbers))
+                                    @foreach($draw->winning_numbers as $number)
+                                        <span class="badge rounded-pill bg-primary p-2">{{ $number }}</span>
+                                    @endforeach
+                                @endif
+                            @elseif($draw->game->name == 'Totobola')
+                                @if(is_array($draw->winning_numbers))
+                                    @foreach($draw->winning_numbers as $result)
+                                        <span class="badge rounded-pill bg-info p-2">{{ $result }}</span>
+                                    @endforeach
+                                @endif
+                            @elseif($draw->game->name == 'Placard')
+                                @if(isset($draw->winning_numbers['message']))
+                                    <span>{{ $draw->winning_numbers['message'] }}</span>
+                                @else
+                                    {{-- Fallback if Placard has a different array structure --}}
+                                    <span>{{ implode(', ', (array) $draw->winning_numbers) }}</span>
+                                @endif
                             @else
-                                @foreach($draw->winning_numbers as $number)
-                                    <span class="badge rounded-pill bg-primary p-2">{{ $number }}</span>
-                                @endforeach
+                                {{-- Fallback for unknown game types or simple arrays --}}
+                                @if(is_array($draw->winning_numbers))
+                                    <span>{{ implode(', ', $draw->winning_numbers) }}</span>
+                                @else
+                                    <span>{{ $draw->winning_numbers }}</span>
+                                @endif
                             @endif
                         </div>
                     </div>
@@ -104,17 +129,26 @@
                                     </td>
                                     <td>
                                         <div class="d-flex flex-wrap gap-1">
-                                            @foreach($slip->numbers as $number)
-                                                @if($draw->game->name == 'Euromilhões')
-                                                    @if($number <= 50)
+                                            @if($draw->game->name == 'Euromilhões')
+                                                @if(isset($slip->numbers['numbers']) && is_array($slip->numbers['numbers']))
+                                                    @foreach($slip->numbers['numbers'] as $number)
                                                         <span class="badge rounded-pill bg-secondary p-2">{{ $number }}</span>
-                                                    @else
-                                                        <span class="badge rounded-pill bg-secondary p-2 text-warning">{{ $number - 50 }}</span>
-                                                    @endif
-                                                @else
-                                                    <span class="badge rounded-pill bg-secondary p-2">{{ $number }}</span>
+                                                    @endforeach
                                                 @endif
-                                            @endforeach
+                                                @if(isset($slip->numbers['stars']) && is_array($slip->numbers['stars']))
+                                                    @foreach($slip->numbers['stars'] as $star)
+                                                        <span class="badge rounded-pill bg-secondary p-2"><i class="fas fa-star"></i>{{ $star }}</span>
+                                                    @endforeach
+                                                @endif
+                                            @else
+                                                @if(is_array($slip->numbers))
+                                                    @foreach($slip->numbers as $number)
+                                                        <span class="badge rounded-pill bg-secondary p-2">{{ $number }}</span>
+                                                    @endforeach
+                                                @else
+                                                    <span>{{ $slip->numbers }}</span>
+                                                @endif
+                                            @endif
                                         </div>
                                     </td>
                                     <td>
@@ -287,14 +321,20 @@
                                 <div>
                                     <strong>{{ $pastDraw->draw_date->format('d/m/Y') }}</strong>
                                     <div>
-                                        <small class="text-muted">Números: 
-                                            @foreach($pastDraw->winning_numbers as $index => $number)
-                                                @if($index < 5)
-                                                    {{ $number }}{{ $index < count($pastDraw->winning_numbers) - 1 ? ',' : '' }}
+                                        <small class="text-muted">Números:
+                                            @if($pastDraw->game->name == 'Euromilhões')
+                                                @if(isset($pastDraw->winning_numbers['numbers']) && is_array($pastDraw->winning_numbers['numbers']))
+                                                    {{ implode(', ', $pastDraw->winning_numbers['numbers']) }}
                                                 @endif
-                                            @endforeach
-                                            @if(count($pastDraw->winning_numbers) > 5)
-                                                ...
+                                                @if(isset($pastDraw->winning_numbers['stars']) && is_array($pastDraw->winning_numbers['stars']))
+                                                    <i class="fas fa-star"></i> {{ implode(', ', $pastDraw->winning_numbers['stars']) }}
+                                                @endif
+                                            @else
+                                                @if(is_array($pastDraw->winning_numbers))
+                                                    {{ implode(', ', $pastDraw->winning_numbers) }}
+                                                @else
+                                                    {{ $pastDraw->winning_numbers }}
+                                                @endif
                                             @endif
                                         </small>
                                     </div>

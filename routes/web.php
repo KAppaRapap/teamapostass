@@ -97,7 +97,12 @@ Route::middleware(['auth'])->group(function () {
             ->where('is_completed', true)
             ->orderBy('draw_date', 'desc')
             ->get();
-        return view('results.index', compact('completedDraws'));
+
+        $userBettingSlips = \Auth::check()
+            ? \Auth::user()->bettingSlips()->get()
+            : collect();
+
+        return view('results.index', compact('completedDraws', 'userBettingSlips'));
     })->name('results.index');
     Route::get('/results/{draw}', function(\App\Models\Draw $draw) {
         $userBettingSlips = \Auth::check()
@@ -116,7 +121,12 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['auth'])->prefix('wallet')->name('wallet.')->group(function () {
         Route::get('/deposit', [WalletController::class, 'showDepositForm'])->name('deposit');
         Route::post('/deposit', [WalletController::class, 'deposit'])->name('deposit.submit');
+        Route::post('/withdraw', [WalletController::class, 'withdraw'])->name('wallet.withdraw');
+        Route::get('/index', [WalletController::class, 'index'])->name('index');
+        Route::post('/add-funds', [WalletController::class, 'addFunds'])->name('add-funds');
     });
 });
+
+Route::post('/wallet/withdraw', [WalletController::class, 'withdraw'])->name('wallet.withdraw');
 
 require __DIR__.'/auth.php';

@@ -20,9 +20,16 @@ class Kernel extends ConsoleKernel
         // Gerar notificações aleatórias a cada 15 minutos
         $schedule->command('notifications:generate-random')->everyFifteenMinutes();
 
-        // Sorteios automáticos de 4 jogos de hora em hora
-        //$schedule->command('draws:autocycle')->hourly();
-        $schedule->command('draws:autocycle')->everyMinute();
+        // Para criar novos sorteios a cada hora, no início da hora (ex: 10:00, 11:00)
+        $schedule->command('draws:create-hourly')->hourly()->at('00'); 
+        // OU, se quiser que rode um pouco depois do início da hora para garantir que a hora já virou completamente:
+        // $schedule->command('draws:create-hourly')->hourly()->at('01'); // Ex: 10:01, 11:01
+
+        // Para processar sorteios vencidos (gerar resultados)
+        // Pode rodar com mais frequência, por exemplo, a cada minuto ou a cada 5 minutos.
+        $schedule->command('draws:process-due')->everyMinute(); 
+        // Ou a cada 5 minutos:
+        // $schedule->command('draws:process-due')->everyFiveMinutes();
     }
 
     /**

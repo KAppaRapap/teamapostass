@@ -222,25 +222,64 @@ class BettingSlipController extends Controller
             $predictions = $request->input('predictions');
             $amounts = $request->input('amounts');
             $totalCost = array_sum($amounts);
-            if ($user->virtual_balance < $totalCost) {
-                return back()->with('error', 'Saldo insuficiente na carteira virtual.');
-            }
-            // Salvar a aposta (BettingSlip)
-            $bettingSlip = BettingSlip::create([
-                'user_id' => $user->id,
-                'game_id' => $game->id,
-                'numbers' => json_encode($predictions),
-                'amounts' => json_encode($amounts),
-                'total_cost' => $totalCost,
-                'is_checked' => false,
+        } else {
+            $v = $request->validate([
+                'draw_id'        => 'required|exists:draws,id',
+                'numbers'        => 'required|array',
+                'numbers.*'      => 'required|integer|min:1',
+                'is_system'      => 'boolean',
+                'system_details' => 'nullable|array',
+                'custom_amount'  => 'required|numeric|min:0.01',
             ]);
-            // Debitar saldo
-            $user->virtual_balance -= $totalCost;
-            $user->save();
-            return redirect()->route('betting-slips.index')->with('success', 'Aposta registrada com sucesso! Valor debitado da carteira virtual.');
+            $draw          = Draw::findOrFail($v['draw_id']);
+            $numbers       = $v['numbers'];
+            $isSystem      = $v['is_system'] ?? false;
+            $systemDetails = $v['system_details'] ?? null;
+            $totalCost     = $this->calculateTotalCost($game, $numbers, $isSystem, $systemDetails);
+            // Override custom amount
+            if ($isSystem) {
+                if ($v['custom_amount'] < $totalCost) {
+                    return redirect()->back()->withInput()->with('error', 'O valor a apostar deve ser igual ou maior ao custo estimado do sistema.');
+                }
+                $totalCost = $v['custom_amount'];
+            } else {
+                $totalCost = $v['custom_amount'];
+            }
         }
-        // Outros jogos: adaptar conforme necessário
-        return back()->with('error', 'Tipo de jogo não suportado para apostas diretas.');
+
+        // Saldo do usuário
+        $saldo = $user->virtual_balance;
+        if ($saldo < $totalCost) {
+            return back()->withInput()->with('error', 'Saldo insuficiente na carteira virtual para realizar esta aposta.');
+        }
+
+        // Desconta o saldo
+        $user->virtual_balance -= $totalCost;
+        $user->save();
+        
+        // Create the betting slip
+        $bettingSlipData = [
+            'user_id'       => $user->id,
+            'game_id'       => $game->id,
+            'total_cost'    => $totalCost,
+            'is_checked'    => false,
+        ];
+
+        // Adicionar campos específicos de acordo com o tipo de jogo
+        if ($game->name === 'Totobola') {
+            $bettingSlipData['numbers'] = json_encode($predictions);
+            $bettingSlipData['amounts'] = json_encode($amounts);
+        } else {
+            $bettingSlipData['draw_id'] = $draw->id;
+            $bettingSlipData['numbers'] = $numbers;
+            $bettingSlipData['is_system'] = $isSystem;
+            $bettingSlipData['system_details'] = $systemDetails;
+        }
+        
+        $bettingSlip = BettingSlip::create($bettingSlipData);
+        
+        return redirect()->route('betting-slips.show', $bettingSlip)
+            ->with('success', 'Aposta registrada com sucesso! Valor debitado da carteira virtual.');
     }
 
     /**

@@ -1,0 +1,206 @@
+/* Form Styles */
+.form-label {
+    color: var(--text-light);
+    font-family: 'Rajdhani', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.form-control {
+    background-color: var(--card-darker);
+    border: 1px solid rgba(138, 43, 226, 0.3);
+    color: var(--text-light);
+    border-radius: 8px;
+    padding: 0.75rem;
+    font-family: 'Rajdhani', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    background-color: var(--card-darker);
+    border-color: var(--cyber-blue);
+    color: var(--text-light);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+}
+
+.form-control::placeholder {
+    color: rgba(224, 224, 224, 0.5);
+}
+
+.form-select {
+    background-color: var(--card-darker);
+    border: 1px solid rgba(138, 43, 226, 0.3);
+    color: var(--text-light);
+    border-radius: 8px;
+    padding: 0.75rem;
+    font-family: 'Rajdhani', sans-serif;
+    transition: all 0.3s ease;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+}
+
+.form-select:focus {
+    background-color: var(--card-darker);
+    border-color: var(--cyber-blue);
+    color: var(--text-light);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+}
+
+.form-check-input {
+    background-color: var(--card-darker);
+    border: 1px solid rgba(138, 43, 226, 0.3);
+}
+
+.form-check-input:checked {
+    background-color: var(--cyber-blue);
+    border-color: var(--cyber-blue);
+}
+
+.form-check-label {
+    color: var(--text-light);
+    font-family: 'Rajdhani', sans-serif;
+}
+
+.form-text {
+    color: var(--text-darker);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.85rem;
+}
+
+/* Form Validation */
+.was-validated .form-control:valid,
+.form-control.is-valid {
+    border-color: var(--cyber-green);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2300FF00' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+}
+
+.was-validated .form-control:invalid,
+.form-control.is-invalid {
+    border-color: var(--cyber-red);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23FF0033'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23FF0033' stroke='none'/%3e%3c/svg%3e");
+}
+
+.valid-feedback {
+    color: var(--cyber-green);
+    font-family: 'Rajdhani', sans-serif;
+}
+
+.invalid-feedback {
+    color: var(--cyber-red);
+    font-family: 'Rajdhani', sans-serif;
+}
+
+/* Form Groups */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+/* Form Grid */
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -5px;
+    margin-left: -5px;
+}
+
+.form-row > .col,
+.form-row > [class*="col-"] {
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+/* Light Mode Overrides */
+body.light-mode .form-label {
+    color: var(--light-text-main);
+}
+
+body.light-mode .form-control {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    color: var(--light-text-main);
+}
+
+body.light-mode .form-control:focus {
+    background-color: #fff;
+    border-color: var(--light-accent-primary);
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+body.light-mode .form-control::placeholder {
+    color: rgba(108, 117, 125, 0.5);
+}
+
+body.light-mode .form-select {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    color: var(--light-text-main);
+}
+
+body.light-mode .form-select:focus {
+    background-color: #fff;
+    border-color: var(--light-accent-primary);
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+body.light-mode .form-check-input {
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+body.light-mode .form-check-label {
+    color: var(--light-text-main);
+}
+
+body.light-mode .form-text {
+    color: var(--light-text-secondary);
+}
+
+/* Form Animations */
+.form-control:focus,
+.form-select:focus {
+    transform: translateY(-1px);
+}
+
+/* Form Input Groups */
+.input-group {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 100%;
+}
+
+.input-group > .form-control {
+    position: relative;
+    flex: 1 1 auto;
+    width: 1%;
+    min-width: 0;
+    margin-bottom: 0;
+}
+
+.input-group-text {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--text-light);
+    text-align: center;
+    white-space: nowrap;
+    background-color: var(--card-darker);
+    border: 1px solid rgba(138, 43, 226, 0.3);
+    border-radius: 8px;
+}
+
+body.light-mode .input-group-text {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    color: var(--light-text-main);
+} 

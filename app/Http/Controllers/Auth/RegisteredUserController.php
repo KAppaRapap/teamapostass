@@ -44,6 +44,7 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'city' => $request->city,
             'password' => Hash::make($request->password),
+            'virtual_balance' => 1000000,
         ]);
 
         event(new Registered($user));

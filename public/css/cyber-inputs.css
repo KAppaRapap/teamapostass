@@ -1,0 +1,227 @@
+/* Input Styles */
+.input-cyber {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: linear-gradient(145deg, var(--card-darker), var(--card-dark));
+    border: 2px solid rgba(138, 43, 226, 0.3);
+    border-radius: 4px;
+    color: var(--text-light);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.input-cyber:focus {
+    outline: none;
+    border-color: var(--cyber-blue);
+    box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.2);
+}
+
+.input-cyber::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Input Variants */
+.input-cyber.input-primary:focus {
+    border-color: var(--cyber-blue);
+    box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.2);
+}
+
+.input-cyber.input-success:focus {
+    border-color: var(--cyber-green);
+    box-shadow: 0 0 0 3px rgba(0, 204, 102, 0.2);
+}
+
+.input-cyber.input-danger:focus {
+    border-color: var(--cyber-red);
+    box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.2);
+}
+
+.input-cyber.input-warning:focus {
+    border-color: var(--cyber-yellow);
+    box-shadow: 0 0 0 3px rgba(204, 153, 0, 0.2);
+}
+
+.input-cyber.input-info:focus {
+    border-color: #00ccff;
+    box-shadow: 0 0 0 3px rgba(0, 204, 255, 0.2);
+}
+
+/* Input with Icon */
+.input-cyber-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-cyber-group .input-cyber {
+    padding-left: 2.5rem;
+}
+
+.input-cyber-group .input-icon {
+    position: absolute;
+    left: 1rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 1rem;
+    pointer-events: none;
+}
+
+.input-cyber-group .input-cyber:focus + .input-icon {
+    color: var(--cyber-blue);
+}
+
+/* Input with Label */
+.input-cyber-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-light);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Input with Helper Text */
+.input-cyber-helper {
+    display: block;
+    margin-top: 0.5rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* Input with Error */
+.input-cyber.is-invalid {
+    border-color: var(--cyber-red);
+}
+
+.input-cyber.is-invalid:focus {
+    box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.2);
+}
+
+.input-cyber.is-invalid + .input-cyber-helper {
+    color: var(--cyber-red);
+}
+
+/* Input with Success */
+.input-cyber.is-valid {
+    border-color: var(--cyber-green);
+}
+
+.input-cyber.is-valid:focus {
+    box-shadow: 0 0 0 3px rgba(0, 204, 102, 0.2);
+}
+
+.input-cyber.is-valid + .input-cyber-helper {
+    color: var(--cyber-green);
+}
+
+/* Input Sizes */
+.input-cyber.input-sm {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+}
+
+.input-cyber.input-lg {
+    padding: 1rem 1.25rem;
+    font-size: 1.125rem;
+}
+
+/* Input with Glow */
+.input-cyber.input-glow:focus {
+    box-shadow: 0 0 15px rgba(138, 43, 226, 0.3);
+}
+
+.input-cyber.input-glow.input-primary:focus {
+    box-shadow: 0 0 15px rgba(0, 102, 204, 0.3);
+}
+
+.input-cyber.input-glow.input-success:focus {
+    box-shadow: 0 0 15px rgba(0, 204, 102, 0.3);
+}
+
+.input-cyber.input-glow.input-danger:focus {
+    box-shadow: 0 0 15px rgba(204, 0, 0, 0.3);
+}
+
+.input-cyber.input-glow.input-warning:focus {
+    box-shadow: 0 0 15px rgba(204, 153, 0, 0.3);
+}
+
+.input-cyber.input-glow.input-info:focus {
+    box-shadow: 0 0 15px rgba(0, 204, 255, 0.3);
+}
+
+/* Input with Animation */
+.input-cyber.input-animate:focus {
+    transform: translateY(-2px);
+}
+
+/* Light Mode Overrides */
+body.light-mode .input-cyber {
+    background: linear-gradient(145deg, #ffffff, #f8f9fa);
+    border-color: #dee2e6;
+    color: var(--light-text-main);
+}
+
+body.light-mode .input-cyber::placeholder {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+body.light-mode .input-cyber-label {
+    color: var(--light-text-main);
+}
+
+body.light-mode .input-cyber-helper {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+body.light-mode .input-cyber-group .input-icon {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+/* Input with Custom Border Radius */
+.input-cyber[data-radius] {
+    border-radius: attr(data-radius);
+}
+
+/* Input with Custom Shadow */
+.input-cyber[data-shadow] {
+    box-shadow: attr(data-shadow);
+}
+
+/* Input with Custom Border Width */
+.input-cyber[data-border-width] {
+    border-width: attr(data-border-width);
+}
+
+/* Input with Custom Border Style */
+.input-cyber[data-border-style] {
+    border-style: attr(data-border-style);
+}
+
+/* Input with Custom Border Color */
+.input-cyber[data-border-color] {
+    border-color: attr(data-border-color);
+}
+
+/* Input with Custom Background */
+.input-cyber[data-background] {
+    background: attr(data-background);
+}
+
+/* Input with Custom Opacity */
+.input-cyber[data-opacity] {
+    opacity: attr(data-opacity);
+}
+
+/* Input with Custom Z-Index */
+.input-cyber[data-z-index] {
+    z-index: attr(data-z-index);
+} 

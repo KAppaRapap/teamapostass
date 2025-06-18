@@ -27,9 +27,46 @@
                 </li>
                 @if(!empty($draw->winning_numbers))
                 <li class="list-group-item"><strong>Números Sorteados:</strong> 
-                    @foreach($draw->winning_numbers as $num)
-                        <span class="badge bg-info text-dark me-1">{{ $num }}</span>
-                    @endforeach
+                    <div class="d-flex flex-wrap gap-1">
+                        @if($draw->game->name == 'Euromilhões')
+                            @if(isset($draw->winning_numbers['numbers']) && is_array($draw->winning_numbers['numbers']))
+                                @foreach($draw->winning_numbers['numbers'] as $number)
+                                    <span class="badge bg-primary p-2">{{ $number }}</span>
+                                @endforeach
+                            @endif
+                            @if(isset($draw->winning_numbers['stars']) && is_array($draw->winning_numbers['stars']))
+                                @foreach($draw->winning_numbers['stars'] as $star)
+                                    <span class="badge bg-warning p-2"><i class="fas fa-star me-1"></i>{{ $star }}</span>
+                                @endforeach
+                            @endif
+                        @elseif($draw->game->name == 'Totoloto')
+                            @if(is_array($draw->winning_numbers))
+                                @foreach($draw->winning_numbers as $number)
+                                    <span class="badge bg-primary p-2">{{ $number }}</span>
+                                @endforeach
+                            @endif
+                        @elseif($draw->game->name == 'Totobola')
+                            @if(is_array($draw->winning_numbers))
+                                @foreach($draw->winning_numbers as $result)
+                                    <span class="badge bg-info p-2">{{ $result }}</span>
+                                @endforeach
+                            @endif
+                        @elseif($draw->game->name == 'Placard')
+                            @if(isset($draw->winning_numbers['message']))
+                                <span>{{ $draw->winning_numbers['message'] }}</span>
+                            @else
+                                {{-- Fallback if Placard has a different array structure --}}
+                                <span>{{ implode(', ', (array) $draw->winning_numbers) }}</span>
+                            @endif
+                        @else
+                            {{-- Fallback for unknown game types or simple arrays --}}
+                            @if(is_array($draw->winning_numbers))
+                                <span>{{ implode(', ', $draw->winning_numbers) }}</span>
+                            @else
+                                <span>{{ $draw->winning_numbers }}</span>
+                            @endif
+                        @endif
+                    </div>
                 </li>
                 @endif
             </ul>
@@ -52,6 +89,7 @@
                             <th>Estado</th>
                             <th>Ações</th>
                         </tr>
+                        
                     </thead>
                     <tbody>
                         @foreach($bettingSlips as $bettingSlip)

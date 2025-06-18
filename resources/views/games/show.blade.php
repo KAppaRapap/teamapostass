@@ -97,7 +97,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <p class="mb-1"><strong>Data:</strong> {{ $latestDraw->draw_date->format('d/m/Y H:i') }}</p>
-                            <p class="mb-1"><strong>Números Sorteados:</strong> {{ is_array($latestDraw->winning_numbers) ? implode(', ', $latestDraw->winning_numbers) : $latestDraw->winning_numbers }}</p>
+                            <p class="mb-1"><strong>Números Sorteados:</strong> {{ $latestDraw->formatted_winning_numbers }}</p>
                             <p class="mb-0"><strong>Prêmio:</strong> €{{ number_format($latestDraw->jackpot_amount, 2) }}</p>
                         </div>
                         <a href="{{ route('draws.show', $latestDraw) }}" class="btn btn-outline-primary">

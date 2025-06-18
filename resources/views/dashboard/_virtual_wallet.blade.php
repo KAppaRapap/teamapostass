@@ -1,24 +1,31 @@
+<!-- Carteira Virtual -->
 <div class="card mb-4">
-    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-        <h5 class="mb-0">Minha Carteira Virtual</h5>
-        <a href="#" class="btn btn-sm btn-outline-primary disabled" tabindex="-1" aria-disabled="true">Ver Extrato</a>
+    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+        <h5 class="mb-0 text-dark">Carteira Virtual</h5>
     </div>
     <div class="card-body">
-        <div class="d-flex align-items-center mb-3">
-            <div class="me-3">
-                <i class="fas fa-wallet fa-2x text-success"></i>
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <div class="d-flex align-items-center">
+                    <div class="icon-box me-3">
+                        <i class="fas fa-wallet fa-2x text-primary-blue"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-secondary-text-color mb-1">Saldo Disponível</h6>
+                        <h3 class="mb-0 text-success-green virtual-wallet-balance">€{{ number_format(Auth::user()->virtual_balance, 2) }}</h3>
+                    </div>
+                </div>
             </div>
-            <div>
-                <h6 class="text-muted mb-1">Saldo Atual</h6>
-                <h3 class="mb-0 text-success">€{{ number_format(Auth::user()->virtual_balance ?? 0, 2) }}</h3>
-            </div>
-        </div>
-        <div class="row g-2">
-            <div class="col">
-                <a href="{{ route('wallet.deposit') }}" class="btn btn-success w-100"><i class="fas fa-arrow-down me-1"></i> Depositar</a>
-            </div>
-            <div class="col">
-                <a href="#" class="btn btn-outline-danger w-100 disabled" tabindex="-1" aria-disabled="true"><i class="fas fa-arrow-up me-1"></i> Levantar</a>
+            <div class="col-md-6">
+                <div class="d-flex justify-content-md-end mt-3 mt-md-0">
+                    <div class="text-end">
+                        <h6 class="text-secondary-text-color mb-1">Total Movimentado</h6>
+                        <h4 class="mb-0 text-dark">€{{ number_format(Auth::user()->total_transactions, 2) }}</h4>
+                        <a href="{{ route('wallet.index') }}" class="btn btn-primary btn-sm mt-3">
+                            <i class="fas fa-receipt me-1"></i> Ver Extrato
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

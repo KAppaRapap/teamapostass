@@ -1,0 +1,256 @@
+/* Select Styles */
+.select-cyber {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: linear-gradient(145deg, var(--card-darker), var(--card-dark));
+    border: 2px solid rgba(138, 43, 226, 0.3);
+    border-radius: 4px;
+    color: var(--text-light);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.select-cyber:focus {
+    outline: none;
+    border-color: var(--cyber-blue);
+    box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.2);
+}
+
+.select-cyber::after {
+    content: '\f107';
+    position: absolute;
+    right: 1rem;
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.5);
+    pointer-events: none;
+    transition: transform 0.3s ease;
+}
+
+.select-cyber:focus::after {
+    transform: rotate(180deg);
+}
+
+/* Select Variants */
+.select-cyber.select-primary:focus {
+    border-color: var(--cyber-blue);
+    box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.2);
+}
+
+.select-cyber.select-success:focus {
+    border-color: var(--cyber-green);
+    box-shadow: 0 0 0 3px rgba(0, 204, 102, 0.2);
+}
+
+.select-cyber.select-danger:focus {
+    border-color: var(--cyber-red);
+    box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.2);
+}
+
+.select-cyber.select-warning:focus {
+    border-color: var(--cyber-yellow);
+    box-shadow: 0 0 0 3px rgba(204, 153, 0, 0.2);
+}
+
+.select-cyber.select-info:focus {
+    border-color: #00ccff;
+    box-shadow: 0 0 0 3px rgba(0, 204, 255, 0.2);
+}
+
+/* Select with Icon */
+.select-cyber-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.select-cyber-group .select-cyber {
+    padding-left: 2.5rem;
+}
+
+.select-cyber-group .select-icon {
+    position: absolute;
+    left: 1rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 1rem;
+    pointer-events: none;
+}
+
+.select-cyber-group .select-cyber:focus + .select-icon {
+    color: var(--cyber-blue);
+}
+
+/* Select with Label */
+.select-cyber-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-light);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Select with Helper Text */
+.select-cyber-helper {
+    display: block;
+    margin-top: 0.5rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* Select with Error */
+.select-cyber.is-invalid {
+    border-color: var(--cyber-red);
+}
+
+.select-cyber.is-invalid:focus {
+    box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.2);
+}
+
+.select-cyber.is-invalid + .select-cyber-helper {
+    color: var(--cyber-red);
+}
+
+/* Select with Success */
+.select-cyber.is-valid {
+    border-color: var(--cyber-green);
+}
+
+.select-cyber.is-valid:focus {
+    box-shadow: 0 0 0 3px rgba(0, 204, 102, 0.2);
+}
+
+.select-cyber.is-valid + .select-cyber-helper {
+    color: var(--cyber-green);
+}
+
+/* Select Sizes */
+.select-cyber.select-sm {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+}
+
+.select-cyber.select-lg {
+    padding: 1rem 1.25rem;
+    font-size: 1.125rem;
+}
+
+/* Select with Glow */
+.select-cyber.select-glow:focus {
+    box-shadow: 0 0 15px rgba(138, 43, 226, 0.3);
+}
+
+.select-cyber.select-glow.select-primary:focus {
+    box-shadow: 0 0 15px rgba(0, 102, 204, 0.3);
+}
+
+.select-cyber.select-glow.select-success:focus {
+    box-shadow: 0 0 15px rgba(0, 204, 102, 0.3);
+}
+
+.select-cyber.select-glow.select-danger:focus {
+    box-shadow: 0 0 15px rgba(204, 0, 0, 0.3);
+}
+
+.select-cyber.select-glow.select-warning:focus {
+    box-shadow: 0 0 15px rgba(204, 153, 0, 0.3);
+}
+
+.select-cyber.select-glow.select-info:focus {
+    box-shadow: 0 0 15px rgba(0, 204, 255, 0.3);
+}
+
+/* Select with Animation */
+.select-cyber.select-animate:focus {
+    transform: translateY(-2px);
+}
+
+/* Select Options */
+.select-cyber option {
+    background: var(--card-darker);
+    color: var(--text-light);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* Light Mode Overrides */
+body.light-mode .select-cyber {
+    background: linear-gradient(145deg, #ffffff, #f8f9fa);
+    border-color: #dee2e6;
+    color: var(--light-text-main);
+}
+
+body.light-mode .select-cyber::after {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+body.light-mode .select-cyber-label {
+    color: var(--light-text-main);
+}
+
+body.light-mode .select-cyber-helper {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+body.light-mode .select-cyber-group .select-icon {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+body.light-mode .select-cyber option {
+    background: #ffffff;
+    color: var(--light-text-main);
+}
+
+/* Select with Custom Border Radius */
+.select-cyber[data-radius] {
+    border-radius: attr(data-radius);
+}
+
+/* Select with Custom Shadow */
+.select-cyber[data-shadow] {
+    box-shadow: attr(data-shadow);
+}
+
+/* Select with Custom Border Width */
+.select-cyber[data-border-width] {
+    border-width: attr(data-border-width);
+}
+
+/* Select with Custom Border Style */
+.select-cyber[data-border-style] {
+    border-style: attr(data-border-style);
+}
+
+/* Select with Custom Border Color */
+.select-cyber[data-border-color] {
+    border-color: attr(data-border-color);
+}
+
+/* Select with Custom Background */
+.select-cyber[data-background] {
+    background: attr(data-background);
+}
+
+/* Select with Custom Opacity */
+.select-cyber[data-opacity] {
+    opacity: attr(data-opacity);
+}
+
+/* Select with Custom Z-Index */
+.select-cyber[data-z-index] {
+    z-index: attr(data-z-index);
+} 

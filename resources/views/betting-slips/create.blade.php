@@ -190,7 +190,7 @@
                 <input type="hidden" name="numbers[]" value="1"> 
                 <div class="mb-3">
                     <label for="main-bet-amount" class="form-label">Valor a Apostar Geral (€)</label>
-                    <input type="number" name="main_bet_amount" id="main-bet-amount" class="form-control" min="0" step="0.01" placeholder="Se quiser apostar o mesmo valor em todos os jogos">
+                    <input type="number" name="custom_amount" id="main-bet-amount" class="form-control" min="0" step="0.01" placeholder="Se quiser apostar o mesmo valor em todos os jogos">
                     <div class="form-text">Preencha este campo <b>apenas</b> se quiser apostar o mesmo valor em todos os jogos. Caso contrário, use os campos de valor individuais de cada jogo.</div>
                 </div>
                 

@@ -1,0 +1,198 @@
+/* Cyberpunk Sidebar Styles */
+
+.sidebar {
+  background: linear-gradient(180deg, var(--card-dark, #2a2a4a) 0%, var(--card-darker, #1a1a2e) 100%);
+  border-right: 2px solid var(--cyber-blue, #00fff7);
+  box-shadow: 4px 0 15px rgba(0,255,247,0.15);
+  min-height: 100vh;
+  padding-top: 2rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px; /* Adjust width as needed */
+  z-index: 999;
+  overflow-y: auto;
+  transition: all 0.3s ease-in-out;
+}
+
+.sidebar-header {
+  color: var(--cyber-blue, #00fff7);
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 1.8rem;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  text-shadow: 0 0 10px #00fff7, 0 0 5px #fff;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-item {
+  margin-bottom: 0.5rem;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  padding: 0.9rem 1.5rem;
+  color: var(--text-light, #e0e0e0);
+  text-decoration: none;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.1rem;
+  border-radius: 0 50px 50px 0;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebar-link i {
+  font-size: 1.3rem;
+  width: 30px;
+  text-align: center;
+  margin-right: 15px;
+  color: var(--cyber-purple, #b700ff);
+  transition: color 0.3s ease-in-out;
+}
+
+.sidebar-link:hover {
+  background: rgba(0,255,247,0.1);
+  color: var(--cyber-blue, #00fff7);
+  transform: translateX(5px);
+  box-shadow: 0 0 15px rgba(0,255,247,0.3);
+}
+
+.sidebar-link:hover i {
+  color: var(--cyber-blue, #00fff7);
+}
+
+.sidebar-link.active {
+  background: linear-gradient(90deg, rgba(0,255,247,0.2) 0%, rgba(183,0,255,0.2) 100%);
+  color: var(--cyber-blue, #00fff7);
+  border-left: 5px solid var(--cyber-blue, #00fff7);
+  font-weight: bold;
+  box-shadow: 0 0 20px rgba(0,255,247,0.5);
+  transform: translateX(5px);
+}
+
+.sidebar-link.active i {
+  color: var(--cyber-blue, #00fff7);
+}
+
+.sidebar-divider {
+  border-top: 1px dashed var(--cyber-blue, #00fff7);
+  margin: 2rem 1.5rem;
+  opacity: 0.5;
+}
+
+.sidebar-profile {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  margin-top: auto;
+}
+
+.sidebar-profile img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid var(--cyber-blue, #00fff7);
+  object-fit: cover;
+  margin-right: 15px;
+}
+
+.sidebar-profile-info .name {
+  color: var(--text-light, #e0e0e0);
+  font-weight: bold;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.1rem;
+}
+
+.sidebar-profile-info .role {
+  color: var(--text-secondary-cyber, #a0a0a0);
+  font-size: 0.9rem;
+}
+
+/* Submenu Styles */
+.sidebar-submenu {
+  list-style: none;
+  padding-left: 30px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+}
+
+.sidebar-submenu.show {
+  max-height: 200px; /* Adjust based on content */
+}
+
+.sidebar-submenu .sidebar-link {
+  padding: 0.6rem 1.5rem;
+  font-size: 1rem;
+  border-left: 3px solid transparent;
+  border-radius: 0;
+}
+
+.sidebar-submenu .sidebar-link:hover {
+  border-left-color: var(--cyber-blue, #00fff7);
+  background: rgba(0,255,247,0.05);
+}
+
+/* Light Mode Overrides */
+body.light-mode .sidebar {
+  background: linear-gradient(180deg, #e0e7ef 0%, #f8fafc 100%);
+  border-right-color: var(--cyber-blue, #00fff7);
+  box-shadow: 4px 0 15px rgba(0,255,247,0.08);
+}
+
+body.light-mode .sidebar-header {
+  color: var(--cyber-blue, #00fff7);
+  text-shadow: 0 0 5px rgba(0,255,247,0.5);
+}
+
+body.light-mode .sidebar-link {
+  color: #1a1a2e;
+}
+
+body.light-mode .sidebar-link i {
+  color: var(--cyber-purple, #b700ff);
+}
+
+body.light-mode .sidebar-link:hover {
+  background: rgba(0,255,247,0.08);
+  color: var(--cyber-blue, #00fff7);
+}
+
+body.light-mode .sidebar-link:hover i {
+  color: var(--cyber-blue, #00fff7);
+}
+
+body.light-mode .sidebar-link.active {
+  background: linear-gradient(90deg, rgba(0,255,247,0.1) 0%, rgba(183,0,255,0.1) 100%);
+  color: var(--cyber-blue, #00fff7);
+  border-left-color: var(--cyber-blue, #00fff7);
+}
+
+body.light-mode .sidebar-link.active i {
+  color: var(--cyber-blue, #00fff7);
+}
+
+body.light-mode .sidebar-profile img {
+  border-color: var(--cyber-blue, #00fff7);
+}
+
+body.light-mode .sidebar-profile-info .name {
+  color: #1a1a2e;
+}
+
+body.light-mode .sidebar-profile-info .role {
+  color: #555;
+}
+
+body.light-mode .sidebar-divider {
+  border-color: var(--cyber-blue, #00fff7);
+} 

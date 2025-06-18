@@ -1,0 +1,291 @@
+/* Button Styles */
+.btn-cyber {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-light);
+    background: linear-gradient(145deg, var(--card-darker), var(--card-dark));
+    border: 1px solid rgba(138, 43, 226, 0.3);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    text-decoration: none;
+}
+
+.btn-cyber::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent, rgba(138, 43, 226, 0.2), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+}
+
+.btn-cyber:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(138, 43, 226, 0.3);
+    color: var(--text-light);
+    text-decoration: none;
+}
+
+.btn-cyber:hover::before {
+    transform: translateX(100%);
+}
+
+.btn-cyber:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(138, 43, 226, 0.2);
+}
+
+.btn-cyber:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Button Variants */
+.btn-cyber-primary {
+    background: linear-gradient(145deg, var(--cyber-blue), #0066cc);
+    border-color: var(--cyber-blue);
+}
+
+.btn-cyber-success {
+    background: linear-gradient(145deg, var(--cyber-green), #00cc66);
+    border-color: var(--cyber-green);
+}
+
+.btn-cyber-danger {
+    background: linear-gradient(145deg, var(--cyber-red), #cc0000);
+    border-color: var(--cyber-red);
+}
+
+.btn-cyber-warning {
+    background: linear-gradient(145deg, var(--cyber-yellow), #cc9900);
+    border-color: var(--cyber-yellow);
+    color: var(--text-dark);
+}
+
+.btn-cyber-info {
+    background: linear-gradient(145deg, #00ccff, #0066cc);
+    border-color: #00ccff;
+}
+
+/* Button Sizes */
+.btn-cyber-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
+.btn-cyber-lg {
+    padding: 1rem 2rem;
+    font-size: 1.125rem;
+}
+
+/* Button with Icon */
+.btn-cyber i {
+    margin-right: 0.5rem;
+    font-size: 1.1em;
+}
+
+.btn-cyber-icon-only {
+    padding: 0.75rem;
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.btn-cyber-icon-only i {
+    margin: 0;
+}
+
+/* Button Group */
+.btn-group-cyber {
+    display: inline-flex;
+    position: relative;
+}
+
+.btn-group-cyber .btn-cyber {
+    border-radius: 0;
+    margin: 0;
+}
+
+.btn-group-cyber .btn-cyber:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.btn-group-cyber .btn-cyber:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.btn-group-cyber .btn-cyber:not(:first-child) {
+    margin-left: -1px;
+}
+
+/* Button Loading State */
+.btn-cyber-loading {
+    position: relative;
+    color: transparent !important;
+}
+
+.btn-cyber-loading::after {
+    content: '';
+    position: absolute;
+    width: 1rem;
+    height: 1rem;
+    top: 50%;
+    left: 50%;
+    margin: -0.5rem 0 0 -0.5rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: button-loading 0.8s infinite linear;
+}
+
+@keyframes button-loading {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Light Mode Overrides */
+body.light-mode .btn-cyber {
+    background: linear-gradient(145deg, #ffffff, #f8f9fa);
+    border: 1px solid #dee2e6;
+    color: var(--light-text-main);
+}
+
+body.light-mode .btn-cyber:hover {
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+}
+
+body.light-mode .btn-cyber-primary {
+    background: linear-gradient(145deg, var(--light-accent-primary), #2980b9);
+    border-color: var(--light-accent-primary);
+    color: #fff;
+}
+
+body.light-mode .btn-cyber-success {
+    background: linear-gradient(145deg, #2ecc71, #27ae60);
+    border-color: #2ecc71;
+    color: #fff;
+}
+
+body.light-mode .btn-cyber-danger {
+    background: linear-gradient(145deg, #e74c3c, #c0392b);
+    border-color: #e74c3c;
+    color: #fff;
+}
+
+body.light-mode .btn-cyber-warning {
+    background: linear-gradient(145deg, #f1c40f, #f39c12);
+    border-color: #f1c40f;
+    color: #fff;
+}
+
+body.light-mode .btn-cyber-info {
+    background: linear-gradient(145deg, #3498db, #2980b9);
+    border-color: #3498db;
+    color: #fff;
+}
+
+/* Button Responsive */
+@media (max-width: 768px) {
+    .btn-cyber {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+
+    .btn-cyber-lg {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .btn-group-cyber {
+        display: flex;
+        width: 100%;
+    }
+
+    .btn-group-cyber .btn-cyber {
+        flex: 1;
+    }
+}
+
+/* Button Animations */
+@keyframes buttonPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(138, 43, 226, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(138, 43, 226, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(138, 43, 226, 0);
+    }
+}
+
+.btn-cyber-pulse {
+    animation: buttonPulse 2s infinite;
+}
+
+/* Button with Badge */
+.btn-cyber-badge {
+    position: relative;
+    padding-right: 2.5rem;
+}
+
+.btn-cyber-badge .badge {
+    position: absolute;
+    top: 50%;
+    right: 0.5rem;
+    transform: translateY(-50%);
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 1rem;
+}
+
+/* Button with Tooltip */
+.btn-cyber[data-tooltip] {
+    position: relative;
+}
+
+.btn-cyber[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.5rem;
+    background: var(--card-darker);
+    color: var(--text-light);
+    font-size: 0.875rem;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.btn-cyber[data-tooltip]:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(-5px);
+}
+
+body.light-mode .btn-cyber[data-tooltip]::after {
+    background: #fff;
+    color: var(--light-text-main);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+} 

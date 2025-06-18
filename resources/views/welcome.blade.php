@@ -5,146 +5,336 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="TeamApostas - A tua plataforma para grupos de apostas online">
     <title>TeamApostas - Joga em Grupo, Ganha Mais!</title>
-    <link rel="icon" type="icon" href="favicon.ico">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --neutral-bg: #F8F8F8; /* Fundo muito claro */
+            --neutral-surface: #FFFFFF; /* Superfície de elementos */
+            --neutral-text: #333333; /* Texto principal */
+            --neutral-secondary-text: #777777; /* Texto secundário */
+            --accent-green: #2ECC71; /* Verde esmeralda para destaque */
+            --accent-green-dark: #27AE60;
+            --border-light: #EBEBEB; /* Bordas e divisores */
+        }
+
         body {
-            font-family: 'Poppins', sans-serif;
-            background: #f8fafc;
-            color: #1e293b;
+            font-family: 'Source Sans Pro', sans-serif;
+            background: var(--neutral-bg);
+            color: var(--neutral-text);
+            line-height: 1.7;
+            overflow-x: hidden;
         }
-        /* Top-right auth buttons */
-        .auth-top-right {
-            position: fixed;
-            top: 24px;
-            right: 40px;
-            z-index: 1050;
-        }
-        .auth-top-right .btn {
-            min-width: 90px;
-            font-weight: 500;
-            border-radius: 20px;
-        }
-        .btn-highlight {
-            background: linear-gradient(90deg, #2563eb 0%, #10b981 100%);
-            color: #fff !important;
-            border: none;
-            box-shadow: 0 2px 8px rgba(37,99,235,0.08);
-            transition: background 0.2s;
-        }
-        .btn-highlight:hover, .btn-highlight:focus {
-            background: linear-gradient(90deg, #1d4ed8 0%, #059669 100%);
-            color: #fff !important;
-        }
-        .hero {
-            background: linear-gradient(120deg, #2563eb 0%, #10b981 100%);
-            color: #fff;
-            padding: 160px 0 80px 0; /* mais espaço acima */
-            text-align: center;
-        }
-        .hero h1 {
-            font-size: 3rem;
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Source Sans Pro', sans-serif;
             font-weight: 700;
+            color: var(--neutral-text);
         }
+
+        .navbar {
+            background-color: var(--neutral-surface);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--accent-green) !important;
+            font-size: 1.85rem;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-link {
+            color: var(--neutral-text) !important;
+            font-weight: 400;
+            margin: 0 16px;
+            transition: color 0.2s ease;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-green) !important;
+        }
+
+        .btn-minimalist {
+            background-color: var(--accent-green);
+            border: none;
+            padding: 0.8rem 2.2rem;
+            border-radius: 4px;
+            font-weight: 600;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .btn-minimalist:hover {
+            background-color: var(--accent-green-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline-minimalist {
+            border: 1px solid var(--accent-green);
+            color: var(--accent-green);
+            padding: 0.8rem 2.2rem;
+            border-radius: 4px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-outline-minimalist:hover {
+            background-color: var(--accent-green);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .hero {
+            background-color: var(--neutral-bg);
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+            color: var(--neutral-text);
+        }
+
         .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
+            font-size: 1.25rem;
+            color: var(--neutral-secondary-text);
+            margin-bottom: 2.5rem;
         }
-        .hero .btn-primary {
-            font-size: 1.1rem;
-            padding: 0.8rem 2.5rem;
-            border-radius: 30px;
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4.5rem;
         }
-        .feature-icon {
-            font-size: 2.5rem;
-            color: #2563eb;
+
+        .section-title {
+            font-size: 3.2rem;
+            font-weight: 700;
+            color: var(--neutral-text);
             margin-bottom: 1rem;
         }
-        .step-card {
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(37,99,235,0.07);
-            padding: 2rem 1.5rem;
-            text-align: center;
-            transition: transform 0.2s;
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--neutral-secondary-text);
         }
-        .step-card:hover {
-            transform: translateY(-5px) scale(1.03);
+
+        .card-minimalist {
+            background: var(--neutral-surface);
+            border-radius: 8px;
+            padding: 2.2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            transition: all 0.2s ease;
+            height: 100%;
+            border: 1px solid var(--border-light);
         }
-        .game-logos img {
-            height: 60px;
-            margin: 0 15px 15px 0;
-            filter: grayscale(0.2);
-            opacity: 0.85;
+
+        .card-minimalist:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
         }
-        .cta-section {
-            background: #2563eb;
+
+        .feature-icon-wrapper {
+            width: 65px;
+            height: 65px;
+            background-color: var(--accent-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
             color: #fff;
-            padding: 60px 0;
+            font-size: 2.2rem;
+        }
+
+        .game-card .card-img-top {
+            height: 180px;
+            object-fit: cover;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .game-card .card-body {
+            padding: 1.2rem;
             text-align: center;
         }
-        .footer {
-            background: #fff;
-            color: #64748b;
-            padding: 30px 0 10px 0;
-            border-top: 1px solid #e2e8f0;
+
+        .cta-section {
+            background-color: var(--accent-green);
+            color: #fff;
+            padding: 80px 0;
+            text-align: center;
         }
-        .social-links a {
-            color: #2563eb;
-            margin: 0 10px;
+
+        .cta-section h2 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #fff;
+        }
+
+        .cta-section p {
             font-size: 1.25rem;
-            transition: color 0.2s;
+            margin-bottom: 3rem;
+            opacity: 0.9;
         }
-        .social-links a:hover { color: #10b981; }
+
+        .footer {
+            background-color: var(--neutral-surface);
+            color: var(--neutral-secondary-text);
+            padding: 60px 0 30px;
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .footer a {
+            color: var(--neutral-secondary-text);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer a:hover {
+            color: var(--accent-green);
+        }
+
+        .footer h5 {
+            color: var(--neutral-text);
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            text-transform: uppercase;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: var(--border-light);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 8px;
+            color: var(--neutral-text);
+            font-size: 1.2rem;
+            transition: all 0.2s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--accent-green);
+            color: #fff;
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
-    <!-- Auth Buttons Top Right (fixed) -->
-    <div class="auth-top-right">
-        @if (Route::has('login'))
-            @auth
-                <a href="{{ url('/dashboard') }}" class="btn btn-primary">Dashboard</a>
-            @else
-                <a href="{{ route('login') }}" class="btn btn-highlight me-2">Entrar</a>
-                @if (Route::has('register'))
-                    <a href="{{ route('register') }}" class="btn btn-primary">Registar</a>
-                @endif
-            @endauth
-        @endif
-    </div>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                TeamApostas
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars" style="color: var(--neutral-text);"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#como-funciona">Como Funciona</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#jogos">Jogos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contactos">Contactos</a>
+                    </li>
+                    @if (Route::has('login'))
+                        @auth
+                            <li class="nav-item ms-lg-3">
+                                <a href="{{ url('/dashboard') }}" class="btn btn-minimalist">Dashboard</a>
+                            </li>
+                        @else
+                            <li class="nav-item ms-lg-3">
+                                <a href="{{ route('login') }}" class="btn btn-outline-minimalist me-2">Entrar</a>
+                            </li>
+                            @if (Route::has('register'))
+                                <li class="nav-item">
+                                    <a href="{{ route('register') }}" class="btn btn-minimalist">Registar</a>
+                                </li>
+                            @endif
+                        @endauth
+                    @endif
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
-            <h1>Joga em Grupo, Ganha Mais!</h1>
-            <p>A plataforma mais fácil e segura para criar, gerir e apostar em grupo nos principais jogos nacionais.</p>
-            <a href="{{ route('register') }}" class="btn btn-primary shadow">Começar Agora</a>
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <h1>Joga em Grupo,<br>Ganha Mais!</h1>
+                    <p class="mb-0">A plataforma mais fácil e segura para criar, gerir e apostar em grupo nos principais jogos nacionais.</p>
+                    <a href="{{ route('register') }}" class="btn btn-minimalist btn-lg mt-3">Começar Agora</a>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <img src="{{ asset('img/hero-illustration.png') }}" alt="TeamApostas Illustration" class="img-fluid w-75">
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Como Funciona -->
-    <section class="py-5">
+    <!-- Como Funciona Section -->
+    <section id="como-funciona" class="py-5">
         <div class="container">
-            <div class="row g-4 justify-content-center">
+            <div class="section-header">
+                <h2 class="section-title">Como Funciona</h2>
+                <p class="section-subtitle">Três passos simples para começar a apostar em grupo</p>
+            </div>
+            <div class="row g-4">
                 <div class="col-md-4">
-                    <div class="step-card">
-                        <div class="feature-icon mb-2"><i class="fas fa-users"></i></div>
-                        <h5 class="fw-bold mb-2">1. Cria ou Entra num Grupo</h5>
+                    <div class="card-minimalist text-center">
+                        <div class="feature-icon-wrapper mx-auto mb-4">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">1. Cria ou Entra num Grupo</h4>
                         <p>Junta-te a outros apostadores ou cria o teu próprio grupo para aumentar as tuas hipóteses.</p>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="step-card">
-                        <div class="feature-icon mb-2"><i class="fas fa-ticket-alt"></i></div>
-                        <h5 class="fw-bold mb-2">2. Faz as tuas Apostas</h5>
+                    <div class="card-minimalist text-center">
+                        <div class="feature-icon-wrapper mx-auto mb-4">
+                            <i class="fas fa-ticket-alt"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">2. Faz as tuas Apostas</h4>
                         <p>Escolhe o jogo, define a aposta e acompanha tudo de forma transparente.</p>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="step-card">
-                        <div class="feature-icon mb-2"><i class="fas fa-trophy"></i></div>
-                        <h5 class="fw-bold mb-2">3. Partilha os Ganhos</h5>
+                    <div class="card-minimalist text-center">
+                        <div class="feature-icon-wrapper mx-auto mb-4">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">3. Partilha os Ganhos</h4>
                         <p>Se o grupo ganhar, os prémios são distribuídos automaticamente e sem complicações!</p>
                     </div>
                 </div>
@@ -152,59 +342,26 @@
         </div>
     </section>
 
-    <!-- Benefícios -->
-    <section class="py-5 bg-light">
+    <!-- Jogos em Destaque Section -->
+    <section id="jogos" class="py-5" style="background-color: var(--neutral-bg);">
         <div class="container">
-            <div class="row g-4 text-center">
-                <div class="col-md-3">
-                    <div class="step-card">
-                        <div class="feature-icon"><i class="fas fa-lock"></i></div>
-                        <h6 class="fw-bold">Segurança</h6>
-                        <p class="mb-0">Os teus dados e prémios estão sempre protegidos.</p>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="step-card">
-                        <div class="feature-icon"><i class="fas fa-bolt"></i></div>
-                        <h6 class="fw-bold">Simplicidade</h6>
-                        <p class="mb-0">Interface intuitiva, fácil de usar em qualquer dispositivo.</p>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="step-card">
-                        <div class="feature-icon"><i class="fas fa-sync-alt"></i></div>
-                        <h6 class="fw-bold">Resultados em Tempo Real</h6>
-                        <p class="mb-0">Acompanha apostas e prémios assim que são atualizados.</p>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="step-card">
-                        <div class="feature-icon"><i class="fas fa-users-cog"></i></div>
-                        <h6 class="fw-bold">Comunidade</h6>
-                        <p class="mb-0">Partilha estratégias e celebra vitórias com outros apostadores.</p>
-                    </div>
-                </div>
+            <div class="section-header">
+                <h2 class="section-title">Jogos Disponíveis</h2>
+                <p class="section-subtitle">Escolhe entre os melhores jogos nacionais</p>
             </div>
-        </div>
-    </section>
-
-    <!-- Jogos em Destaque -->
-    <section class="py-5 bg-light">
-        <div class="container text-center">
-            <h4 class="fw-bold mb-4">Jogos Disponíveis</h4>
-            <div class="row justify-content-center g-4">
+            <div class="row g-4">
                 @foreach($games as $game)
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <div class="card h-100 shadow-sm border-0">
+                    <div class="col-md-3">
+                        <div class="card-minimalist game-card">
                             @if($game->image_url)
-                                <img src="{{ $game->image_url }}" alt="{{ $game->name }}" class="card-img-top p-3" style="height:90px;object-fit:contain;">
+                                <img src="{{ $game->image_url }}" alt="{{ $game->name }}" class="card-img-top">
                             @else
-                                <img src="https://via.placeholder.com/120x90?text=Jogo" alt="{{ $game->name }}" class="card-img-top p-3" style="height:90px;object-fit:contain;">
+                                <img src="https://via.placeholder.com/400x180/EBEBEB/777777?text={{ urlencode($game->name) }}" alt="{{ $game->name }}" class="card-img-top">
                             @endif
                             <div class="card-body">
-                                <h6 class="fw-bold">{{ $game->name }}</h6>
-                                <p class="small text-muted">{{ $game->description ?? 'Jogo disponível para apostas.' }}</p>
-                                <a href="{{ route('groups.index', ['game_id' => $game->id]) }}" class="btn btn-primary btn-sm">Ver Grupos</a>
+                                <h5 class="fw-bold mb-2">{{ $game->name }}</h5>
+                                <p class="small mb-3">{{ $game->description ?? 'Jogo disponível para apostas.' }}</p>
+                                <a href="{{ route('groups.index', ['game_id' => $game->id]) }}" class="btn btn-minimalist btn-sm mt-auto">Ver Grupos</a>
                             </div>
                         </div>
                     </div>
@@ -213,37 +370,61 @@
         </div>
     </section>
 
-    <!-- Call to Action -->
+    <!-- Call to Action Section -->
     @guest
-    <section class="cta-section">
+    <section class="cta-section py-5">
         <div class="container">
             <h2 class="fw-bold mb-4">Pronto para jogar em grupo?</h2>
-            <p class="mb-4">Regista-te gratuitamente e começa já a apostar com amigos!</p>
-            <a href="{{ route('register') }}" class="btn btn-light btn-lg">Criar Conta</a>
-            <a href="{{ route('login') }}" class="btn btn-outline-light btn-lg ms-2">Entrar</a>
+            <p class="lead mb-5">Regista-te gratuitamente e começa já a apostar com amigos!</p>
+            <div>
+                <a href="{{ route('register') }}" class="btn btn-minimalist btn-lg me-3">Criar Conta</a>
+                <a href="{{ route('login') }}" class="btn btn-outline-minimalist btn-lg">Entrar</a>
+            </div>
         </div>
     </section>
     @endguest
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="container text-center">
-            <div class="mb-3">
-                <a href="#" class="me-3">Início</a>
-                <a href="#" class="me-3">Jogos</a>
-                <a href="#" class="me-3">Como Funciona</a>
-                <a href="#">Contactos</a>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5 class="fw-bold mb-3">TeamApostas</h5>
+                    <p>A melhor plataforma para apostas em grupo em Portugal. Joga de forma inteligente e partilha os teus ganhos!</p>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4">
+                    <h5 class="fw-bold mb-3">Navegação</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#hero">Início</a></li>
+                        <li class="mb-2"><a href="#como-funciona">Como Funciona</a></li>
+                        <li class="mb-2"><a href="#jogos">Jogos</a></li>
+                        <li><a href="#contactos">Contactos</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4">
+                    <h5 class="fw-bold mb-3">Legal</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#">Termos de Serviço</a></li>
+                        <li class="mb-2"><a href="#">Política de Privacidade</a></li>
+                        <li><a href="#">Política de Cookies</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-4 mb-4">
+                    <h5 class="fw-bold mb-3">Siga-nos</h5>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/profile.php?id=61575137439233" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
             </div>
-            <div class="social-links mb-2">
-                <a href="https://www.facebook.com/profile.php?id=61575137439233"><i class="fab fa-facebook-f"></i></a>
-                <a href="#isto"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-            </div>
-            <div class="copyright">
-                <small>&copy; {{ date('Y') }} TeamApostas. Todos os direitos reservados.</small>
+            <hr class="my-4" style="border-color: rgba(0,0,0,0.05);">
+            <div class="text-center small" style="color: var(--neutral-secondary-text);">
+                &copy; {{ date('Y') }} TeamApostas. Todos os direitos reservados.
             </div>
         </div>
     </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
