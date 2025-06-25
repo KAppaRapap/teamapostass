@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Game;
 use App\Models\User;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -100,5 +101,24 @@ class AdminController extends Controller
         $user->is_banned = $request->has('is_banned');
         $user->save();
         return redirect()->route('admin.users.index')->with('success', 'Usuário atualizado com sucesso.');
+    }
+
+    public function showConfig()
+    {
+        $settings = Setting::all()->keyBy('key')->map(function ($setting) {
+            return $setting->value;
+        });
+        return view('admin.config', compact('settings'));
+    }
+
+    public function updateConfig(Request $request)
+    {
+        $settings = $request->except('_token');
+
+        foreach ($settings as $key => $value) {
+            Setting::updateOrCreate(['key' => $key], ['value' => $value]);
+        }
+
+        return back()->with('success', 'Configurações atualizadas com sucesso.');
     }
 }

@@ -1,122 +1,110 @@
 @extends('layouts.app')
 
+@section('title', 'Grupos')
+@section('description', 'Junta-te a grupos de apostadores e joga em equipa')
+
 @section('content')
-<div class="container py-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="mb-0">Grupos de Apostadores</h2>
-        <a href="{{ route('groups.create') }}" class="btn btn-primary">
-            <i class="fas fa-plus me-1"></i> Novo Grupo
-        </a>
-    </div>
+<div class="py-8 px-6">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+            <div>
+                <h1 class="font-orbitron font-bold text-3xl lg:text-4xl mb-2">
+                    <span class="text-neon-green">Grupos</span> de Apostadores
+                </h1>
+                <p class="text-gray-300">Junta-te a grupos e joga em equipa</p>
+            </div>
+            <a href="{{ route('groups.create') }}" class="btn-primary mt-4 md:mt-0">
+                <i class="fas fa-plus mr-2"></i> Novo Grupo
+            </a>
+        </div>
 
-    @if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-    @endif
+        <!-- Flash Messages -->
+        @if(session('success'))
+        <div class="bg-green-500 bg-opacity-20 border border-green-500 text-green-300 px-4 py-3 rounded-lg mb-6 flash-message">
+            <i class="fas fa-check-circle mr-2"></i>{{ session('success') }}
+        </div>
+        @endif
 
-    @if(session('error'))
-    <div class="alert alert-danger">
-        {{ session('error') }}
-    </div>
-    @endif
+        @if(session('error'))
+        <div class="bg-red-500 bg-opacity-20 border border-red-500 text-red-300 px-4 py-3 rounded-lg mb-6 flash-message">
+            <i class="fas fa-exclamation-circle mr-2"></i>{{ session('error') }}
+        </div>
+        @endif
 
-    <!-- Filtros -->
-    <div class="card mb-4">
-        <div class="card-body">
-            <form action="{{ route('groups.index') }}" method="GET" class="row g-3">
-                <div class="col-md-4">
-                    <label for="game_id" class="form-label">Jogo</label>
-                    <select class="form-select" id="game_id" name="game_id">
-                        <option value="">Todos os jogos</option>
-                        @foreach($games as $game)
-                        <option value="{{ $game->id }}" {{ request('game_id') == $game->id ? 'selected' : '' }}>
-                            {{ $game->name }}
-                        </option>
-                        @endforeach
-                    </select>
+        <!-- Lista de Grupos -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            @forelse($groups as $group)
+            <div class="bg-dark-bg border border-dark-border rounded-lg p-6 hover:border-neon-green transition-all duration-300 group">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="font-semibold text-lg text-white group-hover:text-neon-green transition-colors">
+                        {{ $group->name }}
+                    </h3>
+                    <span class="px-3 py-1 bg-neon-green text-dark-bg text-xs font-semibold rounded-full">
+                        {{ $group->game ? $group->game->name : 'Sem jogo' }}
+                    </span>
                 </div>
-                <div class="col-md-4">
-                    <label for="city" class="form-label">Cidade</label>
-                    <input type="text" class="form-control" id="city" name="city" value="{{ request('city') }}" placeholder="Ex: Lisboa">
+                
+                <p class="text-gray-300 text-sm mb-4">{{ Str::limit($group->description, 100) }}</p>
+                
+                <div class="grid grid-cols-3 gap-4 mb-4">
+                    <div>
+                        <p class="text-xs text-gray-400">Administrador</p>
+                        <p class="text-sm font-semibold text-white">{{ $group->admin->name }}</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-400">Membros</p>
+                        <p class="text-sm font-semibold text-white">
+                            {{ $group->members->count() }}/{{ $group->max_members ?: '∞' }}
+                        </p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-400">Localização</p>
+                        <p class="text-sm font-semibold text-white">{{ $group->city ?: 'N/A' }}</p>
+                    </div>
                 </div>
-                <div class="col-md-4">
-                    <label for="region" class="form-label">Região</label>
-                    <input type="text" class="form-control" id="region" name="region" value="{{ request('region') }}" placeholder="Ex: Norte">
+                
+                <div class="flex items-center justify-between">
+                    <span class="px-2 py-1 text-xs rounded {{ $group->is_public ? 'bg-green-500 text-white' : 'bg-yellow-500 text-white' }}">
+                        {{ $group->is_public ? 'Público' : 'Privado' }}
+                    </span>
+                    <div class="flex gap-2">
+                        <a href="{{ route('groups.chat', $group) }}" class="btn-outline text-sm px-3 py-1">
+                            <i class="fas fa-comments mr-1"></i> Chat
+                        </a>
+                        @if(!$group->members->contains(auth()->user()))
+                        <form action="{{ route('groups.join', $group) }}" method="POST" class="inline">
+                            @csrf
+                            <button type="submit" class="btn-primary text-sm px-3 py-1">
+                                <i class="fas fa-sign-in-alt mr-1"></i> Entrar
+                            </button>
+                        </form>
+                        @endif
+                    </div>
                 </div>
-                <div class="col-12 text-end">
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-filter me-1"></i> Filtrar
-                    </button>
-                    <a href="{{ route('groups.index') }}" class="btn btn-outline-secondary">
-                        <i class="fas fa-redo me-1"></i> Limpar
+            </div>
+            @empty
+            <div class="col-span-full">
+                <div class="text-center py-12">
+                    <div class="w-16 h-16 bg-gradient-to-br from-neon-green to-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-users text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-2">Nenhum grupo encontrado</h3>
+                    <p class="text-gray-400 mb-6">Não foram encontrados grupos com os filtros selecionados.</p>
+                    <a href="{{ route('groups.create') }}" class="btn-primary">
+                        <i class="fas fa-plus mr-2"></i> Criar Novo Grupo
                     </a>
                 </div>
-            </form>
-        </div>
-    </div>
-
-    <div class="row g-4">
-        @forelse($groups as $group)
-        <div class="col-md-6 col-lg-4">
-            <div class="card h-100">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="card-title mb-0">{{ $group->name }}</h5>
-                        <span class="badge bg-primary">{{ $group->game->name }}</span>
-                    </div>
-                    <p class="card-text text-muted">{{ Str::limit($group->description, 100) }}</p>
-                    
-                    <div class="d-flex align-items-center mb-3">
-                        <div class="me-3">
-                            <small class="text-muted d-block">Administrador</small>
-                            <span>{{ $group->admin->name }}</span>
-                        </div>
-                        <div class="me-3">
-                            <small class="text-muted d-block">Membros</small>
-                            <span>{{ $group->members->count() }}/{{ $group->max_members ?: '∞' }}</span>
-                        </div>
-                        <div>
-                            <small class="text-muted d-block">Localização</small>
-                            <span>{{ $group->city ?: 'N/A' }}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="badge {{ $group->is_public ? 'bg-success' : 'bg-warning' }}">
-                            {{ $group->is_public ? 'Público' : 'Privado' }}
-                        </span>
-                        <div>
-                            <a href="{{ route('groups.show', $group) }}" class="btn btn-outline-primary">
-                                <i class="fas fa-eye me-1"></i> Ver
-                            </a>
-                            @if(!$group->members->contains(auth()->user()))
-                            <form action="{{ route('groups.join', $group) }}" method="POST" class="d-inline">
-                                @csrf
-                                <button type="submit" class="btn btn-primary ms-2">
-                                    <i class="fas fa-sign-in-alt me-1"></i> Entrar
-                                </button>
-                            </form>
-                            @endif
-                        </div>
-                    </div>
-                </div>
             </div>
+            @endforelse
         </div>
-        @empty
-        <div class="col-12">
-            <div class="alert alert-info">
-                <p class="mb-0">Nenhum grupo encontrado com os filtros selecionados.</p>
-                <p class="mb-0 mt-2">
-                    <a href="{{ route('groups.create') }}" class="alert-link">Clique aqui</a> para criar um novo grupo.
-                </p>
-            </div>
-        </div>
-        @endforelse
-    </div>
 
-    <div class="mt-4">
-        {{ $groups->withQueryString()->links('groups.pagination') }}
+        <!-- Paginação -->
+        @if($groups->hasPages())
+        <div class="mt-8 flex justify-center">
+            {{ $groups->withQueryString()->links('groups.pagination') }}
+        </div>
+        @endif
     </div>
 </div>
 @endsection

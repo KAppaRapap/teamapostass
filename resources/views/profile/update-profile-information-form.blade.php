@@ -57,7 +57,7 @@
                 </div>
             </div>
 
-            <!-- Profile Picture -->
+            <!-- Foto de Perfil -->
             <div class="card shadow-sm border-0 mt-4">
                 <div class="card-body p-4">
                     <h5 class="card-title mb-3">

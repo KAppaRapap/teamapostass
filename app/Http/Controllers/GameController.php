@@ -129,4 +129,9 @@ class GameController extends Controller
             
         return view('games.upcoming-draws', compact('upcomingDraws'));
     }
+
+    public function roletaClassica()
+    {
+        return view('games.roleta');
+    }
 }

@@ -18,7 +18,7 @@
                         @csrf
                         @method('PUT')
 
-                        <!-- Profile Visibility -->
+                        <!-- Visibilidade do Perfil -->
                         <div class="mb-4">
                             <h5 class="mb-3">
                                 <i class="fas fa-user me-2"></i> Visibilidade do Perfil

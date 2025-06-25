@@ -18,7 +18,7 @@
                         @csrf
                         @method('PUT')
 
-                        <!-- Profile Picture -->
+                        <!-- Foto de Perfil -->
                         <div class="mb-4">
                             <h5 class="mb-3">
                                 <i class="fas fa-camera me-2"></i> Foto de Perfil

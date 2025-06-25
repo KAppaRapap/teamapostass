@@ -12,6 +12,8 @@
     <div class="row g-4">
         <!-- Informações do Perfil -->
         <div class="col-lg-4">
+            <!-- Painel de Progresso do Usuário -->
+            <div id="user-progress-profile" class="mb-4"></div>
             <div class="card">
                 <div class="card-body text-center">
                     <div class="mb-4">
@@ -22,9 +24,6 @@
                              alt="Foto de Perfil">
                         <h4 class="mb-1">{{ $user->name }}</h4>
                         <p class="text-muted mb-3">{{ $user->email }}</p>
-                        <a href="{{ route('settings.index') }}" class="btn btn-outline-primary">
-                            <i class="fas fa-cog me-2"></i> Editar Perfil
-                        </a>
                     </div>
 
                     <div class="border-top pt-4">
@@ -161,8 +160,8 @@
                                     <p class="mb-0 text-muted">{{ Str::limit($group->description, 100) }}</p>
                                 </div>
                                 <div class="flex-shrink-0 ms-3">
-                                    <a href="{{ route('groups.show', $group) }}" class="btn btn-sm btn-outline-primary">
-                                        <i class="fas fa-eye"></i>
+                                    <a href="{{ route('groups.chat', $group) }}" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-comments"></i>
                                     </a>
                                 </div>
                             </div>

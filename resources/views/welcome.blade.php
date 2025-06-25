@@ -1,430 +1,168 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="TeamApostas - A tua plataforma para grupos de apostas online">
-    <title>TeamApostas - Joga em Grupo, Ganha Mais!</title>
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --neutral-bg: #F8F8F8; /* Fundo muito claro */
-            --neutral-surface: #FFFFFF; /* Superfície de elementos */
-            --neutral-text: #333333; /* Texto principal */
-            --neutral-secondary-text: #777777; /* Texto secundário */
-            --accent-green: #2ECC71; /* Verde esmeralda para destaque */
-            --accent-green-dark: #27AE60;
-            --border-light: #EBEBEB; /* Bordas e divisores */
-        }
+@extends('layouts.app')
 
-        body {
-            font-family: 'Source Sans Pro', sans-serif;
-            background: var(--neutral-bg);
-            color: var(--neutral-text);
-            line-height: 1.7;
-            overflow-x: hidden;
-        }
+@section('title', 'Início')
+@section('description', 'O casino da nova geração. Aposta, vence e partilha com a tua equipa.')
 
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Source Sans Pro', sans-serif;
-            font-weight: 700;
-            color: var(--neutral-text);
-        }
-
-        .navbar {
-            background-color: var(--neutral-surface);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 1px solid var(--border-light);
-        }
-
-        .navbar-brand {
-            font-weight: 700;
-            color: var(--accent-green) !important;
-            font-size: 1.85rem;
-            letter-spacing: -0.5px;
-        }
-
-        .nav-link {
-            color: var(--neutral-text) !important;
-            font-weight: 400;
-            margin: 0 16px;
-            transition: color 0.2s ease;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-        }
-
-        .nav-link:hover {
-            color: var(--accent-green) !important;
-        }
-
-        .btn-minimalist {
-            background-color: var(--accent-green);
-            border: none;
-            padding: 0.8rem 2.2rem;
-            border-radius: 4px;
-            font-weight: 600;
-            color: #fff;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            transition: background-color 0.2s ease, transform 0.2s ease;
-        }
-
-        .btn-minimalist:hover {
-            background-color: var(--accent-green-dark);
-            transform: translateY(-2px);
-        }
-
-        .btn-outline-minimalist {
-            border: 1px solid var(--accent-green);
-            color: var(--accent-green);
-            padding: 0.8rem 2.2rem;
-            border-radius: 4px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            transition: all 0.2s ease;
-        }
-
-        .btn-outline-minimalist:hover {
-            background-color: var(--accent-green);
-            color: #fff;
-            transform: translateY(-2px);
-        }
-
-        .hero {
-            background-color: var(--neutral-bg);
-            min-height: 80vh;
-            display: flex;
-            align-items: center;
-            padding: 100px 0;
-            position: relative;
-        }
-
-        .hero h1 {
-            font-size: 4rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            line-height: 1.1;
-            color: var(--neutral-text);
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            color: var(--neutral-secondary-text);
-            margin-bottom: 2.5rem;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 4.5rem;
-        }
-
-        .section-title {
-            font-size: 3.2rem;
-            font-weight: 700;
-            color: var(--neutral-text);
-            margin-bottom: 1rem;
-        }
-
-        .section-subtitle {
-            font-size: 1.1rem;
-            color: var(--neutral-secondary-text);
-        }
-
-        .card-minimalist {
-            background: var(--neutral-surface);
-            border-radius: 8px;
-            padding: 2.2rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-            transition: all 0.2s ease;
-            height: 100%;
-            border: 1px solid var(--border-light);
-        }
-
-        .card-minimalist:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-        }
-
-        .feature-icon-wrapper {
-            width: 65px;
-            height: 65px;
-            background-color: var(--accent-green);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1.5rem;
-            color: #fff;
-            font-size: 2.2rem;
-        }
-
-        .game-card .card-img-top {
-            height: 180px;
-            object-fit: cover;
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
-            border-bottom: 1px solid var(--border-light);
-        }
-
-        .game-card .card-body {
-            padding: 1.2rem;
-            text-align: center;
-        }
-
-        .cta-section {
-            background-color: var(--accent-green);
-            color: #fff;
-            padding: 80px 0;
-            text-align: center;
-        }
-
-        .cta-section h2 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            color: #fff;
-        }
-
-        .cta-section p {
-            font-size: 1.25rem;
-            margin-bottom: 3rem;
-            opacity: 0.9;
-        }
-
-        .footer {
-            background-color: var(--neutral-surface);
-            color: var(--neutral-secondary-text);
-            padding: 60px 0 30px;
-            font-size: 0.9rem;
-            border-top: 1px solid var(--border-light);
-        }
-
-        .footer a {
-            color: var(--neutral-secondary-text);
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-
-        .footer a:hover {
-            color: var(--accent-green);
-        }
-
-        .footer h5 {
-            color: var(--neutral-text);
-            font-weight: 600;
-            margin-bottom: 1.2rem;
-            text-transform: uppercase;
-        }
-
-        .social-links a {
-            width: 40px;
-            height: 40px;
-            background: var(--border-light);
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 8px;
-            color: var(--neutral-text);
-            font-size: 1.2rem;
-            transition: all 0.2s ease;
-        }
-
-        .social-links a:hover {
-            background: var(--accent-green);
-            color: #fff;
-            transform: translateY(-2px);
-        }
-    </style>
-</head>
-<body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg">
-        <div class="container">
-            <a class="navbar-brand" href="/">
-                TeamApostas
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <i class="fas fa-bars" style="color: var(--neutral-text);"></i>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#como-funciona">Como Funciona</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#jogos">Jogos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#contactos">Contactos</a>
-                    </li>
-                    @if (Route::has('login'))
-                        @auth
-                            <li class="nav-item ms-lg-3">
-                                <a href="{{ url('/dashboard') }}" class="btn btn-minimalist">Dashboard</a>
-                            </li>
-                        @else
-                            <li class="nav-item ms-lg-3">
-                                <a href="{{ route('login') }}" class="btn btn-outline-minimalist me-2">Entrar</a>
-                            </li>
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a href="{{ route('register') }}" class="btn btn-minimalist">Registar</a>
-                                </li>
-                            @endif
-                        @endauth
-                    @endif
-                </ul>
-            </div>
-        </div>
-    </nav>
-
+@section('content')
     <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6 text-center text-md-start">
-                    <h1>Joga em Grupo,<br>Ganha Mais!</h1>
-                    <p class="mb-0">A plataforma mais fácil e segura para criar, gerir e apostar em grupo nos principais jogos nacionais.</p>
-                    <a href="{{ route('register') }}" class="btn btn-minimalist btn-lg mt-3">Começar Agora</a>
-                </div>
-                <div class="col-md-6 text-center text-md-end">
-                    <img src="{{ asset('img/hero-illustration.png') }}" alt="TeamApostas Illustration" class="img-fluid w-75">
-                </div>
+    <section id="inicio" class="hero-bg flex items-center justify-center relative">
+        <canvas id="particles" class="particles-bg"></canvas>
+        <div class="hero-content text-center px-6 max-w-6xl mx-auto">
+            <h1 class="hero-title font-orbitron font-bold text-5xl lg:text-7xl mb-6 animate-slide-up">
+                O Casino da <span class="text-neon-green">Nova Geração</span>.<br>
+                Aposta. Vence. <span class="text-neon-pink">Partilha</span>.
+            </h1>
+            <p class="hero-subtitle text-xl lg:text-2xl text-gray-300 mb-12 animate-fade-in max-w-3xl mx-auto">
+                Explora Bomb Mine, Crash e Dice. Apostas em tempo real com a tua equipa.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in">
+                <a href="#jogos" class="btn-primary text-lg px-8 py-4">
+                    🎮 Jogar Agora
+                </a>
+                <a href="#ranking" class="btn-secondary text-lg px-8 py-4">
+                    📊 Ver Ranking
+                </a>
             </div>
-        </div>
-    </section>
-
-    <!-- Como Funciona Section -->
-    <section id="como-funciona" class="py-5">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Como Funciona</h2>
-                <p class="section-subtitle">Três passos simples para começar a apostar em grupo</p>
-            </div>
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="card-minimalist text-center">
-                        <div class="feature-icon-wrapper mx-auto mb-4">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <h4 class="fw-bold mb-3">1. Cria ou Entra num Grupo</h4>
-                        <p>Junta-te a outros apostadores ou cria o teu próprio grupo para aumentar as tuas hipóteses.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card-minimalist text-center">
-                        <div class="feature-icon-wrapper mx-auto mb-4">
-                            <i class="fas fa-ticket-alt"></i>
-                        </div>
-                        <h4 class="fw-bold mb-3">2. Faz as tuas Apostas</h4>
-                        <p>Escolhe o jogo, define a aposta e acompanha tudo de forma transparente.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card-minimalist text-center">
-                        <div class="feature-icon-wrapper mx-auto mb-4">
-                            <i class="fas fa-trophy"></i>
-                        </div>
-                        <h4 class="fw-bold mb-3">3. Partilha os Ganhos</h4>
-                        <p>Se o grupo ganhar, os prémios são distribuídos automaticamente e sem complicações!</p>
+            
+            <!-- Ilustração animada -->
+            <div class="mt-16 animate-float">
+                <div class="relative">
+                    <div class="w-32 h-32 mx-auto bg-gradient-to-br from-neon-green to-neon-pink rounded-full opacity-20 blur-xl"></div>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <i class="fas fa-dice text-6xl text-neon-green"></i>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Jogos em Destaque Section -->
-    <section id="jogos" class="py-5" style="background-color: var(--neutral-bg);">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Jogos Disponíveis</h2>
-                <p class="section-subtitle">Escolhe entre os melhores jogos nacionais</p>
+    <!-- Seção de Jogos -->
+    <section id="jogos" class="py-20 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="font-orbitron font-bold text-4xl lg:text-5xl mb-6">
+                    Os Nossos <span class="text-neon-green">Jogos</span>
+                </h2>
+                <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+                    Três jogos únicos, uma experiência inesquecível. Escolhe o teu favorito e começa a ganhar.
+                </p>
             </div>
-            <div class="row g-4">
-                @foreach($games as $game)
-                    <div class="col-md-3">
-                        <div class="card-minimalist game-card">
-                            @if($game->image_url)
-                                <img src="{{ $game->image_url }}" alt="{{ $game->name }}" class="card-img-top">
-                            @else
-                                <img src="https://via.placeholder.com/400x180/EBEBEB/777777?text={{ urlencode($game->name) }}" alt="{{ $game->name }}" class="card-img-top">
-                            @endif
-                            <div class="card-body">
-                                <h5 class="fw-bold mb-2">{{ $game->name }}</h5>
-                                <p class="small mb-3">{{ $game->description ?? 'Jogo disponível para apostas.' }}</p>
-                                <a href="{{ route('groups.index', ['game_id' => $game->id]) }}" class="btn btn-minimalist btn-sm mt-auto">Ver Grupos</a>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Bomb Mine -->
+                <div class="game-card p-8 text-center group">
+                    <div class="text-6xl mb-6 group-hover:scale-110 transition-transform duration-300">💣</div>
+                    <h3 class="font-orbitron font-bold text-2xl mb-4 text-white">Bomb Mine</h3>
+                    <p class="text-gray-300 mb-8 leading-relaxed">
+                        Escolhe as casas. Evita as bombas. Recolhe moedas.
+                    </p>
+                    <a href="{{ route('games.bombmine') }}" class="btn-primary w-full">
+                        Jogar Agora
+                    </a>
+                </div>
+                
+                <!-- Crash -->
+                <div class="game-card p-8 text-center group">
+                    <div class="text-6xl mb-6 group-hover:scale-110 transition-transform duration-300">📉</div>
+                    <h3 class="font-orbitron font-bold text-2xl mb-4 text-white">Crash</h3>
+                    <p class="text-gray-300 mb-8 leading-relaxed">
+                        Aposta antes do gráfico colapsar. Sai a tempo.
+                    </p>
+                    <a href="{{ route('games.crash') }}" class="btn-primary w-full">
+                        Jogar Agora
+                    </a>
+                </div>
+                
+                <!-- Dice -->
+                <div class="game-card p-8 text-center group">
+                    <div class="text-6xl mb-6 group-hover:scale-110 transition-transform duration-300">🎲</div>
+                    <h3 class="font-orbitron font-bold text-2xl mb-4 text-white">Dice</h3>
+                    <p class="text-gray-300 mb-8 leading-relaxed">
+                        Lança os dados. Aposta alto. Multiplica.
+                    </p>
+                    <a href="{{ route('games.dice') }}" class="btn-primary w-full">
+                        Jogar Agora
+                    </a>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Call to Action Section -->
-    @guest
-    <section class="cta-section py-5">
-        <div class="container">
-            <h2 class="fw-bold mb-4">Pronto para jogar em grupo?</h2>
-            <p class="lead mb-5">Regista-te gratuitamente e começa já a apostar com amigos!</p>
-            <div>
-                <a href="{{ route('register') }}" class="btn btn-minimalist btn-lg me-3">Criar Conta</a>
-                <a href="{{ route('login') }}" class="btn btn-outline-minimalist btn-lg">Entrar</a>
+    <!-- Seção de Comunidade -->
+    <section id="comunidade" class="py-20 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="font-orbitron font-bold text-4xl lg:text-5xl mb-6">
+                    <span class="text-neon-green">Comunidade</span> & Grupos
+                </h2>
+                <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+                    Conecta-te com outros jogadores. Estratégia, conversa e apostas em equipa.
+                </p>
+            </div>
+            
+            <div class="flex flex-col items-center justify-center min-h-[400px] text-center">
+                <h3 class="font-orbitron font-bold text-3xl mb-6 text-white">Junta-te à Comunidade</h3>
+                <p class="text-gray-300 mb-6 max-w-xl">Cria ou participa em grupos exclusivos. Partilha estratégias, acompanha as vitórias dos outros jogadores e forma equipas para apostas em conjunto. A nossa comunidade é o coração do TeamApostas.</p>
+                <ul class="space-y-3 mb-8">
+                    <li class="flex items-center gap-3 text-white justify-center"><i class="fas fa-users"></i> +5,000 jogadores ativos</li>
+                    <li class="flex items-center gap-3 text-white justify-center"><i class="fas fa-comments"></i> Chats em tempo real</li>
+                    <li class="flex items-center gap-3 text-white justify-center"><i class="fas fa-trophy"></i> Competições semanais</li>
+                </ul>
+                <a href="{{ route('groups.index') }}" class="btn-primary">Ver Grupos</a>
             </div>
         </div>
     </section>
-    @endguest
+@endsection
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 mb-4">
-                    <h5 class="fw-bold mb-3">TeamApostas</h5>
-                    <p>A melhor plataforma para apostas em grupo em Portugal. Joga de forma inteligente e partilha os teus ganhos!</p>
-                </div>
-                <div class="col-lg-2 col-md-4 mb-4">
-                    <h5 class="fw-bold mb-3">Navegação</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="#hero">Início</a></li>
-                        <li class="mb-2"><a href="#como-funciona">Como Funciona</a></li>
-                        <li class="mb-2"><a href="#jogos">Jogos</a></li>
-                        <li><a href="#contactos">Contactos</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-2 col-md-4 mb-4">
-                    <h5 class="fw-bold mb-3">Legal</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="#">Termos de Serviço</a></li>
-                        <li class="mb-2"><a href="#">Política de Privacidade</a></li>
-                        <li><a href="#">Política de Cookies</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-4 col-md-4 mb-4">
-                    <h5 class="fw-bold mb-3">Siga-nos</h5>
-                    <div class="social-links">
-                        <a href="https://www.facebook.com/profile.php?id=61575137439233" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                    </div>
-                </div>
-            </div>
-            <hr class="my-4" style="border-color: rgba(0,0,0,0.05);">
-            <div class="text-center small" style="color: var(--neutral-secondary-text);">
-                &copy; {{ date('Y') }} TeamApostas. Todos os direitos reservados.
-            </div>
-        </div>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+@push('scripts')
+    <script>
+    // Particles Animation for Hero Section
+    const canvas = document.getElementById('particles');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const particles = [];
+        const particleCount = 50;
+        
+        for (let i = 0; i < particleCount; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.5,
+                vy: (Math.random() - 0.5) * 0.5,
+                size: Math.random() * 2 + 1,
+                color: Math.random() > 0.5 ? '#00FFB2' : '#FF005C'
+            });
+        }
+        
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach(particle => {
+                ctx.beginPath();
+                ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                ctx.fillStyle = particle.color;
+                ctx.globalAlpha = 0.6;
+                ctx.fill();
+                
+                particle.x += particle.vx;
+                particle.y += particle.vy;
+                
+                if (particle.x < 0 || particle.x > canvas.width) particle.vx *= -1;
+                if (particle.y < 0 || particle.y > canvas.height) particle.vy *= -1;
+            });
+            
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+        
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    }
+    </script>
+@endpush

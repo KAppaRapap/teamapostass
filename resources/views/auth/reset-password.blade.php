@@ -7,8 +7,8 @@
             <div class="card shadow-sm border-0">
                 <div class="card-body p-4 p-md-5">
                     <div class="text-center mb-4">
-                        <h1 class="h3">Redefinir Senha</h1>
-                        <p class="text-muted">Digite sua nova senha</p>
+                        <h1 class="h3">Redefinir Palavra-passe</h1>
+                        <p class="text-muted">Digite a sua nova palavra-passe</p>
                     </div>
 
                     <!-- Session Status -->
@@ -32,34 +32,34 @@
 
                         <!-- Password -->
                         <div class="mb-3">
-                            <label for="password" class="form-label">Nova Senha</label>
+                            <label for="password" class="form-label">Nova Palavra-passe</label>
                             <input type="password" class="form-control @error('password') is-invalid @enderror" 
                                    id="password" name="password" required>
                             @error('password')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                             <div class="form-text">
-                                A senha deve ter pelo menos 8 caracteres, incluindo letras e números.
+                                A palavra-passe deve ter pelo menos 8 caracteres, incluindo letras e números.
                             </div>
                         </div>
 
                         <!-- Confirm Password -->
                         <div class="mb-4">
-                            <label for="password_confirmation" class="form-label">Confirmar Nova Senha</label>
+                            <label for="password_confirmation" class="form-label">Confirmar Nova Palavra-passe</label>
                             <input type="password" class="form-control" 
                                    id="password_confirmation" name="password_confirmation" required>
                         </div>
 
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-key me-2"></i> Redefinir Senha
+                                <i class="fas fa-key me-2"></i> Redefinir Palavra-passe
                             </button>
                         </div>
                     </form>
 
                     <div class="text-center mt-4">
                         <p class="text-muted mb-0">
-                            Lembrou sua senha? 
+                            Lembrou a sua palavra-passe? 
                             <a href="{{ route('login') }}" class="text-decoration-none">Entrar</a>
                         </p>
                     </div>
@@ -74,10 +74,10 @@
                     </h5>
                     <ul class="list-unstyled text-muted mb-0">
                         <li class="mb-2">
-                            <i class="fas fa-check-circle me-2"></i> Use uma senha forte e única
+                            <i class="fas fa-check-circle me-2"></i> Use uma palavra-passe forte e única
                         </li>
                         <li class="mb-2">
-                            <i class="fas fa-check-circle me-2"></i> Não compartilhe sua senha com ninguém
+                            <i class="fas fa-check-circle me-2"></i> Não partilhe a sua palavra-passe com ninguém
                         </li>
                         <li>
                             <i class="fas fa-check-circle me-2"></i> Ative a autenticação em duas etapas

@@ -1,119 +1,62 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+@extends('layouts.app')
 
-    <title>{{ config('app.name', 'TeamApostas') }} - Registro</title>
+@section('title', 'Registo')
+@section('description', 'Crie a sua conta para começar a apostar em grupo')
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f8fafc;
-        }
-        .auth-card {
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-            border: none;
-        }
-        .btn-primary {
-            background-color: #2563eb;
-            border-color: #2563eb;
-        }
-        .btn-primary:hover {
-            background-color: #1d4ed8;
-            border-color: #1d4ed8;
-        }
-        .form-control:focus {
-            border-color: #2563eb;
-            box-shadow: 0 0 0 0.25rem rgba(37, 99, 235, 0.25);
-        }
-    </style>
-</head>
-<body>
-    <div class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-md-8 col-lg-6">
-                <div class="text-center mb-4">
-                    <a href="{{ url('/') }}" class="text-decoration-none">
-                        <h2 class="fw-bold">Team<span class="text-primary">Apostas</span></h2>
-                    </a>
-                    <p class="text-muted">Crie sua conta para começar a apostar em grupo</p>
-                </div>
-                
-                <div class="card auth-card">
-                    <div class="card-body p-4 p-md-5">
-                        <h4 class="fw-bold mb-4">Criar conta</h4>
-                        
-                        <!-- Validation Errors -->
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul class="mb-0">
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-                        
-                        <form method="POST" action="{{ route('register') }}">
-                            @csrf
-                            
-                            <!-- Name -->
-                            <div class="mb-3">
-                                <label for="name" class="form-label">Nome</label>
-                                <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" required autofocus>
-                            </div>
-                            
-                            <!-- Email Address -->
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" required>
-                            </div>
-                            
-                            <!-- City -->
-                            <div class="mb-3">
-                                <label for="city" class="form-label">Cidade</label>
-                                <input type="text" class="form-control" id="city" name="city" value="{{ old('city') }}">
-                            </div>
-                            
-                            <!-- Password -->
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Senha</label>
-                                <input type="password" class="form-control" id="password" name="password" required autocomplete="new-password">
-                            </div>
-                            
-                            <!-- Confirm Password -->
-                            <div class="mb-3">
-                                <label for="password_confirmation" class="form-label">Confirmar Senha</label>
-                                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
-                            </div>
-                            
-                            <div class="d-grid gap-2 mt-4">
-                                <button type="submit" class="btn btn-primary btn-lg">Registrar</button>
-                            </div>
-                            
-                            <div class="text-center mt-4">
-                                <p class="mb-0">Já tem uma conta? <a href="{{ route('login') }}" class="text-primary">Entrar</a></p>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+@section('content')
+<div class="flex justify-center items-center min-h-[70vh] py-12">
+    <div class="content-card max-w-md w-full mx-auto animate-fade-in">
+        <div class="text-center mb-6">
+            <a href="{{ url('/') }}" class="inline-flex items-center gap-2 mb-2">
+                <img src="{{ asset('img/logo1111.png') }}" alt="TeamApostas" class="h-10 w-auto mx-auto">
+            </a>
+            <h2 class="font-orbitron font-bold text-2xl text-neon-green mb-1">TeamApostas</h2>
+            <p class="text-gray-400">Crie a sua conta para começar a apostar em grupo</p>
+        </div>
+        
+        @if ($errors->any())
+            <div class="flash-message bg-red-600/20 text-red-400 px-4 py-2 rounded mb-4">
+                <ul class="mb-0 list-disc pl-5">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
             </div>
+        @endif
+        
+        <form method="POST" action="{{ route('register') }}" class="space-y-5">
+            @csrf
+            <div>
+                <label for="name" class="block text-sm font-medium text-gray-300 mb-1">Nome</label>
+                <input id="name" name="name" type="text" value="{{ old('name') }}" required autofocus class="form-input w-full" placeholder="O seu nome">
+            </div>
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-300 mb-1">E-mail</label>
+                <input id="email" name="email" type="email" value="{{ old('email') }}" required class="form-input w-full" placeholder="O seu e-mail">
+            </div>
+            <div>
+                <label for="city" class="block text-sm font-medium text-gray-300 mb-1">Cidade</label>
+                <input id="city" name="city" type="text" value="{{ old('city') }}" class="form-input w-full" placeholder="A sua cidade">
+            </div>
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-300 mb-1">Palavra-passe</label>
+                <input id="password" name="password" type="password" required autocomplete="new-password" class="form-input w-full" placeholder="Crie uma palavra-passe">
+            </div>
+            <div>
+                <label for="password_confirmation" class="block text-sm font-medium text-gray-300 mb-1">Confirmar Palavra-passe</label>
+                <input id="password_confirmation" name="password_confirmation" type="password" required class="form-input w-full" placeholder="Confirme a palavra-passe">
+            </div>
+            <div class="flex items-center gap-2">
+                <input class="rounded border-gray-600 bg-dark-bg" type="checkbox" id="accept_terms" name="accept_terms" required>
+                <label class="text-sm text-gray-400" for="accept_terms">
+                    Aceito os <a href="{{ route('legal.terms') }}" target="_blank" class="text-neon-green hover:underline">Termos de Utilização</a> e a <a href="{{ route('legal.privacy') }}" target="_blank" class="text-neon-green hover:underline">Política de Privacidade</a>
+                </label>
+            </div>
+            <button type="submit" class="btn-primary w-full text-lg">Registar</button>
+        </form>
+        <div class="text-center mt-6">
+            <p class="text-gray-400">Já tem uma conta? <a href="{{ route('login') }}" class="text-neon-green hover:underline">Entrar</a></p>
         </div>
     </div>
-    
-    <!-- Bootstrap JS Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+</div>
+@endsection

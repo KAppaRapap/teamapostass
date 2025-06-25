@@ -196,7 +196,7 @@ class BettingSlipController extends Controller
             'is_checked'    => false,
         ]);
         
-        return redirect()->route('groups.show', $group)
+        return redirect()->route('groups.chat', $group)
             ->with('success', 'Aposta registrada com sucesso. Valor debitado da carteira virtual.');
     }
 

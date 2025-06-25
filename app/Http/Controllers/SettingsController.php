@@ -47,7 +47,7 @@ class SettingsController extends Controller
             $user->save();
         }
         
-        return redirect()->route('settings.index')
+        return redirect()->route('profile.edit')
             ->with('success', 'Perfil atualizado com sucesso.');
     }
 

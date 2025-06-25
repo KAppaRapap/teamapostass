@@ -4,7 +4,7 @@
 <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="mb-0">Editar Grupo</h2>
-        <a href="{{ route('groups.show', $group) }}" class="btn btn-outline-secondary">
+        <a href="{{ route('groups.chat', $group) }}" class="btn btn-outline-secondary">
             <i class="fas fa-arrow-left me-1"></i> Voltar
         </a>
     </div>
@@ -27,21 +27,6 @@
                     <label for="description" class="form-label">Descrição</label>
                     <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="3">{{ old('description', $group->description) }}</textarea>
                     @error('description')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <div class="mb-3">
-                    <label for="game_id" class="form-label">Jogo *</label>
-                    <select class="form-select @error('game_id') is-invalid @enderror" id="game_id" name="game_id" required>
-                        <option value="">Selecione um jogo</option>
-                        @foreach($games as $game)
-                        <option value="{{ $game->id }}" {{ (old('game_id', $group->game_id) == $game->id) ? 'selected' : '' }}>
-                            {{ $game->name }} ({{ $game->type }})
-                        </option>
-                        @endforeach
-                    </select>
-                    @error('game_id')
                     <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>

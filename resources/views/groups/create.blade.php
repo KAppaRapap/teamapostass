@@ -30,21 +30,6 @@
                     @enderror
                 </div>
 
-                <div class="mb-3">
-                    <label for="game_id" class="form-label">Jogo *</label>
-                    <select class="form-select @error('game_id') is-invalid @enderror" id="game_id" name="game_id" required>
-                        <option value="">Selecione um jogo</option>
-                        @foreach($games as $game)
-                        <option value="{{ $game->id }}" {{ old('game_id') == $game->id ? 'selected' : '' }}>
-                            {{ $game->name }} ({{ $game->type }})
-                        </option>
-                        @endforeach
-                    </select>
-                    @error('game_id')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="city" class="form-label">Cidade</label>

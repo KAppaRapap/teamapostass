@@ -26,6 +26,10 @@ class User extends Authenticatable
         'is_banned',
         'profile_photo',
         'virtual_balance',
+        'language',
+        'timezone',
+        'currency',
+        'theme',
     ];
 
     /**

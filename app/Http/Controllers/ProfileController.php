@@ -26,15 +26,22 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
+        $user->fill($request->validated());
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
         }
 
-        $request->user()->save();
+        // Upload da foto de perfil
+        if ($request->hasFile('profile_photo')) {
+            $path = $request->file('profile_photo')->store('profile_photos', 'public');
+            $user->profile_photo = $path;
+        }
 
-        return Redirect::route('settings.index')->with('status', 'profile-updated');
+        $user->save();
+
+        return Redirect::route('profile.edit')->with('success', 'Perfil atualizado com sucesso.');
     }
 
     /**
@@ -56,5 +63,18 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    /**
+     * Atualiza as preferências de notificação do usuário.
+     */
+    public function updateNotifications(Request $request): \Illuminate\Http\RedirectResponse
+    {
+        $user = $request->user();
+        $user->notify_winnings = $request->has('notify_winnings');
+        $user->notify_new_games = $request->has('notify_new_games');
+        $user->notify_group_activities = $request->has('notify_group_activities');
+        $user->save();
+        return redirect()->route('profile.edit')->with('success', 'Preferências de notificação atualizadas com sucesso.');
     }
 } 

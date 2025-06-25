@@ -91,4 +91,15 @@ class NotificationController extends Controller
         return redirect()->route('notifications.index')
             ->with('success', $count . ' notificações foram excluídas com sucesso.');
     }
+
+    public function uploadChatFile(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|max:5120', // 5MB
+        ]);
+        $file = $request->file('file');
+        $path = $file->store('public/chat_uploads');
+        $url = asset(str_replace('public/', 'storage/', $path));
+        return response()->json(['url' => $url]);
+    }
 }

@@ -16,7 +16,6 @@ class CreateBettingSlipsTable extends Migration
         Schema::create('betting_slips', function (Blueprint $table) {
             $table->id();
             $table->foreignId('group_id')->constrained()->onDelete('cascade');
-            $table->foreignId('draw_id')->constrained()->onDelete('cascade');
             $table->json('numbers');
             $table->boolean('is_system')->default(false); // For system bets (desdobramentos)
             $table->json('system_details')->nullable(); // Details of the system bet

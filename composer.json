@@ -8,8 +8,11 @@
         "php": "^7.3|^8.0",
         "doctrine/dbal": "^3.9",
         "fruitcake/laravel-cors": "^2.0",
+        "google/cloud-firestore": "^1.47",
         "guzzlehttp/guzzle": "^7.0.1",
-        "laravel/framework": "^8.75",
+        "kreait/firebase-php": "^6.9",
+        "kreait/laravel-firebase": "^4.2",
+        "laravel/framework": "8.83.29",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5"
     },

@@ -24,7 +24,7 @@
                                 <i class="fas fa-language me-2"></i> Idioma
                             </h5>
                             <select class="form-select" id="language" name="language">
-                                <option value="pt" {{ auth()->user()->language === 'pt' ? 'selected' : '' }}>Português</option>
+                                <option value="pt-PT" {{ auth()->user()->language === 'pt-PT' ? 'selected' : '' }}>Português (Portugal)</option>
                                 <option value="en" {{ auth()->user()->language === 'en' ? 'selected' : '' }}>English</option>
                                 <option value="es" {{ auth()->user()->language === 'es' ? 'selected' : '' }}>Español</option>
                             </select>
@@ -39,12 +39,13 @@
                                 <i class="fas fa-globe me-2"></i> Fuso Horário
                             </h5>
                             <select class="form-select" id="timezone" name="timezone">
-                                <option value="America/Sao_Paulo" {{ auth()->user()->timezone === 'America/Sao_Paulo' ? 'selected' : '' }}>Brasília (GMT-3)</option>
-                                <option value="America/New_York" {{ auth()->user()->timezone === 'America/New_York' ? 'selected' : '' }}>New York (GMT-4)</option>
-                                <option value="Europe/London" {{ auth()->user()->timezone === 'Europe/London' ? 'selected' : '' }}>London (GMT+1)</option>
+                                <option value="Europe/Lisbon" {{ auth()->user()->timezone === 'Europe/Lisbon' ? 'selected' : '' }}>Lisboa (GMT+0/+1)</option>
+                                <option value="Europe/Madrid" {{ auth()->user()->timezone === 'Europe/Madrid' ? 'selected' : '' }}>Madrid (GMT+1)</option>
+                                <option value="Europe/London" {{ auth()->user()->timezone === 'Europe/London' ? 'selected' : '' }}>Londres (GMT+0/+1)</option>
+                                <option value="Europe/Paris" {{ auth()->user()->timezone === 'Europe/Paris' ? 'selected' : '' }}>Paris (GMT+1/+2)</option>
                             </select>
                             <small class="text-muted d-block mt-2">
-                                Selecione seu fuso horário local.
+                                Selecione o seu fuso horário local.
                             </small>
                         </div>
 
@@ -54,9 +55,9 @@
                                 <i class="fas fa-money-bill me-2"></i> Moeda
                             </h5>
                             <select class="form-select" id="currency" name="currency">
-                                <option value="BRL" {{ auth()->user()->currency === 'BRL' ? 'selected' : '' }}>Real (R$)</option>
-                                <option value="USD" {{ auth()->user()->currency === 'USD' ? 'selected' : '' }}>Dólar ($)</option>
                                 <option value="EUR" {{ auth()->user()->currency === 'EUR' ? 'selected' : '' }}>Euro (€)</option>
+                                <option value="USD" {{ auth()->user()->currency === 'USD' ? 'selected' : '' }}>Dólar ($)</option>
+                                <option value="GBP" {{ auth()->user()->currency === 'GBP' ? 'selected' : '' }}>Libra (£)</option>
                             </select>
                             <small class="text-muted d-block mt-2">
                                 Escolha a moeda para exibição de valores.

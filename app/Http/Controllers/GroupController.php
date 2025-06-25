@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Group;
 use App\Models\Game;
 use App\Models\User;
-use App\Models\Notification;
+use App\Models\CustomNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -72,7 +72,7 @@ class GroupController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'game_id' => 'required|exists:games,id',
+            'game_id' => 'nullable|exists:games,id',
             'city' => 'nullable|string|max:255',
             'region' => 'nullable|string|max:255',
             'is_public' => 'boolean',
@@ -86,7 +86,7 @@ class GroupController extends Controller
         // Add the creator as a member
         $group->members()->attach(Auth::id(), ['status' => 'active']);
         
-        return redirect()->route('groups.show', $group)
+        return redirect()->route('groups.index')
             ->with('success', 'Grupo criado com sucesso.');
     }
 
@@ -134,7 +134,7 @@ class GroupController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'game_id' => 'required|exists:games,id',
+            'game_id' => 'nullable|exists:games,id',
             'city' => 'nullable|string|max:255',
             'region' => 'nullable|string|max:255',
             'is_public' => 'boolean',
@@ -143,7 +143,7 @@ class GroupController extends Controller
         
         $group->update($validated);
         
-        return redirect()->route('groups.show', $group)
+        return redirect()->route('groups.chat', $group)
             ->with('success', 'Grupo atualizado com sucesso.');
     }
 
@@ -173,13 +173,13 @@ class GroupController extends Controller
     {
         // Check if user is already a member
         if ($group->members()->where('users.id', Auth::id())->exists()) {
-            return redirect()->route('groups.show', $group)
+            return redirect()->route('groups.chat', $group)
                 ->with('info', 'Você já é membro deste grupo.');
         }
         
         // Check if group has reached member limit
         if ($group->hasReachedMemberLimit()) {
-            return redirect()->route('groups.show', $group)
+            return redirect()->route('groups.chat', $group)
                 ->with('error', 'Este grupo atingiu o limite máximo de membros.');
         }
         
@@ -187,7 +187,7 @@ class GroupController extends Controller
         $group->members()->attach(Auth::id(), ['status' => 'active']);
         
         // Notify group admin
-        Notification::create([
+        CustomNotification::create([
             'user_id' => $group->admin_id,
             'type' => 'group_join',
             'title' => 'Novo membro no grupo',
@@ -198,7 +198,7 @@ class GroupController extends Controller
             ],
         ]);
         
-        return redirect()->route('groups.show', $group)
+        return redirect()->route('groups.chat', $group)
             ->with('success', 'Você entrou no grupo com sucesso.');
     }
     
@@ -212,13 +212,13 @@ class GroupController extends Controller
     {
         // Check if user is the admin
         if ($group->admin_id === Auth::id()) {
-            return redirect()->route('groups.show', $group)
+            return redirect()->route('groups.chat', $group)
                 ->with('error', 'O administrador não pode sair do grupo. Transfira a administração primeiro ou exclua o grupo.');
         }
         
         // Check if user is a member
         if (!$group->members()->where('users.id', Auth::id())->exists()) {
-            return redirect()->route('groups.show', $group)
+            return redirect()->route('groups.chat', $group)
                 ->with('error', 'Você não é membro deste grupo.');
         }
         
@@ -226,7 +226,7 @@ class GroupController extends Controller
         $group->members()->detach(Auth::id());
         
         // Notify group admin
-        Notification::create([
+        CustomNotification::create([
             'user_id' => $group->admin_id,
             'type' => 'group_leave',
             'title' => 'Membro saiu do grupo',
@@ -256,7 +256,7 @@ class GroupController extends Controller
         $group->members()->updateExistingPivot($user->id, ['status' => 'banned']);
         
         // Notify the banned user
-        Notification::create([
+        CustomNotification::create([
             'user_id' => $user->id,
             'type' => 'group_ban',
             'title' => 'Banido do grupo',
@@ -266,7 +266,7 @@ class GroupController extends Controller
             ],
         ]);
         
-        return redirect()->route('groups.show', $group)
+        return redirect()->route('groups.chat', $group)
             ->with('success', 'Usuário banido com sucesso.');
     }
     
@@ -285,7 +285,7 @@ class GroupController extends Controller
         $group->members()->updateExistingPivot($user->id, ['status' => 'active']);
         
         // Notify the unbanned user
-        Notification::create([
+        CustomNotification::create([
             'user_id' => $user->id,
             'type' => 'group_unban',
             'title' => 'Desbanido do grupo',
@@ -295,7 +295,17 @@ class GroupController extends Controller
             ],
         ]);
         
-        return redirect()->route('groups.show', $group)
+        return redirect()->route('groups.chat', $group)
             ->with('success', 'Usuário desbanido com sucesso.');
+    }
+
+    /**
+     * Verifica se o usuário autenticado é membro do grupo (API)
+     */
+    public function isMember($groupId)
+    {
+        $group = Group::findOrFail($groupId);
+        $isMember = $group->members()->where('users.id', Auth::id())->exists();
+        return response()->json(['isMember' => $isMember]);
     }
 }

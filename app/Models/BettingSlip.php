@@ -17,8 +17,12 @@ class BettingSlip extends Model
     protected $fillable = [
         'group_id',
         'user_id',
+        'game_id',
+        'game_type',
+        'bet_amount',
         'draw_id',
         'numbers',
+        'virtual_amount',
         'is_system',
         'system_details',
         'total_cost',
@@ -27,6 +31,7 @@ class BettingSlip extends Model
         'is_checked',
         'has_won',
         'is_claimed',
+        'status',
     ];
 
     /**
@@ -38,6 +43,7 @@ class BettingSlip extends Model
         'numbers' => 'array',
         'is_system' => 'boolean',
         'system_details' => 'array',
+        'bet_amount' => 'decimal:2',
         'total_cost' => 'decimal:2',
         'winnings' => 'decimal:2',
         'prize_amount' => 'decimal:2',
@@ -68,6 +74,14 @@ class BettingSlip extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the crash game associated with this betting slip
+     */
+    public function crashGame()
+    {
+        return $this->belongsTo(CrashGame::class, 'game_id');
     }
 
     /**

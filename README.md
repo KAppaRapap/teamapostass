@@ -59,5 +59,3 @@ php artisan serve
 ```
 
 Abra o navegador e acesse `http://127.0.0.1:8000`.
-
-Se encontrar algum problema, pode compartilhar os detalhes que te ajudo a resolver! 😊

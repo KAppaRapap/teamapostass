@@ -11,7 +11,9 @@ const mix = require('laravel-mix');
  |
  */
 
+// Compile main app assets
 mix.js('resources/js/app.js', 'public/js')
-    .postCss('resources/css/app.css', 'public/css', [
-        //
-    ]);
+   .react() // se você usa React também
+   .postCss('resources/css/app.css', 'public/css', [
+       require('tailwindcss'),
+   ]);
