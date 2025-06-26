@@ -545,7 +545,7 @@
             csrfToken: "{{ csrf_token() }}"
         };
     </script>
-    <script src="{{ mix('js/app.js') }}"></script>
+    {{-- <script src="{{ mix('js/app.js') }}"></script> --}}
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script>
         // Dropdown do usuário

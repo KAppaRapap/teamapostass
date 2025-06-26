@@ -96872,7 +96872,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_GroupChat_tsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/GroupChat.tsx */ "./resources/js/components/GroupChat.tsx");
 /* harmony import */ var _components_UserProgressPanel_tsx__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/UserProgressPanel.tsx */ "./resources/js/components/UserProgressPanel.tsx");
 /* harmony import */ var _components_UserProgressSummary_tsx__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/UserProgressSummary.tsx */ "./resources/js/components/UserProgressSummary.tsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
 
@@ -96888,25 +96887,24 @@ __webpack_require__.r(__webpack_exports__);
 // root.render(<div>Mini-jogos aqui</div>);
 
 // Renderizar RoletaGame se o elemento existir
-
 var roletaRoot = document.getElementById('roleta-root');
 if (roletaRoot) {
   var root = react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot(roletaRoot);
-  root.render(/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(RoletaGame, {}));
+  root.render(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(RoletaGame, null));
 }
 
 // Renderizar DiceGame se o elemento existir
 var diceRoot = document.getElementById('dice-root');
 if (diceRoot) {
   var _root = react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot(diceRoot);
-  _root.render(/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_games_Dice_DiceGame_tsx__WEBPACK_IMPORTED_MODULE_2__["default"], {}));
+  _root.render(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_games_Dice_DiceGame_tsx__WEBPACK_IMPORTED_MODULE_2__["default"], null));
 }
 
 // Renderizar BombMineGame se o elemento existir
 var bombMineRoot = document.getElementById('bombmine-root');
 if (bombMineRoot) {
   var _root2 = react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot(bombMineRoot);
-  _root2.render(/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_games_BombMine_BombMineGame_tsx__WEBPACK_IMPORTED_MODULE_3__["default"], {}));
+  _root2.render(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_games_BombMine_BombMineGame_tsx__WEBPACK_IMPORTED_MODULE_3__["default"], null));
 }
 
 // Renderizar GroupChat se o elemento existir
@@ -96916,7 +96914,7 @@ if (groupChatRoot) {
   var userId = groupChatRoot.getAttribute('data-user-id');
   var username = groupChatRoot.getAttribute('data-username');
   var _root3 = react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot(groupChatRoot);
-  _root3.render(/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_GroupChat_tsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  _root3.render(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_GroupChat_tsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
     groupId: groupId || '1',
     userId: userId || '',
     username: username || ''
@@ -96924,17 +96922,17 @@ if (groupChatRoot) {
 }
 if (window.userData && window.userData.id) {
   if (document.getElementById('user-progress-panel')) {
-    react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot(document.getElementById('user-progress-panel')).render(/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_UserProgressPanel_tsx__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot(document.getElementById('user-progress-panel')).render(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_UserProgressPanel_tsx__WEBPACK_IMPORTED_MODULE_5__["default"], {
       userId: window.userData.id
     }));
   }
   if (document.getElementById('user-progress-profile')) {
-    react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot(document.getElementById('user-progress-profile')).render(/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_UserProgressPanel_tsx__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot(document.getElementById('user-progress-profile')).render(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_UserProgressPanel_tsx__WEBPACK_IMPORTED_MODULE_5__["default"], {
       userId: window.userData.id
     }));
   }
   if (document.getElementById('user-progress-header')) {
-    react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot(document.getElementById('user-progress-header')).render(/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_UserProgressSummary_tsx__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot(document.getElementById('user-progress-header')).render(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_UserProgressSummary_tsx__WEBPACK_IMPORTED_MODULE_6__["default"], {
       userId: window.userData.id
     }));
   }
@@ -96990,17 +96988,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ GroupChat)
 /* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _firebaseConfig__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./firebaseConfig */ "./resources/js/components/firebaseConfig.js");
-/* harmony import */ var firebase_database__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! firebase/database */ "./node_modules/firebase/database/dist/esm/index.esm.js");
-/* harmony import */ var firebase_storage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! firebase/storage */ "./node_modules/firebase/storage/dist/esm/index.esm.js");
-/* harmony import */ var emoji_picker_react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! emoji-picker-react */ "./node_modules/emoji-picker-react/dist/emoji-picker-react.esm.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _firebaseConfig__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./firebaseConfig */ "./resources/js/components/firebaseConfig.js");
+/* harmony import */ var firebase_database__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! firebase/database */ "./node_modules/firebase/database/dist/esm/index.esm.js");
+/* harmony import */ var firebase_storage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! firebase/storage */ "./node_modules/firebase/storage/dist/esm/index.esm.js");
+/* harmony import */ var emoji_picker_react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! emoji-picker-react */ "./node_modules/emoji-picker-react/dist/emoji-picker-react.esm.js");
 function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
 function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { if (r) i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n;else { var o = function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); }; o("next", 0), o("throw", 1), o("return", 2); } }, _regeneratorDefine2(e, r, n, t); }
-function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
-function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
@@ -97011,12 +97007,39 @@ function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) 
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+var __awaiter = undefined && undefined.__awaiter || function (thisArg, _arguments, P, generator) {
+  function adopt(value) {
+    return value instanceof P ? value : new P(function (resolve) {
+      resolve(value);
+    });
+  }
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+    function step(result) {
+      result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+    }
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+
 
 
 
 
 // @ts-ignore
-
 
 // Função utilitária para formatar tamanho
 function formatBytes(bytes) {
@@ -97027,48 +97050,47 @@ function formatBytes(bytes) {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 }
 function GroupChat(_ref) {
+  var _this = this;
   var groupId = _ref.groupId,
     userId = _ref.userId,
     username = _ref.username;
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
     _useState2 = _slicedToArray(_useState, 2),
     messages = _useState2[0],
     setMessages = _useState2[1];
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(''),
     _useState4 = _slicedToArray(_useState3, 2),
     newMessage = _useState4[0],
     setNewMessage = _useState4[1];
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(true),
     _useState6 = _slicedToArray(_useState5, 2),
     isConnected = _useState6[0],
     setIsConnected = _useState6[1]; // Assume conectado
-  var messagesEndRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var messagesEndRef = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(null);
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
     _useState8 = _slicedToArray(_useState7, 2),
     showEmojiPicker = _useState8[0],
     setShowEmojiPicker = _useState8[1];
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null),
     _useState0 = _slicedToArray(_useState9, 2),
     attachedFile = _useState0[0],
     setAttachedFile = _useState0[1];
-  var _useState1 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState1 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
     _useState10 = _slicedToArray(_useState1, 2),
     showBetModal = _useState10[0],
     setShowBetModal = _useState10[1];
-  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(''),
     _useState12 = _slicedToArray(_useState11, 2),
     betText = _useState12[0],
     setBetText = _useState12[1];
-
   // Carregar histórico e ouvir novas mensagens em tempo real
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
     if (!groupId) return;
     setMessages([]); // Limpa ao trocar de grupo
-    var messagesRef = (0,firebase_database__WEBPACK_IMPORTED_MODULE_2__.ref)(_firebaseConfig__WEBPACK_IMPORTED_MODULE_1__.db, "group_chats/".concat(groupId, "/messages"));
-    var q = (0,firebase_database__WEBPACK_IMPORTED_MODULE_2__.query)(messagesRef, (0,firebase_database__WEBPACK_IMPORTED_MODULE_2__.orderByChild)('timestamp'));
-
+    var messagesRef = (0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.ref)(_firebaseConfig__WEBPACK_IMPORTED_MODULE_2__.db, "group_chats/".concat(groupId, "/messages"));
+    var q = (0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.query)(messagesRef, (0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.orderByChild)('timestamp'));
     // Carrega histórico inicial
-    (0,firebase_database__WEBPACK_IMPORTED_MODULE_2__.get)(q).then(function (snapshot) {
+    (0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.get)(q).then(function (snapshot) {
       var loaded = [];
       snapshot.forEach(function (child) {
         var val = child.val();
@@ -97082,9 +97104,8 @@ function GroupChat(_ref) {
       });
       setMessages(loaded);
     });
-
     // Listener para novas mensagens
-    var unsubscribe = (0,firebase_database__WEBPACK_IMPORTED_MODULE_2__.onChildAdded)(messagesRef, function (data) {
+    var unsubscribe = (0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.onChildAdded)(messagesRef, function (data) {
       var val = data.val();
       setMessages(function (prev) {
         // Evita duplicatas
@@ -97104,16 +97125,15 @@ function GroupChat(_ref) {
       unsubscribe();
     };
   }, [groupId]);
-
   // Auto-scroll para a última mensagem
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    var _messagesEndRef$curre;
-    (_messagesEndRef$curre = messagesEndRef.current) === null || _messagesEndRef$curre === void 0 || _messagesEndRef$curre.scrollIntoView({
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
+    var _a;
+    (_a = messagesEndRef.current) === null || _a === void 0 ? void 0 : _a.scrollIntoView({
       behavior: 'smooth'
     });
   }, [messages]);
-  var sendMessage = /*#__PURE__*/function () {
-    var _ref2 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
+  var sendMessage = function sendMessage() {
+    return __awaiter(_this, void 0, void 0, /*#__PURE__*/_regenerator().m(function _callee() {
       var now, msg, messagesRef;
       return _regenerator().w(function (_context) {
         while (1) switch (_context.n) {
@@ -97131,9 +97151,9 @@ function GroupChat(_ref) {
               text: newMessage.trim(),
               timestamp: now.toISOString()
             };
-            messagesRef = (0,firebase_database__WEBPACK_IMPORTED_MODULE_2__.ref)(_firebaseConfig__WEBPACK_IMPORTED_MODULE_1__.db, "group_chats/".concat(groupId, "/messages"));
+            messagesRef = (0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.ref)(_firebaseConfig__WEBPACK_IMPORTED_MODULE_2__.db, "group_chats/".concat(groupId, "/messages"));
             _context.n = 2;
-            return (0,firebase_database__WEBPACK_IMPORTED_MODULE_2__.push)(messagesRef, msg);
+            return (0,firebase_database__WEBPACK_IMPORTED_MODULE_3__.push)(messagesRef, msg);
           case 2:
             setNewMessage('');
           case 3:
@@ -97141,10 +97161,7 @@ function GroupChat(_ref) {
         }
       }, _callee);
     }));
-    return function sendMessage() {
-      return _ref2.apply(this, arguments);
-    };
-  }();
+  };
   var handleKeyPress = function handleKeyPress(e) {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -97165,8 +97182,8 @@ function GroupChat(_ref) {
     setNewMessage(newMessage + emojiData.emoji);
     setShowEmojiPicker(false);
   };
-  var handleAttachFile = /*#__PURE__*/function () {
-    var _ref3 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2(e) {
+  var handleAttachFile = function handleAttachFile(e) {
+    return __awaiter(_this, void 0, void 0, /*#__PURE__*/_regenerator().m(function _callee2() {
       var file, storage, filePath, fileRef, url, isImage;
       return _regenerator().w(function (_context2) {
         while (1) switch (_context2.n) {
@@ -97178,14 +97195,14 @@ function GroupChat(_ref) {
             file = e.target.files[0];
             setAttachedFile(file);
             // Upload para Firebase Storage
-            storage = (0,firebase_storage__WEBPACK_IMPORTED_MODULE_3__.getStorage)();
+            storage = (0,firebase_storage__WEBPACK_IMPORTED_MODULE_4__.getStorage)();
             filePath = "group_chats/".concat(groupId, "/uploads/").concat(Date.now(), "_").concat(file.name);
-            fileRef = (0,firebase_storage__WEBPACK_IMPORTED_MODULE_3__.ref)(storage, filePath);
+            fileRef = (0,firebase_storage__WEBPACK_IMPORTED_MODULE_4__.ref)(storage, filePath);
             _context2.n = 1;
-            return (0,firebase_storage__WEBPACK_IMPORTED_MODULE_3__.uploadBytes)(fileRef, file);
+            return (0,firebase_storage__WEBPACK_IMPORTED_MODULE_4__.uploadBytes)(fileRef, file);
           case 1:
             _context2.n = 2;
-            return (0,firebase_storage__WEBPACK_IMPORTED_MODULE_3__.getDownloadURL)(fileRef);
+            return (0,firebase_storage__WEBPACK_IMPORTED_MODULE_4__.getDownloadURL)(fileRef);
           case 2:
             url = _context2.v;
             // Se imagem, insere tag <img>, senão, link HTML
@@ -97196,57 +97213,54 @@ function GroupChat(_ref) {
         }
       }, _callee2);
     }));
-    return function handleAttachFile(_x) {
-      return _ref3.apply(this, arguments);
-    };
-  }();
+  };
   var handleSendBet = function handleSendBet() {
     setNewMessage(newMessage + " [Aposta: ".concat(betText, "]"));
     setShowBetModal(false);
     setBetText('');
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+  return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
     className: "max-w-4xl mx-auto p-4",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+    children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
       className: "bg-[#18191c] rounded-2xl shadow-2xl border border-[#23262b]",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
         className: "bg-gradient-to-r from-[#1e293b] to-[#23262b] text-white p-4 rounded-t-2xl border-b border-[#23262b] flex items-center justify-between",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("h1", {
+        children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+          children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("h1", {
             className: "text-lg md:text-xl font-bold flex items-center gap-2",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+            children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
               className: "inline-block text-green-400",
               children: "\uD83D\uDCAC"
-            }), " Chat do Grupo ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("span", {
+            }), " Chat do Grupo ", (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
               className: "text-blue-400",
               children: ["#", groupId]
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("p", {
+          }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
             className: "text-xs text-gray-400 mt-1",
             children: isConnected ? '🟢 Conectado' : '🔴 Desconectado'
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+        }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
           className: "text-right",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("span", {
+          children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
             className: "text-xs text-gray-400",
             children: [messages.length, " mensagens"]
           })
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+      }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
         className: "h-96 overflow-y-auto p-4 bg-[#1a1b1e] rounded-b-lg",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+        children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
           className: "space-y-4",
           children: [messages.map(function (message) {
+            var _a;
             // Detecta se é um anexo (link HTML gerado pelo upload)
             var fileRegex = /<a href='([^']+)' download target='_blank'>([^<]+)<\/a>/;
             var match = message.text.match(fileRegex);
             if (match) {
-              var _name$split$pop;
               var url = match[1];
               var name = match[2];
               // Não temos o tamanho salvo, mas podemos tentar buscar via HEAD futuramente
               // Por enquanto, só mostra o nome e ícone
-              var ext = ((_name$split$pop = name.split('.').pop()) === null || _name$split$pop === void 0 ? void 0 : _name$split$pop.toLowerCase()) || '';
+              var ext = ((_a = name.split('.').pop()) === null || _a === void 0 ? void 0 : _a.toLowerCase()) || '';
               var icon = '📄';
               if (['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'].includes(ext)) icon = '🖼️';
               if (['pdf'].includes(ext)) icon = '📕';
@@ -97254,21 +97268,21 @@ function GroupChat(_ref) {
               if (['doc', 'docx'].includes(ext)) icon = '📄';
               if (['xls', 'xlsx'].includes(ext)) icon = '📊';
               if (['ppt', 'pptx'].includes(ext)) icon = '📈';
-              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+              return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
                 className: "flex ".concat(isOwnMessage(message) ? 'justify-end' : 'justify-start'),
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+                children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
                   className: "rounded-xl px-4 py-2 max-w-[70%] break-words shadow-md ".concat(isOwnMessage(message) ? 'bg-gradient-to-r from-green-500/80 to-green-400/80 text-white' : 'bg-[#23262b] text-gray-100 border border-[#23262b]'),
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+                  children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
                     className: "font-semibold text-sm",
                     children: message.username
-                  }), " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+                  }), " ", (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
                     className: "text-xs text-gray-400",
                     children: formatTime(message.timestamp)
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+                  }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
                     className: "mt-1",
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+                    children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
                       children: icon
-                    }), " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("a", {
+                    }), " ", (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("a", {
                       href: url,
                       download: true,
                       target: "_blank",
@@ -97284,19 +97298,19 @@ function GroupChat(_ref) {
             var imgMatch = message.text.match(imgRegex);
             if (imgMatch) {
               var _url = imgMatch[1];
-              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+              return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
                 className: "flex ".concat(isOwnMessage(message) ? 'justify-end' : 'justify-start'),
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+                children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
                   className: "rounded-xl px-4 py-2 max-w-[70%] break-words shadow-md ".concat(isOwnMessage(message) ? 'bg-gradient-to-r from-green-500/80 to-green-400/80 text-white' : 'bg-[#23262b] text-gray-100 border border-[#23262b]'),
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+                  children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
                     className: "font-semibold text-sm",
                     children: message.username
-                  }), " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+                  }), " ", (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
                     className: "text-xs text-gray-400",
                     children: formatTime(message.timestamp)
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+                  }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
                     className: "mt-1",
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
+                    children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("img", {
                       src: _url,
                       alt: "imagem",
                       style: {
@@ -97310,29 +97324,29 @@ function GroupChat(_ref) {
               }, message.id);
             }
             // Mensagem normal
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+            return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
               className: "flex ".concat(isOwnMessage(message) ? 'justify-end' : 'justify-start'),
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+              children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
                 className: "rounded-xl px-4 py-2 max-w-[70%] break-words shadow-md ".concat(isOwnMessage(message) ? 'bg-gradient-to-r from-green-500/80 to-green-400/80 text-white' : 'bg-[#23262b] text-gray-100 border border-[#23262b]'),
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+                children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
                   className: "font-semibold text-sm",
                   children: message.username
-                }), " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+                }), " ", (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
                   className: "text-xs text-gray-400",
                   children: formatTime(message.timestamp)
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+                }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
                   className: "mt-1 whitespace-pre-line",
                   children: message.text
                 })]
               })
             }, message.id);
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+          }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
             ref: messagesEndRef
           })]
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
         className: "p-4 border-t border-[#23262b] bg-[#18191c] flex items-center gap-2 rounded-b-2xl",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+        children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
           className: "text-2xl hover:scale-110 transition-transform",
           onClick: function onClick() {
             return setShowEmojiPicker(!showEmojiPicker);
@@ -97342,12 +97356,12 @@ function GroupChat(_ref) {
             color: '#22d3ee'
           },
           children: "\uD83D\uDE0A"
-        }), showEmojiPicker && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+        }), showEmojiPicker && (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
           className: "absolute z-10",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(emoji_picker_react__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(emoji_picker_react__WEBPACK_IMPORTED_MODULE_5__["default"], {
             onEmojiClick: handleEmojiClick
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
+        }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
           type: "text",
           className: "flex-1 border border-[#23262b] bg-[#23262b] text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 placeholder-gray-400",
           placeholder: "Digite sua mensagem...",
@@ -97356,7 +97370,7 @@ function GroupChat(_ref) {
             return setNewMessage(e.target.value);
           },
           onKeyPress: handleKeyPress
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+        }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
           className: "bg-gradient-to-r from-green-500 to-green-400 text-white px-4 py-2 rounded-lg font-semibold shadow hover:from-green-600 hover:to-green-500 transition-colors disabled:opacity-50",
           onClick: sendMessage,
           disabled: !newMessage.trim() || !isConnected,
@@ -97380,96 +97394,93 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ UserProgressPanel)
 /* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 /* harmony import */ var _hooks_useUserProgress_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./hooks/useUserProgress.ts */ "./resources/js/components/hooks/useUserProgress.ts");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-
 
 
 function UserProgressPanel(_ref) {
   var userId = _ref.userId;
   var _useUserProgress = (0,_hooks_useUserProgress_ts__WEBPACK_IMPORTED_MODULE_1__.useUserProgress)(userId),
     progress = _useUserProgress.progress;
-  if (!progress) return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+  if (!progress) return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
     children: "Carregando progresso..."
   });
   var xpPercent = Math.min(100, progress.xp / progress.xp_next_level * 100);
   var monthlyPercent = Math.min(100, progress.total_earnings / progress.monthly_goal * 100);
   var weeklyPercent = Math.min(100, progress.games_played / progress.weekly_goal * 100);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+  return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
     className: "bg-[#18191c] rounded-2xl shadow-xl p-6 max-w-md mx-auto text-white space-y-6",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+    children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+      children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
         className: "flex justify-between items-center mb-1",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+        children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
           className: "font-bold text-lg",
           children: "N\xEDvel Atual"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+        }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
           className: "font-bold text-green-400",
           children: progress.level
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
         className: "w-full bg-[#23262b] rounded h-3",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
           className: "bg-gradient-to-r from-green-400 to-green-600 h-3 rounded",
           style: {
             width: "".concat(xpPercent, "%")
           }
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+      }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
         className: "text-xs text-gray-400 mt-1",
         children: [xpPercent.toFixed(0), "% para o pr\xF3ximo n\xEDvel"]
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+    }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+      children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
         className: "flex justify-between items-center mb-1",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+        children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
           className: "font-bold",
           children: "Ganhos Totais"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("span", {
+        }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
           className: "font-bold text-yellow-400",
           children: ["\u20AC", progress.total_earnings.toLocaleString()]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
         className: "w-full bg-[#23262b] rounded h-3",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
           className: "bg-gradient-to-r from-yellow-400 to-yellow-600 h-3 rounded",
           style: {
             width: "".concat(monthlyPercent, "%")
           }
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+      }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
         className: "text-xs text-gray-400 mt-1",
         children: [monthlyPercent.toFixed(0), "% da meta mensal"]
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+    }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+      children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
         className: "flex justify-between items-center mb-1",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+        children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
           className: "font-bold",
           children: "Jogos Jogados"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+        }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
           className: "font-bold text-blue-400",
           children: progress.games_played
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
         className: "w-full bg-[#23262b] rounded h-3",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
           className: "bg-gradient-to-r from-blue-400 to-blue-600 h-3 rounded",
           style: {
             width: "".concat(weeklyPercent, "%")
           }
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+      }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
         className: "text-xs text-gray-400 mt-1",
         children: [weeklyPercent.toFixed(0), "% da meta semanal"]
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+    }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+      children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
         className: "font-bold",
         children: "Pontos de Enquete:"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+      }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
         className: "ml-2 text-pink-400",
         children: progress.poll_points
       })]
@@ -97490,11 +97501,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ UserProgressSummary)
 /* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 /* harmony import */ var _hooks_useUserProgress_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./hooks/useUserProgress.ts */ "./resources/js/components/hooks/useUserProgress.ts");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-
 
 
 function UserProgressSummary(_ref) {
@@ -97502,12 +97510,12 @@ function UserProgressSummary(_ref) {
   var _useUserProgress = (0,_hooks_useUserProgress_ts__WEBPACK_IMPORTED_MODULE_1__.useUserProgress)(userId),
     progress = _useUserProgress.progress;
   if (!progress) return null;
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+  return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
     className: "flex items-center gap-3 text-white",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("span", {
+    children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
       className: "font-bold text-green-400",
       children: ["N\xEDvel ", progress.level]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("span", {
+    }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
       className: "bg-pink-500 text-white rounded px-2 py-1 text-xs font-bold",
       children: [progress.poll_points, " pts"]
     })]
@@ -97593,7 +97601,6 @@ function useUserProgress(userId) {
       return unsubscribe();
     };
   }, [userId]);
-
   // Função para atualizar progresso
   var updateProgress = function updateProgress(data) {
     var userRef = (0,firebase_database__WEBPACK_IMPORTED_MODULE_2__.ref)(_firebaseConfig__WEBPACK_IMPORTED_MODULE_1__.db, "users/".concat(userId));
@@ -97618,19 +97625,44 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ BombMineGame)
 /* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
 function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { if (r) i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n;else { var o = function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); }; o("next", 0), o("throw", 1), o("return", 2); } }, _regeneratorDefine2(e, r, n, t); }
-function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
-function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+var __awaiter = undefined && undefined.__awaiter || function (thisArg, _arguments, P, generator) {
+  function adopt(value) {
+    return value instanceof P ? value : new P(function (resolve) {
+      resolve(value);
+    });
+  }
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+    function step(result) {
+      result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+    }
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
 
 
 var BOARD_SIZE = 5;
@@ -97646,7 +97678,6 @@ var colors = {
   textPrimary: '#f8fafc',
   textSecondary: '#e2e8f0'
 };
-
 // Função para calcular o multiplicador baseado no número de bombas
 var calculateMultiplier = function calculateMultiplier(numBombs, revealedCount) {
   var totalCells = BOARD_SIZE * BOARD_SIZE;
@@ -97683,7 +97714,6 @@ function generateBoard(numBombs) {
   }
   return board;
 }
-
 // Função utilitária para obter o token CSRF do Laravel
 function getCsrfToken() {
   var meta = document.querySelector('meta[name="csrf-token"]');
@@ -97711,47 +97741,47 @@ function showToast(message) {
   }, 3500);
 }
 function BombMineGame() {
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _this = this;
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
     _useState2 = _slicedToArray(_useState, 2),
     board = _useState2[0],
     setBoard = _useState2[1];
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('10'),
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('10'),
     _useState4 = _slicedToArray(_useState3, 2),
     betAmount = _useState4[0],
     setBetAmount = _useState4[1];
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(3),
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(3),
     _useState6 = _slicedToArray(_useState5, 2),
     numBombs = _useState6[0],
     setNumBombs = _useState6[1];
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
     _useState8 = _slicedToArray(_useState7, 2),
     gameOver = _useState8[0],
     setGameOver = _useState8[1];
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(0),
     _useState0 = _slicedToArray(_useState9, 2),
     revealedCount = _useState0[0],
     setRevealedCount = _useState0[1];
-  var _useState1 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(1.0),
+  var _useState1 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(1.0),
     _useState10 = _slicedToArray(_useState1, 2),
     multiplier = _useState10[0],
     setMultiplier = _useState10[1];
-  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(0),
     _useState12 = _slicedToArray(_useState11, 2),
     potentialWin = _useState12[0],
     setPotentialWin = _useState12[1];
-  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
     _useState14 = _slicedToArray(_useState13, 2),
     isBetPlaced = _useState14[0],
     setIsBetPlaced = _useState14[1];
-
   // Inicializar o tabuleiro quando o número de bombas mudar
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
     setBoard(generateBoard(numBombs));
     setGameOver(false);
     setRevealedCount(0);
     setIsBetPlaced(false);
   }, [numBombs]);
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
     if (revealedCount > 0) {
       var currentMultiplier = calculateMultiplier(numBombs, revealedCount);
       setMultiplier(currentMultiplier);
@@ -97761,10 +97791,9 @@ function BombMineGame() {
       setPotentialWin(0);
     }
   }, [revealedCount, betAmount, numBombs]);
-
   // Função para registrar aposta no backend
-  var placeBet = /*#__PURE__*/function () {
-    var _ref = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
+  var placeBet = function placeBet() {
+    return __awaiter(_this, void 0, void 0, /*#__PURE__*/_regenerator().m(function _callee() {
       var res, _t;
       return _regenerator().w(function (_context) {
         while (1) switch (_context.n) {
@@ -97802,14 +97831,10 @@ function BombMineGame() {
         }
       }, _callee, null, [[0, 3]]);
     }));
-    return function placeBet() {
-      return _ref.apply(this, arguments);
-    };
-  }();
-
+  };
   // Função para registrar resultado no backend
-  var registerResult = /*#__PURE__*/function () {
-    var _ref2 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2(amount, won) {
+  var registerResult = function registerResult(amount, won) {
+    return __awaiter(_this, void 0, void 0, /*#__PURE__*/_regenerator().m(function _callee2() {
       return _regenerator().w(function (_context2) {
         while (1) switch (_context2.n) {
           case 0:
@@ -97831,10 +97856,7 @@ function BombMineGame() {
         }
       }, _callee2);
     }));
-    return function registerResult(_x, _x2) {
-      return _ref2.apply(this, arguments);
-    };
-  }();
+  };
   var revealCell = function revealCell(row, col) {
     if (!isBetPlaced) {
       placeBet();
@@ -97867,8 +97889,8 @@ function BombMineGame() {
     setRevealedCount(0);
     setIsBetPlaced(false);
   };
-  var cashOut = /*#__PURE__*/function () {
-    var _ref3 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
+  var cashOut = function cashOut() {
+    return __awaiter(_this, void 0, void 0, /*#__PURE__*/_regenerator().m(function _callee3() {
       return _regenerator().w(function (_context3) {
         while (1) switch (_context3.n) {
           case 0:
@@ -97887,38 +97909,34 @@ function BombMineGame() {
         }
       }, _callee3);
     }));
-    return function cashOut() {
-      return _ref3.apply(this, arguments);
-    };
-  }();
-
+  };
   // Calcular multiplicador máximo possível
   var safeCells = BOARD_SIZE * BOARD_SIZE - numBombs;
   var maxMultiplier = safeCells > 0 ? calculateMultiplier(numBombs, safeCells - 1) : 1 + numBombs * 0.1;
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("style", {
+  return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("style", {
       children: styles
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+    }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
       className: "bomb-game-container",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+      children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
         className: "game-header",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h1", {
+        children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", {
           children: "\uD83D\uDCA3 Campo Minado"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+        }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
           style: {
             color: '#fff'
           },
           children: "Escolha o n\xFAmero de bombas e encontre os locais seguros para multiplicar a sua aposta."
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+      }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
         className: "game-main",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
           className: "game-area",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
             className: "board-grid",
             children: board.map(function (row, rIndex) {
               return row.map(function (cell, cIndex) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+                return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
                   className: "cell ".concat(cell.isRevealed ? cell.isBomb ? 'revealed bomb' : 'revealed safe' : ''),
                   onClick: function onClick() {
                     return revealCell(rIndex, cIndex);
@@ -97928,13 +97946,13 @@ function BombMineGame() {
               });
             })
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+        }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
           className: "game-controls",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+          children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
             className: "control-section",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h3", {
+            children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", {
               children: "N\xFAmero de Bombas"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("select", {
+            }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("select", {
               value: numBombs,
               onChange: function onChange(e) {
                 return setNumBombs(parseInt(e.target.value));
@@ -97950,31 +97968,31 @@ function BombMineGame() {
               }, function (_, i) {
                 return i + 1;
               }).map(function (num) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("option", {
+                return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("option", {
                   value: num,
                   children: [num, " ", num === 1 ? 'Bomba' : 'Bombas']
                 }, num);
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+            }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
               className: "bomb-info",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
+              children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
                 children: "\u2139\uFE0F Informa\xE7\xF5es"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+              }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
                 children: "\u2022 Mais bombas = Maior risco"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("p", {
-                children: ["\u2022 Multiplicador m\xE1ximo: ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("span", {
+              }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("p", {
+                children: ["\u2022 Multiplicador m\xE1ximo: ", (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
                   className: "max-multiplier",
                   children: [maxMultiplier.toFixed(2), "x"]
                 })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("p", {
+              }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("p", {
                 children: ["\u2022 C\xE9lulas seguras: ", BOARD_SIZE * BOARD_SIZE - numBombs]
               })]
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+          }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
             className: "control-section",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h3", {
+            children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", {
               children: "Valor da Aposta"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+            }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
               type: "number",
               value: betAmount,
               onChange: function onChange(e) {
@@ -97983,10 +98001,10 @@ function BombMineGame() {
               className: "cyber-input",
               placeholder: "Valor (\u20AC)",
               disabled: revealedCount > 0
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+            }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
               className: "quick-bet-buttons",
               children: [10, 25, 50, 100, 250, 500].map(function (amount) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("button", {
+                return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", {
                   onClick: function onClick() {
                     return setBetAmount(amount.toString());
                   },
@@ -97996,28 +98014,28 @@ function BombMineGame() {
                 }, amount);
               })
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+          }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
             className: "control-section text-center",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-              children: ["Multiplicador: ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("span", {
+            children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+              children: ["Multiplicador: ", (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
                 className: "font-bold text-xl",
                 children: [multiplier.toFixed(2), "x"]
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-              children: ["Ganhos Potenciais: ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("span", {
+            }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+              children: ["Ganhos Potenciais: ", (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
                 className: "font-bold text-xl text-green-400",
                 children: ["\u20AC", potentialWin.toFixed(2)]
               })]
             })]
-          }), gameOver ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+          }), gameOver ? (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
             onClick: resetGame,
             className: "cyber-button bg-red-500",
             children: "Jogar Novamente"
-          }) : revealedCount > 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+          }) : revealedCount > 0 ? (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
             onClick: cashOut,
             className: "cyber-button bg-green-500",
             children: "Retirar Ganhos"
-          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          }) : (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
             className: "placeholder-text",
             children: "Selecione um campo para come\xE7ar"
           })]
@@ -98040,23 +98058,48 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ DiceGame)
 /* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
 function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
 function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
 function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { if (r) i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n;else { var o = function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); }; o("next", 0), o("throw", 1), o("return", 2); } }, _regeneratorDefine2(e, r, n, t); }
-function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
-function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+var __awaiter = undefined && undefined.__awaiter || function (thisArg, _arguments, P, generator) {
+  function adopt(value) {
+    return value instanceof P ? value : new P(function (resolve) {
+      resolve(value);
+    });
+  }
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+    function step(result) {
+      result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+    }
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
 
 
 var colors = {
@@ -98099,47 +98142,48 @@ function showToast(message) {
   }, 3500);
 }
 function DiceGame() {
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('10'),
+  var _this = this;
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('10'),
     _useState2 = _slicedToArray(_useState, 2),
     betAmount = _useState2[0],
     setBetAmount = _useState2[1];
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(50),
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(50),
     _useState4 = _slicedToArray(_useState3, 2),
     targetNumber = _useState4[0],
     setTargetNumber = _useState4[1];
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('above'),
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)('above'),
     _useState6 = _slicedToArray(_useState5, 2),
     condition = _useState6[0],
     setCondition = _useState6[1];
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
     _useState8 = _slicedToArray(_useState7, 2),
     isRolling = _useState8[0],
     setIsRolling = _useState8[1];
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null),
     _useState0 = _slicedToArray(_useState9, 2),
     currentResult = _useState0[0],
     setCurrentResult = _useState0[1];
-  var _useState1 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(1000),
+  var _useState1 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(1000),
     _useState10 = _slicedToArray(_useState1, 2),
     balance = _useState10[0],
     setBalance = _useState10[1]; // Saldo inicial de exemplo
-  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
     _useState12 = _slicedToArray(_useState11, 2),
     history = _useState12[0],
     setHistory = _useState12[1];
-  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(1.98),
+  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(1.98),
     _useState14 = _slicedToArray(_useState13, 2),
     multiplier = _useState14[0],
     setMultiplier = _useState14[1];
-  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
     _useState16 = _slicedToArray(_useState15, 2),
     isBetPlaced = _useState16[0],
     setIsBetPlaced = _useState16[1];
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
     var probability = condition === 'above' ? (100 - targetNumber) / 100 : targetNumber / 100;
     setMultiplier(probability > 0 ? 0.99 / probability : 1.98);
   }, [targetNumber, condition]);
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
     if (currentResult) {
       if (currentResult.isWin) {
         showToast('Ganhaste!');
@@ -98148,10 +98192,9 @@ function DiceGame() {
       }
     }
   }, [currentResult]);
-
   // Função para registrar aposta no backend
-  var placeBet = /*#__PURE__*/function () {
-    var _ref = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
+  var placeBet = function placeBet() {
+    return __awaiter(_this, void 0, void 0, /*#__PURE__*/_regenerator().m(function _callee() {
       var res, _t;
       return _regenerator().w(function (_context) {
         while (1) switch (_context.n) {
@@ -98189,14 +98232,10 @@ function DiceGame() {
         }
       }, _callee, null, [[0, 3]]);
     }));
-    return function placeBet() {
-      return _ref.apply(this, arguments);
-    };
-  }();
-
+  };
   // Função para registrar resultado no backend
-  var registerResult = /*#__PURE__*/function () {
-    var _ref2 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2(amount, won) {
+  var registerResult = function registerResult(amount, won) {
+    return __awaiter(_this, void 0, void 0, /*#__PURE__*/_regenerator().m(function _callee2() {
       return _regenerator().w(function (_context2) {
         while (1) switch (_context2.n) {
           case 0:
@@ -98218,12 +98257,10 @@ function DiceGame() {
         }
       }, _callee2);
     }));
-    return function registerResult(_x, _x2) {
-      return _ref2.apply(this, arguments);
-    };
-  }();
-  var rollDice = /*#__PURE__*/function () {
-    var _ref3 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4() {
+  };
+  var rollDice = function rollDice() {
+    return __awaiter(_this, void 0, void 0, /*#__PURE__*/_regenerator().m(function _callee4() {
+      var _this2 = this;
       return _regenerator().w(function (_context4) {
         while (1) switch (_context4.n) {
           case 0:
@@ -98244,96 +98281,95 @@ function DiceGame() {
           case 3:
             setIsRolling(true);
             setCurrentResult(null);
-            setTimeout(/*#__PURE__*/_asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3() {
-              var resultNum, isWin, winAmount, newResult;
-              return _regenerator().w(function (_context3) {
-                while (1) switch (_context3.n) {
-                  case 0:
-                    resultNum = Math.random() * 100;
-                    isWin = condition === 'above' ? resultNum > targetNumber : resultNum < targetNumber;
-                    winAmount = isWin ? parseFloat(betAmount) * multiplier : 0;
-                    setBalance(function (prev) {
-                      return prev - parseFloat(betAmount) + winAmount;
-                    });
-                    _context3.n = 1;
-                    return registerResult(winAmount, isWin);
-                  case 1:
-                    newResult = {
-                      number: resultNum,
-                      isWin: isWin
-                    };
-                    setCurrentResult(newResult);
-                    setHistory(function (prev) {
-                      return [newResult].concat(_toConsumableArray(prev.slice(0, 9)));
-                    });
-                    setIsBetPlaced(false);
-                    setIsRolling(false);
-                  case 2:
-                    return _context3.a(2);
-                }
-              }, _callee3);
-            })), 1500);
+            setTimeout(function () {
+              return __awaiter(_this2, void 0, void 0, /*#__PURE__*/_regenerator().m(function _callee3() {
+                var resultNum, isWin, winAmount, newResult;
+                return _regenerator().w(function (_context3) {
+                  while (1) switch (_context3.n) {
+                    case 0:
+                      resultNum = Math.random() * 100;
+                      isWin = condition === 'above' ? resultNum > targetNumber : resultNum < targetNumber;
+                      winAmount = isWin ? parseFloat(betAmount) * multiplier : 0;
+                      setBalance(function (prev) {
+                        return prev - parseFloat(betAmount) + winAmount;
+                      });
+                      _context3.n = 1;
+                      return registerResult(winAmount, isWin);
+                    case 1:
+                      newResult = {
+                        number: resultNum,
+                        isWin: isWin
+                      };
+                      setCurrentResult(newResult);
+                      setHistory(function (prev) {
+                        return [newResult].concat(_toConsumableArray(prev.slice(0, 9)));
+                      });
+                      setIsBetPlaced(false);
+                      setIsRolling(false);
+                    case 2:
+                      return _context3.a(2);
+                  }
+                }, _callee3);
+              }));
+            }, 1500);
           case 4:
             return _context4.a(2);
         }
       }, _callee4);
     }));
-    return function rollDice() {
-      return _ref3.apply(this, arguments);
-    };
-  }();
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("style", {
+  };
+  return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("style", {
       children: styles
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+    }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
       className: "dice-game-container",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+      children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
         className: "game-header",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h1", {
+        children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", {
           children: "\uD83C\uDFB2 Jogo de Dados"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+        }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
           style: {
             color: '#fff'
           },
           children: "Acerte se o pr\xF3ximo n\xFAmero ser\xE1 maior ou menor que o alvo."
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+      }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
         className: "game-main",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+        children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
           className: "game-area",
-          children: [isRolling ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          children: [isRolling ? (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
             className: "text-4xl font-bold",
             children: "A rolar..."
-          }) : currentResult ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          }) : currentResult ? (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+            children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
               className: "dice-result ".concat(currentResult.isWin ? 'win' : 'lose'),
               children: currentResult.number.toFixed(2)
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+            }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
               className: "mt-4 text-xl",
               children: currentResult.isWin ? 'Ganhaste!' : 'Perdeste!'
             })]
-          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          }) : (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
             className: "placeholder-text",
             children: "Fa\xE7a a sua aposta!"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
             className: "history-grid",
             children: history.map(function (item, index) {
-              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+              return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
                 className: "history-item ".concat(item.isWin ? 'win' : 'lose'),
                 children: item.number.toFixed(1)
               }, index);
             })
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+        }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
           className: "game-controls",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+          children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
             className: "control-section",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h3", {
+            children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", {
               style: {
                 color: '#FFFFFF'
               },
               children: "Valor da Aposta"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+            }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
               type: "number",
               value: betAmount,
               onChange: function onChange(e) {
@@ -98341,10 +98377,10 @@ function DiceGame() {
               },
               className: "cyber-input",
               placeholder: "Valor (\u20AC)"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+            }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
               className: "quick-bet-buttons",
               children: [10, 25, 50, 100, 250, 500].map(function (amount) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("button", {
+                return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", {
                   onClick: function onClick() {
                     return setBetAmount(amount.toString());
                   },
@@ -98353,11 +98389,11 @@ function DiceGame() {
                 }, amount);
               })
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+          }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
             className: "control-section",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("h3", {
+            children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("h3", {
               children: ["Alvo: ", targetNumber]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+            }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
               type: "range",
               min: "1",
               max: "99",
@@ -98366,27 +98402,27 @@ function DiceGame() {
                 return setTargetNumber(parseInt(e.target.value));
               },
               className: "w-full"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+            }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
               className: "flex justify-between text-xs mt-1",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+              children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
                 children: "1"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+              }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
                 children: "99"
               })]
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+          }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
             className: "control-section",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h3", {
+            children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", {
               children: "Condi\xE7\xE3o"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+            }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
               className: "flex gap-2",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+              children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
                 onClick: function onClick() {
                   return setCondition('below');
                 },
                 className: "flex-1 p-3 rounded-lg ".concat(condition === 'below' ? 'bg-indigo-500' : 'bg-gray-700'),
                 children: "Abaixo de"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+              }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
                 onClick: function onClick() {
                   return setCondition('above');
                 },
@@ -98394,20 +98430,20 @@ function DiceGame() {
                 children: "Acima de"
               })]
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+          }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
             className: "control-section text-center",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-              children: ["Multiplicador: ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("span", {
+            children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+              children: ["Multiplicador: ", (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
                 className: "font-bold text-xl",
                 children: [multiplier.toFixed(2), "x"]
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-              children: ["Probabilidade: ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("span", {
+            }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+              children: ["Probabilidade: ", (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
                 className: "font-bold",
                 children: [(condition === 'above' ? 100 - targetNumber : targetNumber).toFixed(1), "%"]
               })]
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+          }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
             onClick: rollDice,
             disabled: isRolling,
             className: "cyber-button",

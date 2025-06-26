@@ -8,7 +8,7 @@
         "hot": "mix watch --hot",
         "prod": "npm run production",
         "production": "mix --production",
-        "build": "vite build"
+        "build": "npm run production"
     },
     "devDependencies": {
         "@babel/preset-react": "^7.27.1",
@@ -26,7 +26,6 @@
         "@types/node": "^24.0.3",
         "@types/react": "^19.1.8",
         "@types/react-dom": "^19.1.6",
-        "@vue/compiler-sfc": "^3.5.17",
         "autoprefixer": "^10.4.21",
         "axios": "^1.10.0",
         "install": "^0.13.0",
@@ -36,10 +35,7 @@
         "postcss": "^8.5.6",
         "tailwindcss": "^3.4.3",
         "ts-loader": "^9.5.2",
-        "typescript": "^5.8.3",
-        "vite": "^7.0.0",
-        "vue": "^3.5.17",
-        "vue-loader": "17.0"
+        "typescript": "^5.8.3"
     },
     "dependencies": {
         "emoji-picker-react": "^4.12.2",
