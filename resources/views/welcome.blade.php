@@ -19,9 +19,6 @@
                 <a href="#jogos" class="btn-primary text-lg px-8 py-4">
                     🎮 Jogar Agora
                 </a>
-                <a href="#ranking" class="btn-secondary text-lg px-8 py-4">
-                    📊 Ver Ranking
-                </a>
             </div>
             
             <!-- Ilustração animada -->
