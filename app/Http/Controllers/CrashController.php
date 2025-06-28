@@ -67,9 +67,12 @@ class CrashController extends Controller
         ]);
 
         return response()->json([
+            'message' => 'Aposta realizada com sucesso!',
             'game_id' => $game->id,
             'bet_id' => $bet->id,
-            'hash' => $game->hash
+            'hash' => $game->hash,
+            'balance' => $user->virtual_balance,
+            'formatted_balance' => '€' . number_format($user->virtual_balance, 2)
         ]);
     }
 
@@ -144,7 +147,9 @@ class CrashController extends Controller
 
         return response()->json([
             'message' => 'Cashout realizado com sucesso!',
-            'winnings' => $winnings
+            'winnings' => $winnings,
+            'balance' => $user->virtual_balance,
+            'formatted_balance' => '€' . number_format($user->virtual_balance, 2)
         ]);
     }
 

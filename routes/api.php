@@ -26,10 +26,19 @@ Route::middleware('auth:sanctum')->get('/notifications/check-new', function (Req
     $user = $request->user();
     $unreadCount = $user->userNotifications()->where('is_read', false)->count();
     $latestNotification = $user->userNotifications()->where('is_read', false)->latest()->first();
-    
+
     return response()->json([
         'count' => $unreadCount,
         'latest' => $latestNotification
+    ]);
+});
+
+// Rota para buscar saldo atual do usuário
+Route::middleware('auth')->get('/user/balance', function (Request $request) {
+    $user = $request->user();
+    return response()->json([
+        'balance' => $user->virtual_balance,
+        'formatted' => '€' . number_format($user->virtual_balance, 2)
     ]);
 });
 
@@ -72,7 +81,9 @@ Route::post('/apostar', function(Request $request) {
     return response()->json([
         'success' => true,
         'message' => 'Aposta registrada com sucesso',
-        'novo_saldo' => $user->balance
+        'novo_saldo' => $user->balance,
+        'balance' => $user->balance,
+        'formatted_balance' => '€' . number_format($user->balance, 2)
     ]);
 })->middleware('auth');
 
@@ -101,7 +112,9 @@ Route::post('/ganhar', function(Request $request) {
     return response()->json([
         'success' => true,
         'message' => 'Ganho registrado com sucesso',
-        'novo_saldo' => $user->balance
+        'novo_saldo' => $user->balance,
+        'balance' => $user->balance,
+        'formatted_balance' => '€' . number_format($user->balance, 2)
     ]);
 })->middleware('auth');
 

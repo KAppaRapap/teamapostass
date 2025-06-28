@@ -102,9 +102,26 @@ class User extends Authenticatable
      */
     public function getProfilePhotoUrlAttribute()
     {
-        return $this->profile_photo
-            ? asset('storage/' . $this->profile_photo)
-            : asset('img/default-avatar.png');
+        if ($this->profile_photo) {
+            return asset('storage/' . $this->profile_photo);
+        }
+
+        // Gerar avatar automático com a primeira letra do nome
+        return $this->generateAvatarUrl();
+    }
+
+    /**
+     * Generate an automatic avatar URL with the user's initial
+     *
+     * @return string
+     */
+    public function generateAvatarUrl()
+    {
+        // Usar o sistema local de avatares SVG
+        return route('avatar.generate', [
+            'userId' => $this->id,
+            'name' => urlencode($this->name)
+        ]);
     }
 
     /**

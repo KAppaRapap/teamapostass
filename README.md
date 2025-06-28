@@ -42,11 +42,11 @@ Entendido! O HeidiSQL é uma ótima ferramenta para gerenciar bancos de dados My
    DB_HOST=127.0.0.1
    DB_PORT=3306
    DB_DATABASE=meu_banco
-   DB_USERNAME=usuario_local
+   DB_USERNAME=utilizador_local
    DB_PASSWORD=senha_local
    ```
 
-   Substitua `meu_banco`, `usuario_local` e `senha_local` pelos dados configurados no seu servidor MySQL local.
+   Substitua `meu_banco`, `utilizador_local` e `senha_local` pelos dados configurados no seu servidor MySQL local.
 
 ---
 

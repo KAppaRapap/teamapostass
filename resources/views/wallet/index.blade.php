@@ -147,9 +147,7 @@
 
 @push('scripts')
 <script>
-    // Atualizar saldo a cada 30 segundos
-    setInterval(function() {
-        location.reload();
-    }, 30000);
+    // Sistema de atualização automática já está implementado globalmente
+    // Não é necessário recarregar a página
 </script>
-@endpush 
+@endpush

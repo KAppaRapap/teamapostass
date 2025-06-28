@@ -13,10 +13,6 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
-        // --- DEBUG: Verificar caminho da foto de perfil ---
-        dd($user->profile_photo, $user->profile_photo_url);
-        // --- FIM DEBUG ---
-
         // Buscar próximos sorteios
         $upcomingDraws = Draw::where('draw_date', '>', now())
             ->where('is_completed', false)

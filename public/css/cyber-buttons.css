@@ -201,6 +201,17 @@ body.light-mode .btn-cyber-info {
     color: #fff;
 }
 
+/* Redução global de tamanhos para melhor experiência visual */
+.btn-cyber {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.875rem !important;
+}
+
+.btn-cyber-lg {
+    padding: 0.75rem 1.5rem !important;
+    font-size: 1rem !important;
+}
+
 /* Button Responsive */
 @media (max-width: 768px) {
     .btn-cyber {

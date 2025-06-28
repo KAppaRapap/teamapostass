@@ -188,6 +188,7 @@ export default function DiceGame() {
   const [history, setHistory] = useState<DiceResult[]>([]);
   const [multiplier, setMultiplier] = useState(1.98);
   const [isBetPlaced, setIsBetPlaced] = useState(false);
+  const [bettingSlipId, setBettingSlipId] = useState<number | null>(null);
 
   useEffect(() => {
     const probability = condition === 'above' 
@@ -218,6 +219,9 @@ export default function DiceGame() {
         body: JSON.stringify({ amount: parseFloat(betAmount), game: 'Dice' })
       });
       if (!res.ok) throw new Error('Erro ao registrar aposta');
+
+      const data = await res.json();
+      setBettingSlipId(data.betting_slip_id);
       setIsBetPlaced(true);
     } catch (e) {
       alert('Erro ao registrar aposta: saldo insuficiente ou não autenticado.');
@@ -232,7 +236,12 @@ export default function DiceGame() {
         'Content-Type': 'application/json',
         'X-CSRF-TOKEN': getCsrfToken(),
       },
-      body: JSON.stringify({ amount, game: 'Dice', won })
+      body: JSON.stringify({
+        amount,
+        game: 'Dice',
+        won,
+        betting_slip_id: bettingSlipId
+      })
     });
   };
 

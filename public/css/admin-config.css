@@ -1,0 +1,241 @@
+/* Admin Configuration Page Styles */
+
+/* Toggle Switch Animations */
+.toggle-bg {
+    transition: background-color 0.3s ease;
+}
+
+.toggle-dot {
+    transition: transform 0.3s ease;
+}
+
+/* Custom Focus States */
+.admin-input:focus {
+    outline: none;
+    border-color: #00FFB2;
+    box-shadow: 0 0 0 3px rgba(0, 255, 178, 0.1);
+}
+
+/* Card Hover Effects */
+.admin-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.admin-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 255, 178, 0.1);
+}
+
+/* Button Hover Effects */
+.admin-btn {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.admin-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.admin-btn:hover::before {
+    left: 100%;
+}
+
+/* Gradient Text Animation */
+.gradient-text {
+    background: linear-gradient(45deg, #00FFB2, #00D4FF, #FF6B6B, #00FFB2);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientShift 3s ease infinite;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Success Message Animation */
+.success-message {
+    animation: slideInFromTop 0.5s ease-out;
+}
+
+@keyframes slideInFromTop {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Form Section Animations */
+.config-section {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.config-section:nth-child(1) { animation-delay: 0.1s; }
+.config-section:nth-child(2) { animation-delay: 0.2s; }
+.config-section:nth-child(3) { animation-delay: 0.3s; }
+.config-section:nth-child(4) { animation-delay: 0.4s; }
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Icon Pulse Animation */
+.icon-pulse {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .admin-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .admin-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .admin-title {
+        font-size: 2rem;
+    }
+}
+
+/* Dark Theme Enhancements */
+.dark-input {
+    background-color: #1a1a1a;
+    border-color: #333;
+    color: #fff;
+}
+
+.dark-input:focus {
+    border-color: #00FFB2;
+    background-color: #222;
+}
+
+/* Toggle Switch Custom Styles */
+.custom-toggle {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 24px;
+}
+
+.custom-toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #666;
+    transition: 0.3s;
+    border-radius: 24px;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+}
+
+input:checked + .toggle-slider {
+    background-color: #00FFB2;
+}
+
+input:checked + .toggle-slider:before {
+    transform: translateX(24px);
+}
+
+/* Loading States */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid #00FFB2;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Tooltip Styles */
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 200px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -100px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 12px;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}

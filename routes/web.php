@@ -9,6 +9,7 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
+use App\Helpers\AvatarHelper;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,17 +31,46 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
+// Rotas de demonstração
+Route::get('/demo/balance-notifications', function () {
+    return view('demo.balance-notifications');
+})->name('demo.balance-notifications');
+
+Route::get('/demo/pagination-showcase', function () {
+    return view('demo.pagination-showcase');
+})->name('demo.pagination-showcase');
+
 // Rotas de administração
 Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(function () {
-    Route::get('/create-games', [App\Http\Controllers\AdminController::class, 'showCreateGames'])->name('show-create-games');
-    Route::post('/create-games', [App\Http\Controllers\AdminController::class, 'createGames'])->name('create-games');
-    // User management
-    Route::get('/users', [App\Http\Controllers\AdminController::class, 'users'])->name('users.index');
+    // Dashboard principal
+    Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
+
+    // Gerenciamento de usuários
+    Route::get('/users', [AdminController::class, 'users'])->name('users.index');
     Route::get('/users/{user}/edit', [AdminController::class, 'editUser'])->name('users.edit');
     Route::put('/users/{user}', [AdminController::class, 'updateUser'])->name('users.update');
-    // Admin config
+    Route::post('/users/{user}/toggle-ban', [AdminController::class, 'toggleBanUser'])->name('users.toggle-ban');
+    Route::post('/users/{user}/toggle-admin', [AdminController::class, 'toggleAdminUser'])->name('users.toggle-admin');
+    Route::post('/users/{user}/adjust-balance', [AdminController::class, 'adjustBalance'])->name('users.adjust-balance');
+
+    // Gerenciamento de grupos
+    Route::get('/groups', [AdminController::class, 'groups'])->name('groups.index');
+    Route::get('/groups/{group}', [AdminController::class, 'showGroup'])->name('groups.show');
+    Route::delete('/groups/{group}', [AdminController::class, 'deleteGroup'])->name('groups.delete');
+
+    // Relatórios financeiros
+    Route::get('/reports/financial', [AdminController::class, 'financialReports'])->name('reports.financial');
+
+    // Logs do sistema
+    Route::get('/logs', [AdminController::class, 'systemLogs'])->name('logs.index');
+
+    // Configurações
     Route::get('/config', [AdminController::class, 'showConfig'])->name('config');
     Route::post('/config', [AdminController::class, 'updateConfig'])->name('config.update');
+
+    // Funcionalidades antigas (manter compatibilidade)
+    Route::get('/create-games', [AdminController::class, 'showCreateGames'])->name('show-create-games');
+    Route::post('/create-games', [AdminController::class, 'createGames'])->name('create-games');
 });
 
 // Rotas públicas dos jogos
@@ -145,5 +175,16 @@ Route::get('/termos-de-uso', function () {
 Route::get('/politica-de-privacidade', function () {
     return view('legal.privacy');
 })->name('legal.privacy');
+
+// Rota para gerar avatares SVG
+Route::get('/avatar/{userId}/{name}', function ($userId, $name) {
+    $svg = AvatarHelper::generateSvgAvatar($name, $userId, 200);
+
+    return response($svg)
+        ->header('Content-Type', 'image/svg+xml')
+        ->header('Cache-Control', 'public, max-age=31536000'); // Cache por 1 ano
+})->name('avatar.generate');
+
+
 
 require __DIR__.'/auth.php';

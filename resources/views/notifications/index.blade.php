@@ -42,6 +42,7 @@
                             'group_leave' => 'bg-yellow-600',
                             'new_draw' => 'bg-blue-600',
                             'draw_result' => 'bg-purple-600',
+                            'balance_adjustment' => isset($notification->data['color']) ? str_replace('bg-', 'bg-', $notification->data['color']) : 'bg-blue-600',
                             default => 'bg-gray-700',
                         }
                     }} text-white text-xl">
@@ -57,6 +58,9 @@
                                 @break
                             @case('draw_result')
                                 <i class="fas fa-trophy"></i>
+                                @break
+                            @case('balance_adjustment')
+                                <i class="{{ isset($notification->data['icon']) ? $notification->data['icon'] : 'fas fa-wallet' }}"></i>
                                 @break
                             @default
                                 <i class="fas fa-bell"></i>

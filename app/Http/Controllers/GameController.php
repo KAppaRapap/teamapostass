@@ -15,7 +15,7 @@ class GameController extends Controller
      */
     public function index()
     {
-        $games = Game::all();
+        $games = Game::whereIn('name', ['Dice', 'Bomb Mine', 'Crash', 'Roleta'])->get();
         return view('games.index', compact('games'));
     }
 

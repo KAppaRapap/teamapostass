@@ -62,9 +62,31 @@
                     <a href="{{ route('games.show', $game) }}" class="btn-outline flex-1">
                         <i class="fas fa-info-circle mr-2"></i> Detalhes
                     </a>
-                    <a href="{{ route('games.' . strtolower(str_replace(' ', '', $game->name))) }}" class="btn-primary flex-1">
-                        <i class="fas fa-play mr-2"></i> Jogar
-                    </a>
+                    @php
+                        $route = null;
+                        switch(strtolower(str_replace(' ', '', $game->name))) {
+                            case 'dice':
+                                $route = route('games.dice');
+                                break;
+                            case 'bombmine':
+                                $route = route('games.bombmine');
+                                break;
+                            case 'crash':
+                                $route = route('games.crash');
+                                break;
+                            case 'roleta':
+                                $route = route('games.roleta');
+                                break;
+                            // Adicione outros jogos aqui se criar as rotas
+                            default:
+                                $route = null;
+                        }
+                    @endphp
+                    @if($route)
+                        <a href="{{ $route }}" class="btn-primary flex-1">
+                            <i class="fas fa-play mr-2"></i> Jogar
+                        </a>
+                    @endif
                 </div>
             </div>
             @empty

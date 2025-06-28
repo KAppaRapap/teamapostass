@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
+// Declarações TypeScript para funções globais
+declare global {
+    interface Window {
+        updateBalanceAfterBet?: () => void;
+    }
+}
+
 const BOARD_SIZE = 5;
 
 const colors = {
@@ -253,6 +260,7 @@ export default function BombMineGame() {
     const [multiplier, setMultiplier] = useState(1.0);
     const [potentialWin, setPotentialWin] = useState(0);
     const [isBetPlaced, setIsBetPlaced] = useState(false);
+    const [bettingSlipId, setBettingSlipId] = useState<number | null>(null);
 
     // Inicializar o tabuleiro quando o número de bombas mudar
     useEffect(() => {
@@ -284,8 +292,18 @@ export default function BombMineGame() {
                 },
                 body: JSON.stringify({ amount: parseFloat(betAmount), game: 'BombMine' })
             });
+
             if (!res.ok) throw new Error('Erro ao registrar aposta');
+
+            const data = await res.json();
+            setBettingSlipId(data.betting_slip_id);
             setIsBetPlaced(true);
+
+            // Atualizar saldo automaticamente
+            if (window.updateBalanceAfterBet) {
+                window.updateBalanceAfterBet();
+            }
+
         } catch (e) {
             alert('Erro ao registrar aposta: saldo insuficiente ou não autenticado.');
         }
@@ -293,14 +311,32 @@ export default function BombMineGame() {
 
     // Função para registrar resultado no backend
     const registerResult = async (amount: number, won: boolean) => {
-        await fetch('/api/games/win', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': getCsrfToken(),
-            },
-            body: JSON.stringify({ amount, game: 'BombMine', won })
-        });
+        try {
+            const res = await fetch('/api/games/win', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': getCsrfToken(),
+                },
+                body: JSON.stringify({
+                    amount,
+                    game: 'BombMine',
+                    won,
+                    betting_slip_id: bettingSlipId
+                })
+            });
+
+            if (res.ok) {
+                const data = await res.json();
+
+                // Atualizar saldo automaticamente
+                if (window.updateBalanceAfterBet) {
+                    window.updateBalanceAfterBet();
+                }
+            }
+        } catch (e) {
+            console.error('Erro ao registrar resultado:', e);
+        }
     };
 
     const revealCell = (row: number, col: number) => {

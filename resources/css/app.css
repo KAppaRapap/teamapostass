@@ -2,6 +2,195 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Redução global de tamanhos para melhor experiência visual */
+@layer utilities {
+    /* Reduzir tamanhos de fonte grandes */
+    .text-6xl {
+        font-size: 2.5rem !important; /* Era 3.75rem */
+        line-height: 1.1 !important;
+    }
+
+    .text-7xl {
+        font-size: 3rem !important; /* Era 4.5rem */
+        line-height: 1.1 !important;
+    }
+
+    .text-8xl {
+        font-size: 3.5rem !important; /* Era 6rem */
+        line-height: 1.1 !important;
+    }
+
+    .text-5xl {
+        font-size: 2rem !important; /* Era 3rem */
+        line-height: 1.1 !important;
+    }
+
+    .text-4xl {
+        font-size: 1.75rem !important; /* Era 2.25rem */
+        line-height: 1.2 !important;
+    }
+
+    .text-3xl {
+        font-size: 1.5rem !important; /* Era 1.875rem */
+        line-height: 1.3 !important;
+    }
+
+    .text-2xl {
+        font-size: 1.25rem !important; /* Era 1.5rem */
+        line-height: 1.4 !important;
+    }
+
+    .text-xl {
+        font-size: 1.1rem !important; /* Era 1.25rem */
+        line-height: 1.5 !important;
+    }
+
+    .text-lg {
+        font-size: 1rem !important; /* Era 1.125rem */
+        line-height: 1.5 !important;
+    }
+
+    /* Reduzir tamanhos responsivos também */
+    @media (min-width: 1024px) {
+        .lg\:text-8xl {
+            font-size: 3.5rem !important; /* Era 6rem */
+            line-height: 1.1 !important;
+        }
+
+        .lg\:text-6xl {
+            font-size: 2.5rem !important; /* Era 3.75rem */
+            line-height: 1.1 !important;
+        }
+
+        .lg\:text-5xl {
+            font-size: 2rem !important; /* Era 3rem */
+            line-height: 1.1 !important;
+        }
+
+        .lg\:text-4xl {
+            font-size: 1.75rem !important; /* Era 2.25rem */
+            line-height: 1.2 !important;
+        }
+
+        .lg\:text-3xl {
+            font-size: 1.5rem !important; /* Era 1.875rem */
+            line-height: 1.3 !important;
+        }
+    }
+
+    /* Reduzir padding e margin excessivos */
+    .py-32 {
+        padding-top: 4rem !important; /* Era 8rem */
+        padding-bottom: 4rem !important;
+    }
+
+    .py-16 {
+        padding-top: 3rem !important; /* Era 4rem */
+        padding-bottom: 3rem !important;
+    }
+
+    .mb-24 {
+        margin-bottom: 3rem !important; /* Era 6rem */
+    }
+
+    .mb-16 {
+        margin-bottom: 2.5rem !important; /* Era 4rem */
+    }
+
+    .mb-12 {
+        margin-bottom: 2rem !important; /* Era 3rem */
+    }
+
+    .mb-8 {
+        margin-bottom: 1.5rem !important; /* Era 2rem */
+    }
+
+    /* Reduzir tamanhos de ícones grandes */
+    .text-7xl {
+        font-size: 3rem !important;
+    }
+
+    .text-8xl {
+        font-size: 3.5rem !important;
+    }
+
+    /* Reduzir padding de cards e botões */
+    .p-12 {
+        padding: 2rem !important; /* Era 3rem */
+    }
+
+    .p-16 {
+        padding: 2.5rem !important; /* Era 4rem */
+    }
+
+    .px-12 {
+        padding-left: 2rem !important; /* Era 3rem */
+        padding-right: 2rem !important;
+    }
+
+    .py-5 {
+        padding-top: 0.75rem !important; /* Era 1.25rem */
+        padding-bottom: 0.75rem !important;
+    }
+
+    .py-4 {
+        padding-top: 0.6rem !important; /* Era 1rem */
+        padding-bottom: 0.6rem !important;
+    }
+
+    /* Reduzir tamanhos de botões */
+    .btn-primary {
+        font-size: 0.875rem !important; /* text-sm */
+        padding: 0.5rem 1rem !important;
+    }
+
+    .btn-outline {
+        font-size: 0.875rem !important; /* text-sm */
+        padding: 0.5rem 1rem !important;
+    }
+
+    /* Ajustar posicionamento da hero section */
+    .min-h-screen {
+        min-height: 100vh !important; /* Manter altura total */
+    }
+
+    /* Reduzir tamanhos de ícones em cards */
+    .game-card .text-8xl {
+        font-size: 3rem !important; /* Reduzir ícones dos jogos */
+    }
+
+    /* Ajustar espaçamento de containers */
+    .max-w-7xl {
+        max-width: 65rem !important; /* Reduzir largura máxima */
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+
+    .max-w-8xl {
+        max-width: 75rem !important; /* Reduzir largura máxima */
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+
+    /* Reduzir gap entre elementos */
+    .gap-12 {
+        gap: 1.5rem !important; /* Era 3rem */
+    }
+
+    .gap-6 {
+        gap: 1rem !important; /* Era 1.5rem */
+    }
+
+    /* Ajustar altura de elementos flutuantes */
+    .w-40 {
+        width: 8rem !important; /* Era 10rem */
+    }
+
+    .h-40 {
+        height: 8rem !important; /* Era 10rem */
+    }
+}
+
 .number-grid {
     display: grid !important;
     grid-template-columns: repeat(7, 1fr);
@@ -18,5 +207,5 @@
     min-width: 48px;
     padding: 0.5em 0;
     display: inline-block;
-    font-size: 1.1em;
+    font-size: 1em; /* Reduzido de 1.1em */
 }
