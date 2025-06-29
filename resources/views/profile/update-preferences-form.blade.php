@@ -112,13 +112,13 @@
                     </h5>
                     <ul class="list-unstyled text-muted mb-0">
                         <li class="mb-2">
-                            <i class="fas fa-check-circle me-2"></i> Escolha o idioma que você prefere
+                            <i class="fas fa-check-circle me-2"></i> Escolha o idioma que prefere
                         </li>
                         <li class="mb-2">
                             <i class="fas fa-check-circle me-2"></i> Configure o fuso horário correto
                         </li>
                         <li>
-                            <i class="fas fa-check-circle me-2"></i> Personalize o tema conforme sua preferência
+                            <i class="fas fa-check-circle me-2"></i> Personalize o tema conforme a sua preferência
                         </li>
                     </ul>
                 </div>

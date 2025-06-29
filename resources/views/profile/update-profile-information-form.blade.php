@@ -96,7 +96,7 @@
                                 <input type="checkbox" class="form-check-input" id="showBalance" 
                                        name="show_balance" {{ auth()->user()->show_balance ? 'checked' : '' }}>
                                 <label class="form-check-label" for="showBalance">
-                                    Mostrar saldo para outros usuários
+                                    Mostrar saldo para outros utilizadores
                                 </label>
                             </div>
                         </div>
@@ -106,14 +106,14 @@
                                 <input type="checkbox" class="form-check-input" id="showActivity" 
                                        name="show_activity" {{ auth()->user()->show_activity ? 'checked' : '' }}>
                                 <label class="form-check-label" for="showActivity">
-                                    Mostrar atividades para outros usuários
+                                    Mostrar atividades para outros utilizadores
                                 </label>
                             </div>
                         </div>
 
                         <div class="d-grid">
                             <button type="submit" class="btn btn-outline-primary">
-                                <i class="fas fa-save me-2"></i> Salvar Configurações
+                                <i class="fas fa-save me-2"></i> Guardar Configurações
                             </button>
                         </div>
                     </form>

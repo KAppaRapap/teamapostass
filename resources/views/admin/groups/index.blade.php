@@ -7,7 +7,7 @@
         <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-12">
             <div>
                 <h1 class="font-orbitron font-bold text-4xl lg:text-5xl mb-4">
-                    <span class="text-neon-green">Gerenciar</span> Grupos
+                    <span class="text-neon-green">Gerir</span> Grupos
                 </h1>
                 <p class="text-xl text-gray-300">Controlo sobre todos os grupos da plataforma</p>
             </div>
@@ -188,7 +188,7 @@
                 <i class="fas fa-refresh mr-2"></i>Atualizar
             </a>
             <a href="{{ route('admin.users.index') }}" class="btn-outline">
-                <i class="fas fa-users mr-2"></i>Ver Usuários
+                <i class="fas fa-users mr-2"></i>Ver Utilizadores
             </a>
             <a href="{{ route('admin.dashboard') }}" class="btn-primary">
                 <i class="fas fa-tachometer-alt mr-2"></i>Dashboard

@@ -7,7 +7,7 @@
         <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-12">
             <div>
                 <h1 class="font-orbitron font-bold text-4xl lg:text-5xl mb-4">
-                    <span class="text-neon-green">Gerenciar</span> Usuários
+                    <span class="text-neon-green">Gerir</span> Utilizadores
                 </h1>
                 <p class="text-xl text-gray-300">Controlo total sobre os utilizadores da plataforma</p>
             </div>
@@ -53,14 +53,14 @@
                 </div>
             </form>
         </div>
-        <!-- Tabela de Usuários -->
+        <!-- Tabela de Utilizadores -->
         <div class="content-card overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="min-w-full">
                     <thead class="bg-gray-800">
                         <tr>
                             <th class="px-6 py-4 text-left text-neon-green font-semibold">Avatar</th>
-                            <th class="px-6 py-4 text-left text-neon-green font-semibold">Usuário</th>
+                            <th class="px-6 py-4 text-left text-neon-green font-semibold">Utilizador</th>
                             <th class="px-6 py-4 text-center text-neon-green font-semibold">Saldo</th>
                             <th class="px-6 py-4 text-center text-neon-green font-semibold">Status</th>
                             <th class="px-6 py-4 text-center text-neon-green font-semibold">Registrado</th>
@@ -76,7 +76,7 @@
                                      class="w-12 h-12 rounded-full border-2 border-neon-green">
                             </td>
 
-                            <!-- Usuário -->
+                            <!-- Utilizador -->
                             <td class="px-6 py-4">
                                 <div>
                                     <p class="font-semibold text-white text-lg">{{ $user->name }}</p>

@@ -55,10 +55,10 @@ class CreateTestUser extends Command
             );
 
             if ($user->wasRecentlyCreated) {
-                $this->info("Usuário criado: {$user->name} ({$user->email})");
+                $this->info("Utilizador criado: {$user->name} ({$user->email})");
                 $this->info("Avatar URL: {$user->profile_photo_url}");
             } else {
-                $this->info("Usuário já existe: {$user->name} ({$user->email})");
+                $this->info("Utilizador já existe: {$user->name} ({$user->email})");
                 $this->info("Avatar URL: {$user->profile_photo_url}");
             }
         }

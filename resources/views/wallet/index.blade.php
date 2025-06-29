@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Carteira')
-@section('description', 'Gerencia o teu saldo e visualiza as tuas transações')
+@section('description', 'Gere o seu saldo e visualize as suas transações')
 
 @section('content')
 <div class="py-8 px-6">
@@ -11,7 +11,7 @@
             <h1 class="font-orbitron font-bold text-3xl lg:text-4xl mb-2">
                 <span class="text-neon-green">Carteira</span> Virtual
             </h1>
-            <p class="text-gray-300">Gerencia o teu saldo e visualiza as tuas transações</p>
+            <p class="text-gray-300">Gere o seu saldo e visualize as suas transações</p>
         </div>
 
         <div class="grid lg:grid-cols-3 gap-8">

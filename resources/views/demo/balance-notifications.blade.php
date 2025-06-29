@@ -10,7 +10,7 @@
                 <i class="fas fa-bell mr-3"></i>Sistema de Notificações de Ajuste de Saldo
             </h1>
             <p class="text-gray-300 mb-6">
-                Este sistema permite que administradores ajustem o saldo dos usuários e automaticamente enviem notificações informando sobre as alterações.
+                Este sistema permite que administradores ajustem o saldo dos utilizadores e automaticamente enviem notificações informando sobre as alterações.
             </p>
         </div>
 
@@ -83,7 +83,7 @@
                 <div>
                     <h3 class="text-lg font-semibold text-white mb-3">1. Admin Ajusta Saldo</h3>
                     <p class="text-gray-300 mb-4">
-                        O administrador acessa a página de edição do usuário e utiliza o formulário "Ajustar Saldo" para:
+                        O administrador acessa a página de edição do utilizador e utiliza o formulário "Ajustar Saldo" para:
                     </p>
                     <ul class="text-gray-300 text-sm space-y-1">
                         <li>• Escolher o tipo de ajuste (Adicionar, Subtrair, Definir)</li>

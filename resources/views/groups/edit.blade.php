@@ -63,7 +63,7 @@
                         <label class="form-check-label" for="is_public">
                             Grupo Público
                         </label>
-                        <div class="form-text">Grupos públicos são visíveis para todos os usuários.</div>
+                        <div class="form-text">Grupos públicos são visíveis para todos os utilizadores.</div>
                         @error('is_public')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

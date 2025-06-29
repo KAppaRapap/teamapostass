@@ -89,7 +89,7 @@ class NotificationController extends Controller
         Auth::user()->userNotifications()->delete();
         
         return redirect()->route('notifications.index')
-            ->with('success', $count . ' notificações foram excluídas com sucesso.');
+            ->with('success', $count . ' notificações foram eliminadas com sucesso.');
     }
 
     public function uploadChatFile(Request $request)

@@ -15,26 +15,26 @@
 
         <!-- Estatísticas Principais -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-            <!-- Total de Usuários -->
+            <!-- Total de Utilizadores -->
             <div class="content-card p-8 text-center">
                 <div class="text-4xl text-neon-green mb-4">
                     <i class="fas fa-users"></i>
                 </div>
                 <h3 class="text-3xl font-bold text-white mb-2">{{ number_format($stats['total_users']) }}</h3>
-                <p class="text-gray-400">Total de Usuários</p>
+                <p class="text-gray-400">Total de Utilizadores</p>
                 <div class="mt-4 text-sm">
                     <span class="text-green-400">+{{ $weeklyStats['new_users'] }}</span>
                     <span class="text-gray-500">esta semana</span>
                 </div>
             </div>
 
-            <!-- Usuários Ativos -->
+            <!-- Utilizadores Ativos -->
             <div class="content-card p-8 text-center">
                 <div class="text-4xl text-blue-400 mb-4">
                     <i class="fas fa-user-check"></i>
                 </div>
                 <h3 class="text-3xl font-bold text-white mb-2">{{ number_format($stats['active_users']) }}</h3>
-                <p class="text-gray-400">Usuários Ativos (30d)</p>
+                <p class="text-gray-400">Utilizadores Ativos (30d)</p>
                 <div class="mt-4 text-sm">
                     <span class="text-gray-500">{{ round(($stats['active_users'] / max($stats['total_users'], 1)) * 100, 1) }}% do total</span>
                 </div>
@@ -69,11 +69,11 @@
 
         <!-- Estatísticas Secundárias -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            <!-- Usuários Banidos -->
+            <!-- Utilizadores Banidos -->
             <div class="content-card p-6">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h4 class="text-lg font-semibold text-white mb-2">Usuários Banidos</h4>
+                        <h4 class="text-lg font-semibold text-white mb-2">Utilizadores Banidos</h4>
                         <p class="text-3xl font-bold text-red-400">{{ $stats['banned_users'] }}</p>
                     </div>
                     <div class="text-3xl text-red-400">
@@ -116,10 +116,10 @@
             </h3>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <a href="{{ route('admin.users.index') }}" class="btn-primary text-center py-4">
-                    <i class="fas fa-users mr-2"></i>Gerenciar Usuários
+                    <i class="fas fa-users mr-2"></i>Gerir Utilizadores
                 </a>
                 <a href="{{ route('admin.groups.index') }}" class="btn-outline text-center py-4">
-                    <i class="fas fa-layer-group mr-2"></i>Gerenciar Grupos
+                    <i class="fas fa-layer-group mr-2"></i>Gerir Grupos
                 </a>
                 <a href="{{ route('admin.reports.financial') }}" class="btn-outline text-center py-4">
                     <i class="fas fa-chart-line mr-2"></i>Relatórios
@@ -130,12 +130,12 @@
             </div>
         </div>
 
-        <!-- Usuários Mais Ativos e Atividades Recentes -->
+        <!-- Utilizadores Mais Ativos e Atividades Recentes -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <!-- Usuários Mais Ativos -->
+            <!-- Utilizadores Mais Ativos -->
             <div class="content-card p-8">
                 <h3 class="text-2xl font-bold text-white mb-6">
-                    <i class="fas fa-star text-yellow-400 mr-3"></i>Usuários Mais Ativos
+                    <i class="fas fa-star text-yellow-400 mr-3"></i>Utilizadores Mais Ativos
                 </h3>
                 <div class="space-y-4">
                     @foreach($topUsers as $user)

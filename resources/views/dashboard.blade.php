@@ -6,7 +6,7 @@
 @section('content')
 <div class="py-8 px-6">
     <div class="max-w-7xl mx-auto">
-        <!-- Painel de Progresso do Usuário -->
+        <!-- Painel de Progresso do Utilizador -->
         <div id="user-progress-panel" class="mb-8"></div>
         <!-- Header do Dashboard -->
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
@@ -19,7 +19,7 @@
             <div class="flex flex-col sm:flex-row gap-3 mt-4 md:mt-0">
                 @if(Auth::user()->is_admin)
                     <a href="{{ route('admin.users.index') }}" class="btn-outline">
-                        <i class="fas fa-users-cog mr-2"></i> Gerenciar Usuários
+                        <i class="fas fa-users-cog mr-2"></i> Gerir Utilizadores
                     </a>
                 @endif
                 <a href="{{ route('groups.create') }}" class="btn-primary">

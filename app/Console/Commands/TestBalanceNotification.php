@@ -37,7 +37,7 @@ class TestBalanceNotification extends Command
         $user = User::find($userId);
         
         if (!$user) {
-            $this->error("Usuário com ID {$userId} não encontrado!");
+            $this->error("Utilizador com ID {$userId} não encontrado!");
             return 1;
         }
 

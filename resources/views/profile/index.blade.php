@@ -5,14 +5,14 @@
     <div class="row mb-4">
         <div class="col-12">
             <h1 class="h3 mb-0">Perfil</h1>
-            <p class="text-muted">Visualize e gerencie seu perfil</p>
+            <p class="text-muted">Visualize e gira o seu perfil</p>
         </div>
     </div>
 
     <div class="row g-4">
         <!-- Informações do Perfil -->
         <div class="col-lg-4">
-            <!-- Painel de Progresso do Usuário -->
+            <!-- Painel de Progresso do Utilizador -->
             <div id="user-progress-profile" class="mb-4"></div>
             <div class="card">
                 <div class="card-body text-center">

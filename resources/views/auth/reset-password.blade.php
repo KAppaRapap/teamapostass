@@ -8,7 +8,7 @@
                 <div class="card-body p-4 p-md-5">
                     <div class="text-center mb-4">
                         <h1 class="h3">Redefinir Palavra-passe</h1>
-                        <p class="text-muted">Digite a sua nova palavra-passe</p>
+                        <p class="text-muted">Introduza a sua nova palavra-passe</p>
                     </div>
 
                     <!-- Session Status -->
@@ -80,7 +80,7 @@
                             <i class="fas fa-check-circle me-2"></i> Não partilhe a sua palavra-passe com ninguém
                         </li>
                         <li>
-                            <i class="fas fa-check-circle me-2"></i> Ative a autenticação em duas etapas
+                            <i class="fas fa-check-circle me-2"></i> Active a autenticação em duas etapas
                         </li>
                     </ul>
                 </div>

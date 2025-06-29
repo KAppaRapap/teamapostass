@@ -37,7 +37,7 @@ class AdminController extends Controller
             'weekly_revenue' => BettingSlip::where('created_at', '>=', Carbon::now()->subDays(7))->sum('bet_amount'),
         ];
 
-        // Usuários mais ativos
+        // Utilizadores mais ativos
         $topUsers = User::withCount(['activities'])
             ->orderBy('activities_count', 'desc')
             ->take(10)
@@ -53,7 +53,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Gerenciar usuários
+     * Gerir utilizadores
      */
     public function users(Request $request)
     {
@@ -87,7 +87,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Editar usuário
+     * Editar utilizador
      */
     public function editUser(User $user)
     {
@@ -95,7 +95,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Atualizar usuário
+     * Atualizar utilizador
      */
     public function updateUser(Request $request, User $user)
     {
@@ -119,7 +119,7 @@ class AdminController extends Controller
         Activity::create([
             'user_id' => auth()->id(),
             'type' => 'admin_action',
-            'description' => 'Atualizou dados do usuário: ' . $user->name,
+            'description' => 'Atualizou dados do utilizador: ' . $user->name,
             'data' => [
                 'target_user_id' => $user->id,
                 'action' => 'update_user',
@@ -127,11 +127,11 @@ class AdminController extends Controller
         ]);
 
         return redirect()->route('admin.users.index')
-            ->with('success', 'Usuário atualizado com sucesso!');
+            ->with('success', 'Utilizador atualizado com sucesso!');
     }
 
     /**
-     * Banir/Desbanir usuário
+     * Banir/Desbanir utilizador
      */
     public function toggleBanUser(User $user)
     {
@@ -143,14 +143,14 @@ class AdminController extends Controller
         Activity::create([
             'user_id' => auth()->id(),
             'type' => 'admin_action',
-            'description' => 'Usuário ' . $user->name . ' foi ' . $action,
+            'description' => 'Utilizador ' . $user->name . ' foi ' . $action,
             'data' => [
                 'target_user_id' => $user->id,
                 'action' => $user->is_banned ? 'ban' : 'unban',
             ],
         ]);
 
-        return back()->with('success', 'Usuário ' . $action . ' com sucesso!');
+        return back()->with('success', 'Utilizador ' . $action . ' com sucesso!');
     }
 
     /**
@@ -166,18 +166,18 @@ class AdminController extends Controller
         Activity::create([
             'user_id' => auth()->id(),
             'type' => 'admin_action',
-            'description' => 'Usuário ' . $user->name . ' foi ' . $action,
+            'description' => 'Utilizador ' . $user->name . ' foi ' . $action,
             'data' => [
                 'target_user_id' => $user->id,
                 'action' => $user->is_admin ? 'promote' : 'demote',
             ],
         ]);
 
-        return back()->with('success', 'Usuário ' . $action . ' com sucesso!');
+        return back()->with('success', 'Utilizador ' . $action . ' com sucesso!');
     }
 
     /**
-     * Ajustar saldo do usuário
+     * Ajustar saldo do utilizador
      */
     public function adjustBalance(Request $request, User $user)
     {
@@ -219,7 +219,7 @@ class AdminController extends Controller
             ],
         ]);
 
-        // Criar notificação para o usuário
+        // Criar notificação para o utilizador
         $this->createBalanceAdjustmentNotification($user, $oldBalance, $user->virtual_balance, $request->type, $request->amount, $request->reason);
 
         return back()->with('success', 'Saldo ajustado com sucesso!');

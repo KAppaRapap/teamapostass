@@ -8,10 +8,10 @@
                 <div class="card-body p-4 p-md-5">
                     <div class="text-center mb-4">
                         <i class="fas fa-envelope-open-text fa-3x text-primary mb-3"></i>
-                        <h1 class="h3">Verifique seu E-mail</h1>
+                        <h1 class="h3">Verifique o seu E-mail</h1>
                         <p class="text-muted">
-                            Enviamos um link de verificação para o seu e-mail. 
-                            Por favor, verifique sua caixa de entrada.
+                            Enviámos um link de verificação para o seu e-mail.
+                            Por favor, verifique a sua caixa de entrada.
                         </p>
                     </div>
 
@@ -52,7 +52,7 @@
                     </h5>
                     <ul class="list-unstyled text-muted mb-0">
                         <li class="mb-2">
-                            <i class="fas fa-check-circle me-2"></i> Verifique sua pasta de spam
+                            <i class="fas fa-check-circle me-2"></i> Verifique a sua pasta de spam
                         </li>
                         <li class="mb-2">
                             <i class="fas fa-check-circle me-2"></i> Confirme se o e-mail está correto

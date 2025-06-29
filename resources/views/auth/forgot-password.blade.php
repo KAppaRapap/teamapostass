@@ -8,7 +8,7 @@
                 <div class="card-body p-4 p-md-5">
                     <div class="text-center mb-4">
                         <h1 class="h3">Recuperar Palavra-passe</h1>
-                        <p class="text-muted">Digite o seu e-mail para receber o link de recuperação</p>
+                        <p class="text-muted">Introduza o seu e-mail para receber o link de recuperação</p>
                     </div>
 
                     <!-- Session Status -->

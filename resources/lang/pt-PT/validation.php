@@ -13,8 +13,8 @@ return [
     |
     */
 
-    'accepted' => 'O campo :attribute deve ser aceito.',
-    'accepted_if' => 'O campo :attribute deve ser aceito quando :other for :value.',
+    'accepted' => 'O campo :attribute deve ser aceite.',
+    'accepted_if' => 'O campo :attribute deve ser aceite quando :other for :value.',
     'active_url' => 'O campo :attribute não é um URL válido.',
     'after' => 'O campo :attribute deve ser uma data posterior a :date.',
     'after_or_equal' => 'O campo :attribute deve ser uma data posterior ou igual a :date.',

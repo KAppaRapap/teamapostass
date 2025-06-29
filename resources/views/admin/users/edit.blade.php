@@ -7,7 +7,7 @@
         <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-12">
             <div>
                 <h1 class="font-orbitron font-bold text-4xl lg:text-5xl mb-4">
-                    <span class="text-neon-green">Editar</span> Usuário
+                    <span class="text-neon-green">Editar</span> Utilizador
                 </h1>
                 <p class="text-xl text-gray-300">Modificar dados de {{ $user->name }}</p>
             </div>
@@ -34,7 +34,7 @@
         </div>
         @endif
 
-        <!-- Informações do Usuário -->
+        <!-- Informações do Utilizador -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
             <!-- Avatar e Info Básica -->
             <div class="content-card p-8 text-center">
@@ -83,7 +83,7 @@
                         <button type="submit"
                                 class="btn-outline w-full {{ $user->is_banned ? 'text-green-400 border-green-400' : 'text-red-400 border-red-400' }}">
                             <i class="fas {{ $user->is_banned ? 'fa-user-check' : 'fa-user-slash' }} mr-2"></i>
-                            {{ $user->is_banned ? 'Desbanir Usuário' : 'Banir Usuário' }}
+                            {{ $user->is_banned ? 'Desbanir Utilizador' : 'Banir Utilizador' }}
                         </button>
                     </form>
 

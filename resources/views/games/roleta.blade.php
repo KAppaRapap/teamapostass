@@ -41,7 +41,7 @@
                 <li>• Escolha um número de 0 a 36</li>
                 <li>• Defina o valor da sua aposta</li>
                 <li>• Clique em "Apostar" e aguarde o resultado</li>
-                <li>• Se acertar, você ganha 35x o valor apostado!</li>
+                <li>• Se acertar, ganha 35x o valor apostado!</li>
             </ul>
         </div>
     </div>
