@@ -3,11 +3,13 @@
 @section('title', 'Início')
 @section('description', 'O casino da nova geração. Aposta, vence e partilha com a tua equipa.')
 
+@push('body-class', 'homepage')
+
 @section('content')
     <!-- Hero Section -->
-    <section id="inicio" class="hero-bg flex items-center justify-center relative min-h-screen">
+    <section id="inicio" class="hero-bg flex items-center justify-center relative min-h-screen -mt-20">
         <canvas id="particles" class="particles-bg"></canvas>
-        <div class="hero-content text-center max-w-7xl mx-auto px-8 lg:px-16">
+        <div class="hero-content text-center max-w-7xl mx-auto content-wrapper">
             <h1 class="hero-title font-orbitron font-bold text-6xl lg:text-8xl mb-8 animate-slide-up leading-tight">
                 O Casino da <span class="text-neon-green">Nova Geração</span>.<br>
                 Aposta. Vence. <span class="text-neon-pink">Partilha</span>.
@@ -127,53 +129,117 @@
 
 @push('scripts')
     <script>
-    // Particles Animation for Hero Section
-    const canvas = document.getElementById('particles');
-    if (canvas) {
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        
-        const particles = [];
-        const particleCount = 50;
-        
-        for (let i = 0; i < particleCount; i++) {
-            particles.push({
-                x: Math.random() * canvas.width * 0.8 + canvas.width * 0.2, // Concentrar mais à direita
-                y: Math.random() * canvas.height * 0.6, // Concentrar na parte superior
-                vx: (Math.random() - 0.5) * 0.3,
-                vy: (Math.random() - 0.5) * 0.3,
-                size: Math.random() * 1.5 + 0.5,
-                color: Math.random() > 0.5 ? '#00FFB2' : '#FF005C'
-            });
+    // Particles Animation for Hero Section - APENAS na página inicial
+    document.addEventListener('DOMContentLoaded', function() {
+        const canvas = document.getElementById('particles');
+        const heroSection = document.getElementById('inicio');
+
+        // Verificar se estamos na página inicial e se os elementos existem
+        if (!canvas || !heroSection || !document.body.classList.contains('homepage')) {
+            // Se não estamos na homepage, esconder o canvas se existir
+            if (canvas) {
+                canvas.style.display = 'none';
+            }
+            return;
         }
-        
+
+        const ctx = canvas.getContext('2d');
+        let animationId;
+        let isVisible = false;
+
+        // Função para redimensionar canvas
+        function resizeCanvas() {
+            const rect = heroSection.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+        }
+
+        // Inicializar canvas
+        resizeCanvas();
+
+        const particles = [];
+        const particleCount = 30; // Reduzido para melhor performance
+
+        // Criar partículas
+        function createParticles() {
+            particles.length = 0; // Limpar array
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    size: Math.random() * 2 + 1,
+                    color: Math.random() > 0.5 ? '#00FFB2' : '#FF005C',
+                    alpha: Math.random() * 0.5 + 0.3
+                });
+            }
+        }
+
+        // Função de animação
         function animate() {
+            if (!isVisible) return;
+
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
+
             particles.forEach(particle => {
                 ctx.beginPath();
                 ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
                 ctx.fillStyle = particle.color;
-                ctx.globalAlpha = 0.6;
+                ctx.globalAlpha = particle.alpha;
                 ctx.fill();
-                
+
+                // Movimento das partículas
                 particle.x += particle.vx;
                 particle.y += particle.vy;
-                
-                if (particle.x < 0 || particle.x > canvas.width) particle.vx *= -1;
-                if (particle.y < 0 || particle.y > canvas.height) particle.vy *= -1;
+
+                // Bounce nas bordas
+                if (particle.x <= 0 || particle.x >= canvas.width) {
+                    particle.vx *= -1;
+                    particle.x = Math.max(0, Math.min(canvas.width, particle.x));
+                }
+                if (particle.y <= 0 || particle.y >= canvas.height) {
+                    particle.vy *= -1;
+                    particle.y = Math.max(0, Math.min(canvas.height, particle.y));
+                }
             });
-            
-            requestAnimationFrame(animate);
+
+            animationId = requestAnimationFrame(animate);
         }
-        
-        animate();
-        
+
+        // Intersection Observer para controlar quando animar
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    isVisible = true;
+                    createParticles();
+                    animate();
+                } else {
+                    isVisible = false;
+                    if (animationId) {
+                        cancelAnimationFrame(animationId);
+                    }
+                }
+            });
+        }, { threshold: 0.1 });
+
+        observer.observe(heroSection);
+
+        // Redimensionar quando a janela muda
         window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            resizeCanvas();
+            if (isVisible) {
+                createParticles();
+            }
         });
-    }
+
+        // Limpar quando sair da página
+        window.addEventListener('beforeunload', () => {
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+            }
+            observer.disconnect();
+        });
+    });
     </script>
 @endpush

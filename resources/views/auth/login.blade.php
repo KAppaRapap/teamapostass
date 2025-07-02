@@ -38,7 +38,9 @@
             </div>
             <div>
                 <label for="password" class="block text-sm font-medium text-gray-300 mb-1">Palavra-passe</label>
-                <input id="password" name="password" type="password" required autocomplete="current-password" class="form-input w-full" placeholder="A sua palavra-passe">
+                <div class="password-field-wrapper relative">
+                    <input id="password" name="password" type="password" required autocomplete="current-password" class="form-input w-full pr-12" placeholder="A sua palavra-passe">
+                </div>
             </div>
             <div class="flex items-center justify-between">
                 <label class="flex items-center gap-2 text-sm text-gray-400">

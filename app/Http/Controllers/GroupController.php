@@ -25,16 +25,6 @@ class GroupController extends Controller
             $query->where('game_id', $request->game_id);
         }
         
-        // Filter by city
-        if ($request->has('city') && $request->city) {
-            $query->where('city', 'like', '%' . $request->city . '%');
-        }
-        
-        // Filter by region
-        if ($request->has('region') && $request->region) {
-            $query->where('region', 'like', '%' . $request->region . '%');
-        }
-        
         // Only show public groups or groups the user is a member of
         $query->where(function($q) {
             $q->where('is_public', true)
@@ -73,8 +63,6 @@ class GroupController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'game_id' => 'nullable|exists:games,id',
-            'city' => 'nullable|string|max:255',
-            'region' => 'nullable|string|max:255',
             'is_public' => 'boolean',
             'max_members' => 'integer|min:0',
         ]);

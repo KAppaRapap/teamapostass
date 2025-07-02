@@ -18,8 +18,6 @@ class Group extends Model
         'name',
         'description',
         'game_id',
-        'city',
-        'region',
         'admin_id',
         'is_public',
         'max_members',

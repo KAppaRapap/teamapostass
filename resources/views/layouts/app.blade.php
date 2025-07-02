@@ -14,6 +14,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/cyber-pagination.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/password-validator.css') }}">
 
     @stack('styles')
 
@@ -41,6 +42,9 @@
             background: rgba(18, 18, 18, 0.98);
             border-bottom: 1px solid rgba(0, 255, 178, 0.3);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            height: 80px; /* Altura fixa para o header */
+            display: flex;
+            align-items: center;
         }
         
         /* Hero Section */
@@ -58,6 +62,134 @@
             width: 100%;
             height: 100%;
             z-index: 1;
+            pointer-events: none; /* Não interferir com cliques */
+            opacity: 0.8; /* Reduzir opacidade para melhor integração */
+        }
+
+        /* Garantir que as partículas só aparecem na hero section */
+        .hero-bg .particles-bg {
+            display: block;
+        }
+
+        /* Esconder partículas em outras páginas */
+        body:not(.homepage) .particles-bg {
+            display: none !important;
+        }
+
+        /* Garantir que o canvas não cause overflow */
+        #particles {
+            max-width: 100%;
+            max-height: 100%;
+            overflow: hidden;
+        }
+
+        /* Prevenir problemas de z-index */
+        .hero-content {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Eliminar gaps e espaços desnecessários */
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        main {
+            min-height: calc(100vh - 80px); /* Altura total menos header */
+            width: 100%;
+        }
+
+        /* Garantir que não há espaços em branco */
+        .min-h-screen {
+            min-height: 100vh !important;
+        }
+
+        /* Ajustar padding do conteúdo */
+        .content-wrapper {
+            padding-left: 1rem;
+            padding-right: 1rem;
+            max-width: 100%;
+        }
+
+        @media (min-width: 1024px) {
+            .content-wrapper {
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+        }
+
+        /* Corrigir problemas específicos de mobile */
+        @media (max-width: 768px) {
+            .hero-bg {
+                min-height: 100vh;
+                padding: 0;
+                margin: 0;
+            }
+
+            .content-wrapper {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            /* Garantir que não há scroll horizontal */
+            body {
+                overflow-x: hidden;
+                width: 100%;
+            }
+        }
+
+        /* Remover qualquer gap entre secções */
+        section {
+            margin: 0;
+            padding: 0;
+        }
+
+        section + section {
+            margin-top: 0;
+        }
+
+        /* Dropdown do utilizador */
+        #user-menu-dropdown {
+            min-width: 16rem; /* w-64 */
+            max-width: 20rem;
+            box-sizing: border-box;
+        }
+
+        #user-menu-dropdown form {
+            width: 100%;
+        }
+
+        #user-menu-dropdown button {
+            box-sizing: border-box;
+        }
+
+        /* Responsivo para mobile */
+        @media (max-width: 640px) {
+            #user-menu-dropdown {
+                right: 0;
+                left: auto;
+                min-width: 14rem;
+                max-width: calc(100vw - 2rem);
+            }
+        }
+
+        /* Garantir que todos os elementos do dropdown ficam dentro */
+        #user-menu-dropdown .py-3 {
+            padding: 0.75rem;
+        }
+
+        #user-menu-dropdown a,
+        #user-menu-dropdown button {
+            margin-left: 0;
+            margin-right: 0;
+            width: calc(100% - 1rem);
+            margin: 0 0.5rem;
+        }
+
+        #user-menu-dropdown hr {
+            margin: 0.75rem 0.5rem;
         }
         
         .hero-content {
@@ -343,7 +475,7 @@
     
     @stack('styles')
 </head>
-<body class="bg-dark-bg text-white">
+<body class="bg-dark-bg text-white @stack('body-class')">
     <!-- Header Fixo -->
     <header class="header-fixed py-3 px-6 lg:px-8">
         <div class="max-w-8xl mx-auto flex justify-between items-center">
@@ -381,7 +513,7 @@
                                 <span class="hidden lg:block font-medium">{{ auth()->user()->name }}</span>
                                 <i class="fas fa-chevron-down text-sm"></i>
                             </button>
-                            <div id="user-menu-dropdown" class="absolute right-0 mt-3 w-56 bg-dark-card border border-dark-border rounded-xl shadow-2xl opacity-0 invisible transition-all duration-300 z-50">
+                            <div id="user-menu-dropdown" class="absolute right-0 mt-3 w-64 bg-dark-card border border-dark-border rounded-xl shadow-2xl opacity-0 invisible transition-all duration-300 z-50">
                                 <div class="py-3">
                                     <a href="{{ route('profile.edit') }}" class="block px-6 py-3 text-white hover:bg-neon-green hover:text-dark-bg transition-colors rounded-lg mx-2">
                                         <i class="fas fa-user mr-3"></i>Perfil
@@ -390,12 +522,14 @@
                                         <i class="fas fa-bell mr-3"></i>Notificações
                                     </a>
                                     <hr class="border-dark-border my-3 mx-2">
-                                    <form method="POST" action="{{ route('logout') }}">
-                                        @csrf
-                                        <button type="submit" class="block w-full text-left px-6 py-3 text-white hover:bg-red-600 transition-colors rounded-lg mx-2">
-                                            <i class="fas fa-sign-out-alt mr-3"></i>Sair
-                                        </button>
-                                    </form>
+                                    <div class="mx-2">
+                                        <form method="POST" action="{{ route('logout') }}">
+                                            @csrf
+                                            <button type="submit" class="block w-full text-left px-6 py-3 text-white hover:bg-red-600 transition-colors rounded-lg">
+                                                <i class="fas fa-sign-out-alt mr-3"></i>Sair
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -450,14 +584,12 @@
     </header>
 
     <!-- Conteúdo Principal -->
-    <main class="pt-16">
-        <div class="px-6 lg:px-8">
-            @yield('content')
-        </div>
+    <main class="pt-20">
+        @yield('content')
     </main>
 
     <!-- Footer -->
-    <footer class="bg-dark-card border-t border-dark-border py-12 px-6 lg:px-8 mt-16">
+    <footer class="bg-dark-card border-t border-dark-border py-12 content-wrapper mt-16">
         <div class="max-w-8xl mx-auto">
             <div class="grid md:grid-cols-4 gap-12 mb-12">
                 <div>
@@ -764,5 +896,8 @@
             });
         });
     </script>
+
+    <!-- Password Validator -->
+    <script src="{{ asset('js/password-validator.js') }}"></script>
 </body>
 </html>

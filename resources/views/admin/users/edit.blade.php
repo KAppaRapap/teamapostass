@@ -7,9 +7,9 @@
         <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-12">
             <div>
                 <h1 class="font-orbitron font-bold text-4xl lg:text-5xl mb-4">
-                    <span class="text-neon-green">Editar</span> Utilizador
+                    <span class="text-neon-green">Gerir</span> Utilizador
                 </h1>
-                <p class="text-xl text-gray-300">Modificar dados de {{ $user->name }}</p>
+                <p class="text-xl text-gray-300">Funções administrativas para {{ $user->name }}</p>
             </div>
             <a href="{{ route('admin.users.index') }}" class="btn-outline mt-4 lg:mt-0">
                 <i class="fas fa-arrow-left mr-2"></i>Voltar à Lista
@@ -33,6 +33,18 @@
             </ul>
         </div>
         @endif
+
+        <!-- Aviso Informativo -->
+        <div class="bg-blue-900 border border-blue-600 text-blue-100 rounded-lg px-6 py-4 mb-8 flex items-start gap-3">
+            <i class="fas fa-info-circle text-xl text-blue-400 mt-1"></i>
+            <div>
+                <h4 class="font-bold mb-2">Política de Privacidade de Dados</h4>
+                <p class="text-sm">
+                    Os dados pessoais (nome e email) só podem ser alterados pelo próprio utilizador através do seu perfil.
+                    Como administrador, pode apenas gerir o saldo virtual, status da conta e permissões administrativas.
+                </p>
+            </div>
+        </div>
 
         <!-- Informações do Utilizador -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
@@ -104,53 +116,56 @@
 
         <!-- Formulários de Edição -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <!-- Editar Dados Básicos -->
+            <!-- Dados Pessoais (Apenas Visualização) -->
             <div class="content-card p-8">
                 <h3 class="text-2xl font-bold text-white mb-6">
-                    <i class="fas fa-user-edit text-neon-green mr-3"></i>Dados Básicos
+                    <i class="fas fa-user text-neon-green mr-3"></i>Dados Pessoais
                 </h3>
-                <form method="POST" action="{{ route('admin.users.update', $user) }}">
-                    @csrf
-                    @method('PUT')
-
-                    <div class="space-y-6">
-                        <div>
-                            <label class="block text-white font-semibold mb-2">Nome</label>
-                            <input type="text" name="name" value="{{ old('name', $user->name) }}"
-                                   class="form-input w-full" required>
-                        </div>
-
-                        <div>
-                            <label class="block text-white font-semibold mb-2">Email</label>
-                            <input type="email" name="email" value="{{ old('email', $user->email) }}"
-                                   class="form-input w-full" required>
-                        </div>
-
-                        <div>
-                            <label class="block text-white font-semibold mb-2">Saldo Virtual (€)</label>
-                            <input type="number" name="virtual_balance" value="{{ old('virtual_balance', $user->virtual_balance) }}"
-                                   step="0.01" min="0" class="form-input w-full" required>
-                        </div>
-
-                        <div class="flex items-center gap-4">
-                            <label class="flex items-center gap-2 text-white">
-                                <input type="checkbox" name="is_admin" value="1"
-                                       {{ $user->is_admin ? 'checked' : '' }} class="form-checkbox">
-                                <span>Administrador</span>
-                            </label>
-
-                            <label class="flex items-center gap-2 text-white">
-                                <input type="checkbox" name="is_banned" value="1"
-                                       {{ $user->is_banned ? 'checked' : '' }} class="form-checkbox">
-                                <span>Banido</span>
-                            </label>
-                        </div>
-
-                        <button type="submit" class="btn-primary w-full">
-                            <i class="fas fa-save mr-2"></i>Salvar Alterações
-                        </button>
+                <div class="space-y-4">
+                    <div class="bg-gray-800 p-4 rounded-lg border-l-4 border-gray-600">
+                        <label class="block text-gray-400 text-sm mb-1">Nome</label>
+                        <p class="text-white font-semibold">{{ $user->name }}</p>
+                        <small class="text-gray-500 italic">Este campo só pode ser alterado pelo próprio utilizador</small>
                     </div>
-                </form>
+
+                    <div class="bg-gray-800 p-4 rounded-lg border-l-4 border-gray-600">
+                        <label class="block text-gray-400 text-sm mb-1">Email</label>
+                        <p class="text-white font-semibold">{{ $user->email }}</p>
+                        <small class="text-gray-500 italic">Este campo só pode ser alterado pelo próprio utilizador</small>
+                    </div>
+
+                    <div class="bg-gray-800 p-4 rounded-lg border-l-4 border-neon-green">
+                        <label class="block text-gray-400 text-sm mb-1">Saldo Virtual</label>
+                        <p class="text-neon-green font-bold text-xl">€{{ number_format($user->virtual_balance, 2) }}</p>
+                        <small class="text-gray-500 italic">Use o formulário "Ajustar Saldo" para modificar</small>
+                    </div>
+
+                    <div class="bg-gray-800 p-4 rounded-lg border-l-4 border-blue-500">
+                        <label class="block text-gray-400 text-sm mb-1">Membro desde</label>
+                        <p class="text-white font-semibold">{{ $user->created_at->format('d/m/Y H:i') }}</p>
+                    </div>
+
+                    <div class="bg-gray-800 p-4 rounded-lg border-l-4 border-purple-500">
+                        <label class="block text-gray-400 text-sm mb-1">Última atividade</label>
+                        <p class="text-white font-semibold">{{ $user->updated_at->diffForHumans() }}</p>
+                    </div>
+
+                    <!-- Status atual -->
+                    <div class="bg-gray-800 p-4 rounded-lg border-l-4 border-yellow-500">
+                        <label class="block text-gray-400 text-sm mb-1">Status da Conta</label>
+                        <div class="flex gap-2 mt-2">
+                            @if($user->is_admin)
+                            <span class="px-3 py-1 bg-neon-green text-dark-bg text-xs font-bold rounded">ADMINISTRADOR</span>
+                            @endif
+                            @if($user->is_banned)
+                            <span class="px-3 py-1 bg-red-600 text-white text-xs font-bold rounded">BANIDO</span>
+                            @else
+                            <span class="px-3 py-1 bg-green-600 text-white text-xs font-bold rounded">ATIVO</span>
+                            @endif
+                        </div>
+                        <small class="text-gray-500 italic">Use as "Ações Rápidas" para modificar o status</small>
+                    </div>
+                </div>
             </div>
 
             <!-- Ajustar Saldo -->

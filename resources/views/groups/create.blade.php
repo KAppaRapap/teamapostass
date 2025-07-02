@@ -29,7 +29,7 @@
                     </label>
                     <input type="text" id="name" name="name" value="{{ old('name') }}" required
                         class="form-input w-full text-lg py-4 px-6 @error('name') border-red-500 @enderror"
-                        placeholder="Ex: Apostadores de Lisboa">
+                        placeholder="Ex: Apostadores Masters">
                     @error('name')
                     <p class="text-red-400 text-sm mt-2 flex items-center gap-2">
                         <i class="fas fa-exclamation-circle"></i>{{ $message }}
@@ -51,34 +51,7 @@
                     </p>
                     @enderror
                 </div>
-                <!-- Localização -->
-                <div class="space-y-3">
-                    <label class="block text-lg font-semibold text-white mb-3">
-                        <i class="fas fa-map-marker-alt text-neon-green mr-3"></i>Localização
-                    </label>
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <div>
-                            <input type="text" id="city" name="city" value="{{ old('city') }}"
-                                class="form-input w-full text-lg py-4 px-6 @error('city') border-red-500 @enderror"
-                                placeholder="Cidade">
-                            @error('city')
-                            <p class="text-red-400 text-sm mt-2 flex items-center gap-2">
-                                <i class="fas fa-exclamation-circle"></i>{{ $message }}
-                            </p>
-                            @enderror
-                        </div>
-                        <div>
-                            <input type="text" id="region" name="region" value="{{ old('region') }}"
-                                class="form-input w-full text-lg py-4 px-6 @error('region') border-red-500 @enderror"
-                                placeholder="Região">
-                            @error('region')
-                            <p class="text-red-400 text-sm mt-2 flex items-center gap-2">
-                                <i class="fas fa-exclamation-circle"></i>{{ $message }}
-                            </p>
-                            @enderror
-                        </div>
-                    </div>
-                </div>
+
                 <!-- Configurações do Grupo -->
                 <div class="grid md:grid-cols-2 gap-8">
                     <!-- Limite de Membros -->

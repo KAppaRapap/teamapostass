@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
 
 class SettingsController extends Controller
 {
@@ -33,7 +32,6 @@ class SettingsController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
-            'city' => ['nullable', 'string', 'max:255'],
             'profile_photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
         ]);
         
@@ -61,7 +59,14 @@ class SettingsController extends Controller
     {
         $validated = $request->validate([
             'current_password' => ['required', 'current_password'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => [
+                'required',
+                'confirmed',
+                'min:8',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};\':"\\|,.<>\/?]).{8,}$/'
+            ],
+        ], [
+            'password.regex' => 'A palavra-passe deve conter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma minúscula, um número e um carácter especial.',
         ]);
         
         $user = Auth::user();
@@ -89,9 +94,6 @@ class SettingsController extends Controller
             'notify_group_activities',
             'email_notifications',
         ]);
-        
-        // Aqui você pode armazenar as preferências em uma tabela separada
-        // ou em um campo JSON no modelo de usuário
         
         return redirect()->route('settings.index')
             ->with('success', 'Preferências de notificação atualizadas com sucesso.');

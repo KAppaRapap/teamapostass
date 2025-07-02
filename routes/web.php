@@ -48,7 +48,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
     // Gerenciamento de usuários
     Route::get('/users', [AdminController::class, 'users'])->name('users.index');
     Route::get('/users/{user}/edit', [AdminController::class, 'editUser'])->name('users.edit');
-    Route::put('/users/{user}', [AdminController::class, 'updateUser'])->name('users.update');
+    // Nota: Rota updateUser removida - dados pessoais só podem ser alterados pelo próprio utilizador
     Route::post('/users/{user}/toggle-ban', [AdminController::class, 'toggleBanUser'])->name('users.toggle-ban');
     Route::post('/users/{user}/toggle-admin', [AdminController::class, 'toggleAdminUser'])->name('users.toggle-admin');
     Route::post('/users/{user}/adjust-balance', [AdminController::class, 'adjustBalance'])->name('users.adjust-balance');

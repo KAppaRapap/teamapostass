@@ -100,7 +100,13 @@ return [
     'not_in' => 'O :attribute selecionado é inválido.',
     'not_regex' => 'O formato do campo :attribute é inválido.',
     'numeric' => 'O campo :attribute deve ser um número.',
-    'password' => 'A palavra-passe está incorreta.',
+    'password' => [
+        'letters' => 'A :attribute deve conter pelo menos uma letra.',
+        'mixed' => 'A :attribute deve conter pelo menos uma letra maiúscula e uma minúscula.',
+        'numbers' => 'A :attribute deve conter pelo menos um número.',
+        'symbols' => 'A :attribute deve conter pelo menos um símbolo.',
+        'uncompromised' => 'A :attribute fornecida apareceu numa fuga de dados. Por favor, escolha uma :attribute diferente.',
+    ],
     'present' => 'O campo :attribute deve estar presente.',
     'prohibited' => 'O campo :attribute é proibido.',
     'prohibited_if' => 'O campo :attribute é proibido quando :other é :value.',
@@ -158,6 +164,12 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'password' => 'palavra-passe',
+        'password_confirmation' => 'confirmação da palavra-passe',
+        'current_password' => 'palavra-passe atual',
+        'email' => 'e-mail',
+        'name' => 'nome',
+    ],
 
 ];

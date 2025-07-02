@@ -95,40 +95,10 @@ class AdminController extends Controller
     }
 
     /**
-     * Atualizar utilizador
+     * Nota: A função updateUser foi removida pois dados pessoais (nome/email)
+     * devem ser geridos apenas pelo próprio utilizador.
+     * Use as funções específicas: toggleBanUser, toggleAdminUser, adjustBalance
      */
-    public function updateUser(Request $request, User $user)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-            'virtual_balance' => 'required|numeric|min:0',
-            'is_admin' => 'boolean',
-            'is_banned' => 'boolean',
-        ]);
-
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'virtual_balance' => $request->virtual_balance,
-            'is_admin' => $request->has('is_admin'),
-            'is_banned' => $request->has('is_banned'),
-        ]);
-
-        // Log da ação do admin
-        Activity::create([
-            'user_id' => auth()->id(),
-            'type' => 'admin_action',
-            'description' => 'Atualizou dados do utilizador: ' . $user->name,
-            'data' => [
-                'target_user_id' => $user->id,
-                'action' => 'update_user',
-            ],
-        ]);
-
-        return redirect()->route('admin.users.index')
-            ->with('success', 'Utilizador atualizado com sucesso!');
-    }
 
     /**
      * Banir/Desbanir utilizador

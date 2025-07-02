@@ -47,7 +47,7 @@
                 
                 <p class="text-gray-300 text-sm mb-4">{{ Str::limit($group->description, 100) }}</p>
                 
-                <div class="grid grid-cols-3 gap-4 mb-4">
+                <div class="grid grid-cols-2 gap-4 mb-4">
                     <div>
                         <p class="text-xs text-gray-400">Administrador</p>
                         <p class="text-sm font-semibold text-white">{{ $group->admin->name }}</p>
@@ -57,10 +57,6 @@
                         <p class="text-sm font-semibold text-white">
                             {{ $group->members->count() }}/{{ $group->max_members ?: '∞' }}
                         </p>
-                    </div>
-                    <div>
-                        <p class="text-xs text-gray-400">Localização</p>
-                        <p class="text-sm font-semibold text-white">{{ $group->city ?: 'N/A' }}</p>
                     </div>
                 </div>
                 

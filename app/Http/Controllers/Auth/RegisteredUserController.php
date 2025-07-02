@@ -35,14 +35,19 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'city' => ['nullable', 'string', 'max:255'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => [
+                'required',
+                'confirmed',
+                'min:8',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};\':"\\|,.<>\/?]).{8,}$/'
+            ],
+        ], [
+            'password.regex' => 'A palavra-passe deve conter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma minúscula, um número e um carácter especial.',
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'city' => $request->city,
             'password' => Hash::make($request->password),
             'virtual_balance' => 1000000,
         ]);

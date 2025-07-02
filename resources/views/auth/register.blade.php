@@ -35,16 +35,16 @@
                 <input id="email" name="email" type="email" value="{{ old('email') }}" required class="form-input w-full" placeholder="O seu e-mail">
             </div>
             <div>
-                <label for="city" class="block text-sm font-medium text-gray-300 mb-1">Cidade</label>
-                <input id="city" name="city" type="text" value="{{ old('city') }}" class="form-input w-full" placeholder="A sua cidade">
-            </div>
-            <div>
                 <label for="password" class="block text-sm font-medium text-gray-300 mb-1">Palavra-passe</label>
-                <input id="password" name="password" type="password" required autocomplete="new-password" class="form-input w-full" placeholder="Crie uma palavra-passe">
+                <div class="password-field-wrapper relative">
+                    <input id="password" name="password" type="password" required autocomplete="new-password" class="form-input w-full pr-12" placeholder="Crie uma palavra-passe segura">
+                </div>
             </div>
             <div>
                 <label for="password_confirmation" class="block text-sm font-medium text-gray-300 mb-1">Confirmar Palavra-passe</label>
-                <input id="password_confirmation" name="password_confirmation" type="password" required class="form-input w-full" placeholder="Confirme a palavra-passe">
+                <div class="password-field-wrapper relative">
+                    <input id="password_confirmation" name="password_confirmation" type="password" required class="form-input w-full pr-12" placeholder="Confirme a palavra-passe">
+                </div>
             </div>
             <div class="flex items-center gap-2">
                 <input class="rounded border-gray-600 bg-dark-bg" type="checkbox" id="accept_terms" name="accept_terms" required>

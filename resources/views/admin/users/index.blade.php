@@ -111,10 +111,10 @@
                             <!-- Ações -->
                             <td class="px-6 py-4">
                                 <div class="flex flex-col gap-2">
-                                    <!-- Editar -->
+                                    <!-- Gerir -->
                                     <a href="{{ route('admin.users.edit', $user) }}"
                                        class="btn-outline text-xs py-1 px-3 text-center">
-                                        <i class="fas fa-edit mr-1"></i>Editar
+                                        <i class="fas fa-cog mr-1"></i>Gerir
                                     </a>
 
                                     <!-- Toggle Ban -->

@@ -8,7 +8,18 @@ interface Props {
 export default function UserProgressPanel({ userId }: Props) {
   const { progress } = useUserProgress(userId);
 
-  if (!progress) return <div>Carregando progresso...</div>;
+  if (!progress) return (
+    <div className="bg-[#18191c] rounded-2xl shadow-xl p-6 max-w-md mx-auto text-white">
+      <div className="animate-pulse space-y-4">
+        <div className="h-4 bg-gray-700 rounded w-3/4"></div>
+        <div className="h-3 bg-gray-700 rounded"></div>
+        <div className="h-4 bg-gray-700 rounded w-1/2"></div>
+        <div className="h-3 bg-gray-700 rounded"></div>
+        <div className="h-4 bg-gray-700 rounded w-2/3"></div>
+        <div className="h-3 bg-gray-700 rounded"></div>
+      </div>
+    </div>
+  );
 
   const xpPercent = Math.min(100, (progress.xp / progress.xp_next_level) * 100);
   const monthlyPercent = Math.min(100, (progress.total_earnings / progress.monthly_goal) * 100);
