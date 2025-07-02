@@ -12,7 +12,6 @@ const mix = require('laravel-mix');
  */
 
 // Compile main app assets
-// mix.ts('resources/js/app.js', 'public/js') // Use TypeScript with React support
 mix.postCss('resources/css/app.css', 'public/css', [
     require('tailwindcss'),
 ])

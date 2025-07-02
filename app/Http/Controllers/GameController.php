@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Game;
-use App\Models\Draw;
 use Illuminate\Http\Request;
 
 class GameController extends Controller
@@ -59,11 +58,9 @@ class GameController extends Controller
      */
     public function show(Game $game)
     {
-        $nextDraw = $game->nextDraw();
-        $latestDraw = $game->latestCompletedDraw();
         $groups = $game->groups()->paginate(10);
-        
-        return view('games.show', compact('game', 'nextDraw', 'latestDraw', 'groups'));
+
+        return view('games.show', compact('game', 'groups'));
     }
 
     /**
@@ -114,21 +111,7 @@ class GameController extends Controller
             ->with('success', 'Jogo excluído com sucesso.');
     }
 
-    /**
-     * Display upcoming draws for all games.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function upcomingDraws()
-    {
-        $upcomingDraws = Draw::where('draw_date', '>', now())
-            ->where('is_completed', false)
-            ->orderBy('draw_date', 'asc')
-            ->with('game')
-            ->paginate(10);
-            
-        return view('games.upcoming-draws', compact('upcomingDraws'));
-    }
+
 
     public function roletaClassica()
     {

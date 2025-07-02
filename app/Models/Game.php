@@ -39,34 +39,5 @@ class Game extends Model
         return $this->hasMany(Group::class);
     }
 
-    /**
-     * Get the draws for this game
-     */
-    public function draws()
-    {
-        return $this->hasMany(Draw::class);
-    }
 
-    /**
-     * Get the next draw for this game
-     */
-    public function nextDraw()
-    {
-        return $this->draws()
-            ->where('draw_date', '>', now())
-            ->where('is_completed', false)
-            ->orderBy('draw_date', 'asc')
-            ->first();
-    }
-
-    /**
-     * Get the latest completed draw for this game
-     */
-    public function latestCompletedDraw()
-    {
-        return $this->draws()
-            ->where('is_completed', true)
-            ->orderBy('draw_date', 'desc')
-            ->first();
-    }
 }

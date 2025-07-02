@@ -6,12 +6,6 @@ import GroupChat from './components/GroupChat.tsx';
 import UserProgressPanel from './components/UserProgressPanel.tsx';
 import UserProgressSummary from './components/UserProgressSummary.tsx';
 
-// Aqui serão importados os mini-jogos futuramente
-
-// Exemplo de renderização de um componente React (pode ser removido depois)
-// const root = ReactDOM.createRoot(document.getElementById('root'));
-// root.render(<div>Mini-jogos aqui</div>);
-
 // Renderizar RoletaGame se o elemento existir
 const roletaRoot = document.getElementById('roleta-root');
 if (roletaRoot) {

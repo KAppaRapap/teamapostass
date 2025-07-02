@@ -49,11 +49,10 @@ class Activity extends Model
             'user_id' => $user->id,
             'group_id' => $bettingSlip->group_id,
             'type' => self::TYPE_BET_PLACED,
-            'description' => "Aposta realizada no jogo {$bettingSlip->draw->game->name}",
+            'description' => "Aposta realizada no jogo {$bettingSlip->game_type}",
             'data' => [
                 'betting_slip_id' => $bettingSlip->id,
-                'game_id' => $bettingSlip->draw->game_id,
-                'draw_id' => $bettingSlip->draw_id,
+                'game_id' => $bettingSlip->game_id,
                 'amount' => $bettingSlip->total_cost
             ]
         ]);
@@ -65,11 +64,10 @@ class Activity extends Model
             'user_id' => $user->id,
             'group_id' => $bettingSlip->group_id,
             'type' => self::TYPE_BET_WON,
-            'description' => "Ganhou €{$bettingSlip->prize_amount} no jogo {$bettingSlip->draw->game->name}",
+            'description' => "Ganhou €{$bettingSlip->prize_amount} no jogo {$bettingSlip->game_type}",
             'data' => [
                 'betting_slip_id' => $bettingSlip->id,
-                'game_id' => $bettingSlip->draw->game_id,
-                'draw_id' => $bettingSlip->draw_id,
+                'game_id' => $bettingSlip->game_id,
                 'prize_amount' => $bettingSlip->prize_amount
             ]
         ]);
@@ -81,11 +79,10 @@ class Activity extends Model
             'user_id' => $user->id,
             'group_id' => $bettingSlip->group_id,
             'type' => self::TYPE_BET_LOST,
-            'description' => "Aposta perdida no jogo {$bettingSlip->draw->game->name}",
+            'description' => "Aposta perdida no jogo {$bettingSlip->game_type}",
             'data' => [
                 'betting_slip_id' => $bettingSlip->id,
-                'game_id' => $bettingSlip->draw->game_id,
-                'draw_id' => $bettingSlip->draw_id
+                'game_id' => $bettingSlip->game_id
             ]
         ]);
     }
@@ -132,18 +129,7 @@ class Activity extends Model
         ]);
     }
 
-    public static function logDrawCompleted($draw)
-    {
-        return self::create([
-            'type' => self::TYPE_DRAW_COMPLETED,
-            'description' => "Sorteio {$draw->game->name} realizado",
-            'data' => [
-                'game_id' => $draw->game_id,
-                'draw_id' => $draw->id,
-                'jackpot' => $draw->jackpot
-            ]
-        ]);
-    }
+
 
     public static function logBalanceUpdated($user, $amount, $type)
     {

@@ -60,13 +60,7 @@ class BettingSlip extends Model
         return $this->belongsTo(Group::class);
     }
 
-    /**
-     * Get the draw associated with this betting slip
-     */
-    public function draw()
-    {
-        return $this->belongsTo(Draw::class);
-    }
+
     
     /**
      * Get the user associated with this betting slip

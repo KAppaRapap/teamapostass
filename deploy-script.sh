@@ -74,9 +74,6 @@ php artisan config:cache
 php artisan route:cache
 php artisan view:cache
 
-# Executar migrações do banco de dados (se necessário)
-# php artisan migrate --force
-
 # Verificar se tudo está funcionando
 echo "✅ Verificando status do Git..."
 git status --porcelain

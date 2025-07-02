@@ -74,14 +74,14 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
 });
 
 // Rotas públicas dos jogos
-Route::get('/games/roleta', [App\Http\Controllers\GameController::class, 'roletaClassica'])->name('games.roleta');
+Route::get('/games/roleta', [GameController::class, 'roletaClassica'])->name('games.roleta');
 Route::get('/games/dice', function() {
     return view('games.dice');
 })->name('games.dice');
 Route::get('/games/bombmine', function () {
     return view('games.bombmine');
 })->middleware(['auth', 'verified'])->name('games.bombmine');
-Route::get('/games/roleta-classica', [App\Http\Controllers\GameController::class, 'roletaClassica'])->name('games.roleta-classica');
+Route::get('/games/roleta-classica', [GameController::class, 'roletaClassica'])->name('games.roleta-classica');
 Route::get('/games/crash', function () {
     return view('games.crash');
 })->middleware(['auth', 'verified'])->name('games.crash');
@@ -95,12 +95,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/games/{game}/edit', [GameController::class, 'edit'])->name('games.edit');
     Route::put('/games/{game}', [GameController::class, 'update'])->name('games.update');
     Route::delete('/games/{game}', [GameController::class, 'destroy'])->name('games.destroy');
-    
-    // Results route
-    Route::get('/results', function() {
-        return view('results.index');
-    })->name('results.index');
-    
+
     // Groups routes
     Route::get('/groups', [GroupController::class, 'index'])->name('groups.index');
     Route::get('/groups/create', [GroupController::class, 'create'])->name('groups.create');
@@ -129,17 +124,17 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/betting-slips/generate-system-combinations', [BettingSlipController::class, 'generateSystemCombinations'])->name('betting-slips.generate-system-combinations');
     
     // Claim/Prize for Betting Slip
-    Route::post('/betting-slips/{bettingSlip}/claim', [App\Http\Controllers\BettingSlipController::class, 'claim'])->name('betting-slips.claim')->middleware('auth');
-    
+    Route::post('/betting-slips/{bettingSlip}/claim', [BettingSlipController::class, 'claim'])->name('betting-slips.claim')->middleware('auth');
+
     // Notifications routes
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::post('/notifications/{notification}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.mark-as-read');
     Route::post('/notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.mark-all-as-read');
     Route::delete('/notifications/{notification}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
     Route::delete('/notifications', [NotificationController::class, 'destroyAll'])->name('notifications.destroy-all');
-    
+
     // AJAX para buscar jogos de uma liga para Totobola
-    Route::get('/betting-slips/league-matches/{league}', [App\Http\Controllers\BettingSlipController::class, 'getLeagueMatches'])->name('betting-slips.league-matches');
+    Route::get('/betting-slips/league-matches/{league}', [BettingSlipController::class, 'getLeagueMatches'])->name('betting-slips.league-matches');
     
     // Carteira Virtual
     Route::middleware(['auth'])->prefix('wallet')->name('wallet.')->group(function () {
@@ -151,12 +146,12 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // Chat routes
-    Route::post('/chat/upload', [App\Http\Controllers\NotificationController::class, 'uploadChatFile'])->name('chat.upload')->middleware('auth');
+    Route::post('/chat/upload', [NotificationController::class, 'uploadChatFile'])->name('chat.upload')->middleware('auth');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::put('/profile/password', [App\Http\Controllers\ProfileController::class, 'updatePassword'])->name('profile.update-password');
-    Route::put('/profile/notifications', [App\Http\Controllers\ProfileController::class, 'updateNotifications'])->name('profile.update-notifications');
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
+    Route::put('/profile/notifications', [ProfileController::class, 'updateNotifications'])->name('profile.update-notifications');
     
     // Settings routes
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
