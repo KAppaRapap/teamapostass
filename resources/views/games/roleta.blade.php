@@ -11,7 +11,7 @@
             <p class="text-gray-600">Teste sua sorte na roleta clássica!</p>
         </div>
 
-        <!-- Saldo do Usuário -->
+        <!-- Saldo do Utilizador -->
         <div class="bg-white rounded-lg shadow-md p-6 mb-6">
             <div class="flex items-center justify-between">
                 <div>
@@ -49,7 +49,7 @@
 
 <!-- Scripts -->
 <script>
-    // Passar dados do usuário para o React
+    // Passar dados do utilizador para o React
     window.userData = {
         id: {{ auth()->id() }},
         name: "{{ auth()->user()->name }}",

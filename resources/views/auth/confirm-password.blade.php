@@ -10,7 +10,7 @@
                         <i class="fas fa-shield-alt fa-3x text-primary mb-3"></i>
                         <h1 class="h3">Confirme sua Senha</h1>
                         <p class="text-muted">
-                            Por favor, confirme sua senha antes de continuar.
+                            Por favor, confirme sua palavra-passe antes de continuar.
                         </p>
                     </div>
 
@@ -39,7 +39,7 @@
 
                     <div class="text-center mt-4">
                         <p class="text-muted mb-0">
-                            Esqueceu sua senha? 
+                            Esqueceu sua palavra-passe? 
                             <a href="{{ route('password.request') }}" class="text-decoration-none">Recuperar</a>
                         </p>
                     </div>
@@ -54,7 +54,7 @@
                     </h5>
                     <p class="card-text text-muted mb-0">
                         Esta é uma medida de segurança para garantir que você é realmente o dono desta conta. 
-                        Após confirmar sua senha, você terá acesso completo às funcionalidades do sistema.
+                        Após confirmar sua palavra-passe, você terá acesso completo às funcionalidades do sistema.
                     </p>
                 </div>
             </div>

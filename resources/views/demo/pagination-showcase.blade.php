@@ -11,7 +11,7 @@
                 <i class="fas fa-rocket mr-3"></i>Nova Paginação Cyberpunk
             </h1>
             <p class="text-gray-300 mb-4">
-                Sistema de paginação completamente redesenhado com tema cyberpunk, animações suaves e melhor experiência do usuário.
+                Sistema de paginação completamente redesenhado com tema cyberpunk, animações suaves e melhor experiência do utilizador.
             </p>
             <div class="flex flex-wrap gap-2">
                 <span class="px-3 py-1 bg-neon-green bg-opacity-20 text-neon-green rounded-full text-sm">✨ Animações Suaves</span>

@@ -64,10 +64,10 @@
                                 <input type="checkbox" class="form-check-input" id="alert_password" 
                                        name="alert_password" {{ auth()->user()->alert_password ? 'checked' : '' }}>
                                 <label class="form-check-label" for="alert_password">
-                                    Alteração de senha
+                                    Alteração de palavra-passe
                                 </label>
                                 <small class="text-muted d-block mt-1">
-                                    Receba notificações sobre alterações de senha.
+                                    Receba notificações sobre alterações de palavra-passe.
                                 </small>
                             </div>
                             <div class="form-check mb-2">

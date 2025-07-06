@@ -54,11 +54,7 @@
                 <i class="fas fa-user-cog"></i> Gerenciar Usuários
             </a>
         </li>
-        <li class="sidebar-item">
-            <a class="sidebar-link {{ request()->routeIs('admin.config') ? 'active' : '' }}" href="{{ route('admin.config') }}">
-                <i class="fas fa-tools"></i> Config Admin Geral
-            </a>
-        </li>
+
         @endif
     </ul>
     <div class="sidebar-footer-profile">

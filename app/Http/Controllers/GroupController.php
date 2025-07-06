@@ -255,7 +255,7 @@ class GroupController extends Controller
         ]);
         
         return redirect()->route('groups.chat', $group)
-            ->with('success', 'Usuário banido com sucesso.');
+            ->with('success', 'Utilizador banido com sucesso.');
     }
     
     /**
@@ -284,11 +284,11 @@ class GroupController extends Controller
         ]);
         
         return redirect()->route('groups.chat', $group)
-            ->with('success', 'Usuário desbanido com sucesso.');
+            ->with('success', 'Utilizador desbanido com sucesso.');
     }
 
     /**
-     * Verifica se o usuário autenticado é membro do grupo (API)
+     * Verifica se o utilizador autenticado é membro do grupo (API)
      */
     public function isMember($groupId)
     {

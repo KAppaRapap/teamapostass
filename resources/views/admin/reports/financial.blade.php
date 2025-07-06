@@ -177,7 +177,7 @@
                         </span>
                     </div>
                     <div class="flex justify-between items-center p-4 bg-gray-800 rounded-lg">
-                        <span class="text-gray-300">Receita por Usuário Ativo</span>
+                        <span class="text-gray-300">Receita por Utilizador Ativo</span>
                         <span class="text-xl font-bold text-blue-400">
                             €{{ $reports['active_users'] > 0 ? number_format($reports['total_bets'] / $reports['active_users'], 2) : '0.00' }}
                         </span>
@@ -197,9 +197,7 @@
                     <a href="{{ route('admin.logs.index') }}" class="btn-outline w-full text-center py-3">
                         <i class="fas fa-list-alt mr-2"></i>Logs de Transações
                     </a>
-                    <a href="{{ route('admin.config') }}" class="btn-outline w-full text-center py-3">
-                        <i class="fas fa-cog mr-2"></i>Configurações
-                    </a>
+
                     <button onclick="window.print()" class="btn-primary w-full py-3">
                         <i class="fas fa-print mr-2"></i>Imprimir Relatório
                     </button>

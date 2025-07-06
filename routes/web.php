@@ -64,9 +64,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
     // Logs do sistema
     Route::get('/logs', [AdminController::class, 'systemLogs'])->name('logs.index');
 
-    // Configurações
-    Route::get('/config', [AdminController::class, 'showConfig'])->name('config');
-    Route::post('/config', [AdminController::class, 'updateConfig'])->name('config.update');
+
 
     // Funcionalidades antigas (manter compatibilidade)
     Route::get('/create-games', [AdminController::class, 'showCreateGames'])->name('show-create-games');
@@ -143,6 +141,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/withdraw', [WalletController::class, 'withdraw'])->name('wallet.withdraw');
         Route::get('/index', [WalletController::class, 'index'])->name('index');
         Route::post('/add-funds', [WalletController::class, 'addFunds'])->name('add-funds');
+        Route::get('/stats', [WalletController::class, 'getStats'])->name('stats');
     });
 
     // Chat routes

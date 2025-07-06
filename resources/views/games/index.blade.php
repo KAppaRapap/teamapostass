@@ -23,78 +23,8 @@
         </div>
         @endif
 
-        <!-- Lista de Jogos -->
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            @forelse($games as $game)
-            <div class="game-card p-6 text-center group">
-                <div class="text-6xl mb-6 group-hover:scale-110 transition-transform duration-300">
-                    @switch($game->name)
-                        @case('Dice')
-                            🎲
-                            @break
-                        @case('Bomb Mine')
-                            💣
-                            @break
-                        @case('Crash')
-                            📉
-                            @break
-                        @default
-                            🎮
-                    @endswitch
-                </div>
-                
-                <h3 class="font-orbitron font-bold text-2xl mb-4 text-white">{{ $game->name }}</h3>
-                
-                <p class="text-gray-300 mb-6 leading-relaxed">
-                    {{ Str::limit($game->description, 120) }}
-                </p>
-                
-                <div class="flex items-center justify-between mb-6">
-                    <span class="px-3 py-1 bg-neon-green text-dark-bg text-xs font-semibold rounded-full">
-                        {{ $game->type }}
-                    </span>
-                    <span class="text-neon-green font-bold">
-                        €{{ number_format($game->price_per_bet, 2) }}
-                    </span>
-                </div>
-                
-                <div class="flex gap-3">
-                    <a href="{{ route('games.show', $game) }}" class="btn-outline flex-1">
-                        <i class="fas fa-info-circle mr-2"></i> Detalhes
-                    </a>
-                    @php
-                        $route = null;
-                        switch(strtolower(str_replace(' ', '', $game->name))) {
-                            case 'dice':
-                                $route = route('games.dice');
-                                break;
-                            case 'bombmine':
-                                $route = route('games.bombmine');
-                                break;
-                            case 'crash':
-                                $route = route('games.crash');
-                                break;
-                            case 'roleta':
-                                $route = route('games.roleta');
-                                break;
-                            // Adicione outros jogos aqui se criar as rotas
-                            default:
-                                $route = null;
-                        }
-                    @endphp
-                    @if($route)
-                        <a href="{{ $route }}" class="btn-primary flex-1">
-                            <i class="fas fa-play mr-2"></i> Jogar
-                        </a>
-                    @endif
-                </div>
-            </div>
-            @empty
-            @endforelse
-        </div>
-
-        <!-- Jogos em Destaque -->
-        <div class="mt-16">
+        <!-- Jogos Disponíveis -->
+        <div>
             <div class="grid md:grid-cols-3 gap-8">
                 <!-- Dice -->
                 <div class="content-card text-center group">

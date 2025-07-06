@@ -97,10 +97,10 @@
                         Automaticamente, o sistema:
                     </p>
                     <ul class="text-gray-300 text-sm space-y-1">
-                        <li>• Atualiza o saldo do usuário</li>
+                        <li>• Atualiza o saldo do utilizador</li>
                         <li>• Cria uma notificação personalizada</li>
                         <li>• Registra a ação no log de atividades</li>
-                        <li>• Usuário recebe notificação em tempo real</li>
+                        <li>• Utilizador recebe notificação em tempo real</li>
                     </ul>
                 </div>
             </div>

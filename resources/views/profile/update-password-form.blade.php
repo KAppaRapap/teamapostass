@@ -10,7 +10,7 @@
                         <i class="fas fa-key fa-3x text-primary mb-3"></i>
                         <h1 class="h3">Atualizar Senha</h1>
                         <p class="text-muted">
-                            Mantenha sua conta segura usando uma senha forte.
+                            Mantenha sua conta segura usando uma palavra-passe forte.
                         </p>
                     </div>
 
@@ -37,7 +37,7 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                             <div class="form-text">
-                                A senha deve ter pelo menos 8 caracteres, incluindo letras e números.
+                                A palavra-passe deve ter pelo menos 8 caracteres, incluindo letras e números.
                             </div>
                         </div>
 

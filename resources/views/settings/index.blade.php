@@ -4,7 +4,7 @@
 <div class="container">
     <h1>Configurações</h1>
     <p>Bem-vindo à página de configurações!</p>
-    <p>Usuário: {{ $user->name }}</p>
+    <p>Utilizador: {{ $user->name }}</p>
 
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>

@@ -869,7 +869,7 @@
     {{-- <script src="{{ mix('js/app.js') }}"></script> --}}
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script>
-        // Dropdown do usuário
+        // Dropdown do utilizador
         document.addEventListener('DOMContentLoaded', function() {
             const btn = document.getElementById('user-menu-btn');
             const dropdown = document.getElementById('user-menu-dropdown');

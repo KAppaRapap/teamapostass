@@ -39,19 +39,19 @@
                     <div class="space-y-4">
                         <div class="flex justify-between items-center">
                             <span class="text-gray-400">Total Depositado</span>
-                            <span class="font-semibold text-white">
+                            <span class="font-semibold text-white" id="total-deposited">
                                 €{{ number_format($user->activities()->where('type', 'balance_updated')->where('data->type', 'credit')->sum('data->amount'), 2) }}
                             </span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-gray-400">Total em Apostas</span>
-                            <span class="font-semibold text-white">
+                            <span class="font-semibold text-white" id="total-bets">
                                 €{{ number_format($user->activities()->where('type', 'bet_placed')->sum('data->amount'), 2) }}
                             </span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-gray-400">Total Ganho</span>
-                            <span class="font-semibold text-neon-green">
+                            <span class="font-semibold text-neon-green" id="total-won">
                                 €{{ number_format($user->activities()->where('type', 'bet_won')->sum('data->prize_amount'), 2) }}
                             </span>
                         </div>
@@ -147,7 +147,44 @@
 
 @push('scripts')
 <script>
-    // Sistema de atualização automática já está implementado globalmente
-    // Não é necessário recarregar a página
+    // Função para atualizar estatísticas da carteira
+    function updateWalletStats() {
+        fetch('{{ route('wallet.stats') }}')
+            .then(response => response.json())
+            .then(data => {
+                // Atualizar saldo atual
+                const balanceElement = document.querySelector('.text-4xl.font-bold.text-neon-green');
+                if (balanceElement) {
+                    balanceElement.textContent = data.formatted_balance;
+                }
+
+                // Atualizar estatísticas
+                const totalDepositedElement = document.getElementById('total-deposited');
+                if (totalDepositedElement) {
+                    totalDepositedElement.textContent = data.formatted_total_deposited;
+                }
+
+                const totalBetsElement = document.getElementById('total-bets');
+                if (totalBetsElement) {
+                    totalBetsElement.textContent = data.formatted_total_bets;
+                }
+
+                const totalWonElement = document.getElementById('total-won');
+                if (totalWonElement) {
+                    totalWonElement.textContent = data.formatted_total_won;
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao atualizar estatísticas da carteira:', error);
+            });
+    }
+
+    // Atualizar estatísticas a cada 2 segundos
+    setInterval(updateWalletStats, 2000);
+
+    // Atualizar imediatamente quando a página carrega
+    document.addEventListener('DOMContentLoaded', function() {
+        updateWalletStats();
+    });
 </script>
 @endpush

@@ -357,43 +357,5 @@ class AdminController extends Controller
         return view('admin.logs.index', compact('activities', 'activityTypes'));
     }
 
-    /**
-     * Configurações do sistema
-     */
-    public function showConfig()
-    {
-        $settings = collect([
-            'bet_limit' => 1000,
-            'min_bet' => 0.01,
-            'max_bet' => 10000,
-            'house_edge' => 2.5,
-            'maintenance_mode' => false,
-            'registration_enabled' => true,
-            'email_verification_required' => true,
-            'default_balance' => 100,
-        ]);
 
-        return view('admin.config', compact('settings'));
-    }
-
-    /**
-     * Atualizar configurações
-     */
-    public function updateConfig(Request $request)
-    {
-        // Aqui você pode implementar um sistema de configurações
-        // Por agora, vamos apenas simular
-
-        Activity::create([
-            'user_id' => auth()->id(),
-            'type' => 'admin_action',
-            'description' => 'Atualizou configurações do sistema',
-            'data' => [
-                'action' => 'update_config',
-                'settings' => $request->all(),
-            ],
-        ]);
-
-        return back()->with('success', 'Configurações atualizadas com sucesso!');
-    }
 }

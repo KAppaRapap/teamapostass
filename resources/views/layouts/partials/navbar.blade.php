@@ -37,7 +37,7 @@
                         Saldo na Carteira: <span style="margin-left: 4px;">€{{ number_format(Auth::user()->virtual_balance, 2) }}</span>
                     </div>
                 </li>
-                <!-- Resumo de Progresso do Usuário -->
+                <!-- Resumo de Progresso do Utilizador -->
                 <li class="nav-item me-3">
                     <div id="user-progress-header"></div>
                 </li>

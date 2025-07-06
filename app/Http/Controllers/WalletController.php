@@ -23,6 +23,9 @@ class WalletController extends Controller
         $user->virtual_balance = ($user->virtual_balance ?? 0) + $request->amount;
         $user->save();
 
+        // Registar atividade de depósito
+        Activity::logBalanceUpdated($user, $request->amount, 'credit');
+
         return redirect()->route('dashboard')->with('success', 'Depósito realizado com sucesso!');
     }
 
@@ -72,5 +75,39 @@ class WalletController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(15);
         return view('wallet.index', compact('user', 'transactions'));
+    }
+
+    /**
+     * Get wallet statistics via AJAX
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getStats()
+    {
+        $user = auth()->user();
+
+        $totalDeposited = $user->activities()
+            ->where('type', 'balance_updated')
+            ->where('data->type', 'credit')
+            ->sum('data->amount');
+
+        $totalBets = $user->activities()
+            ->where('type', 'bet_placed')
+            ->sum('data->amount');
+
+        $totalWon = $user->activities()
+            ->where('type', 'bet_won')
+            ->sum('data->prize_amount');
+
+        return response()->json([
+            'balance' => $user->virtual_balance,
+            'formatted_balance' => '€' . number_format($user->virtual_balance, 2),
+            'total_deposited' => $totalDeposited,
+            'formatted_total_deposited' => '€' . number_format($totalDeposited, 2),
+            'total_bets' => $totalBets,
+            'formatted_total_bets' => '€' . number_format($totalBets, 2),
+            'total_won' => $totalWon,
+            'formatted_total_won' => '€' . number_format($totalWon, 2),
+        ]);
     }
 }

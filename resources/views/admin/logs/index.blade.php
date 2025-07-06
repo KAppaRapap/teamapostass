@@ -31,9 +31,9 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block text-white font-semibold mb-2">Usuário</label>
+                    <label class="block text-white font-semibold mb-2">Utilizador</label>
                     <input type="number" name="user_id" value="{{ request('user_id') }}" 
-                           placeholder="ID do usuário..." 
+                           placeholder="ID do utilizador..." 
                            class="form-input w-full">
                 </div>
                 <div class="flex items-end">
@@ -146,7 +146,7 @@
                             </div>
                         </div>
                         
-                        <!-- Avatar do usuário -->
+                        <!-- Avatar do utilizador -->
                         @if($activity->user)
                         <div class="flex-shrink-0 ml-4">
                             <img src="{{ $activity->user->profile_photo_url }}" 

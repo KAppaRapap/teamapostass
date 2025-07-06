@@ -44,7 +44,7 @@
                         <li>Processar apostas e transações</li>
                         <li>Verificar sua identidade e elegibilidade</li>
                         <li>Enviar notificações importantes</li>
-                        <li>Melhorar nossos serviços e experiência do usuário</li>
+                        <li>Melhorar nossos serviços e experiência do utilizador</li>
                         <li>Prevenir fraudes e atividades ilegais</li>
                         <li>Cumprir obrigações legais</li>
                     </ul>

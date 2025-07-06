@@ -33,7 +33,7 @@ Route::middleware('auth:sanctum')->get('/notifications/check-new', function (Req
     ]);
 });
 
-// Rota para buscar saldo atual do usuário
+// Rota para buscar saldo atual do utilizador
 Route::middleware('auth')->get('/user/balance', function (Request $request) {
     $user = $request->user();
     return response()->json([
@@ -118,7 +118,7 @@ Route::post('/ganhar', function(Request $request) {
     ]);
 })->middleware('auth');
 
-// Verificar se o usuário autenticado é membro de um grupo
+// Verificar se o utilizador autenticado é membro de um grupo
 Route::middleware('auth:sanctum')->get('/groups/{groupId}/is-member', [\App\Http\Controllers\GroupController::class, 'isMember']);
 
 Route::middleware('auth:sanctum')->group(function () {

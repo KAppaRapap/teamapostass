@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CrashGame;
 use App\Models\BettingSlip;
+use App\Models\Activity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -57,6 +58,18 @@ class CrashController extends Controller
             'total_cost' => $betAmount,
             'game_type' => 'Crash',
             'status' => 'pending',
+        ]);
+
+        // Registar atividade de aposta
+        Activity::create([
+            'user_id' => $user->id,
+            'type' => 'bet_placed',
+            'description' => 'Aposta em Crash',
+            'data' => [
+                'amount' => $betAmount,
+                'game' => 'Crash',
+                'betting_slip_id' => $bet->id,
+            ],
         ]);
 
         \Log::info('Bet created', [
@@ -127,6 +140,22 @@ class CrashController extends Controller
                 'crash_point' => $game->crash_point
             ]);
             $bet->update(['status' => 'lost', 'has_won' => false]);
+
+            // Registar atividade de perda
+            Activity::create([
+                'user_id' => $user->id,
+                'type' => 'bet_lost',
+                'description' => 'Perdeu em Crash',
+                'data' => [
+                    'amount' => 0,
+                    'prize_amount' => 0,
+                    'game' => 'Crash',
+                    'betting_slip_id' => $bet->id,
+                    'crash_point' => $game->crash_point,
+                    'attempted_multiplier' => $multiplier,
+                ],
+            ]);
+
             return response()->json(['error' => 'Cashout falhou. O jogo crashou.'], 400);
         }
 
@@ -138,6 +167,20 @@ class CrashController extends Controller
             'has_won' => true,
             'prize_amount' => $winnings,
             'is_claimed' => true,
+        ]);
+
+        // Registar atividade de ganho
+        Activity::create([
+            'user_id' => $user->id,
+            'type' => 'bet_won',
+            'description' => 'Ganhou em Crash',
+            'data' => [
+                'amount' => $winnings,
+                'prize_amount' => $winnings,
+                'game' => 'Crash',
+                'betting_slip_id' => $bet->id,
+                'multiplier' => $multiplier,
+            ],
         ]);
 
         \Log::info('Cashout successful', [

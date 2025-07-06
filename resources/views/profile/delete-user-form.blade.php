@@ -30,7 +30,7 @@
                         @method('DELETE')
 
                         <div class="mb-4">
-                            <label for="password" class="form-label">Digite sua senha para confirmar</label>
+                            <label for="password" class="form-label">Digite sua palavra-passe para confirmar</label>
                             <input type="password" class="form-control @error('password') is-invalid @enderror" 
                                    id="password" name="password" required>
                             @error('password')

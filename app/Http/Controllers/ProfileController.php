@@ -66,7 +66,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * Atualiza as preferências de notificação do usuário.
+     * Atualiza as preferências de notificação do utilizador.
      */
     public function updateNotifications(Request $request): \Illuminate\Http\RedirectResponse
     {

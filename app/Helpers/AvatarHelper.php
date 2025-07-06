@@ -27,7 +27,7 @@ class AvatarHelper
             '#FF69B4', '#00CED1', '#FFD700', '#FF4500', '#9370DB'
         ];
         
-        // Usar o ID do usuário para escolher uma cor consistente
+        // Usar o ID do utilizador para escolher uma cor consistente
         $colorIndex = $userId % count($colors);
         $backgroundColor = $colors[$colorIndex];
         

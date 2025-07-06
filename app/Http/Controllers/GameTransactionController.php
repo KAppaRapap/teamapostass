@@ -9,7 +9,7 @@ use App\Models\BettingSlip;
 
 class GameTransactionController extends Controller
 {
-    // Registrar aposta: desconta saldo do usuário
+    // Registrar aposta: desconta saldo do utilizador
     public function bet(Request $request)
     {
         $request->validate([
@@ -114,6 +114,7 @@ class GameTransactionController extends Controller
             'description' => ($request->won ? 'Ganhou em ' : 'Perdeu em ') . $request->game,
             'data' => [
                 'amount' => $request->amount,
+                'prize_amount' => $request->amount, // Para compatibilidade com as estatísticas
                 'game' => $request->game,
                 'betting_slip_id' => $bettingSlip->id ?? null,
             ],

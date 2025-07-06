@@ -37,10 +37,10 @@
                                 <input type="checkbox" class="form-check-input" id="push_password" 
                                        name="push_password" {{ auth()->user()->push_password ? 'checked' : '' }}>
                                 <label class="form-check-label" for="push_password">
-                                    Alterações de senha
+                                    Alterações de palavra-passe
                                 </label>
                                 <small class="text-muted d-block mt-1">
-                                    Seja notificado sobre alterações na sua senha.
+                                    Seja notificado sobre alterações na sua palavra-passe.
                                 </small>
                             </div>
                             <div class="form-check">

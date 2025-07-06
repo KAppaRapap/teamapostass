@@ -55,10 +55,10 @@
                                 <input type="checkbox" class="form-check-input" id="sms_password" 
                                        name="sms_password" {{ auth()->user()->sms_password ? 'checked' : '' }}>
                                 <label class="form-check-label" for="sms_password">
-                                    Alterações de senha
+                                    Alterações de palavra-passe
                                 </label>
                                 <small class="text-muted d-block mt-1">
-                                    Seja notificado sobre alterações na sua senha.
+                                    Seja notificado sobre alterações na sua palavra-passe.
                                 </small>
                             </div>
                             <div class="form-check">

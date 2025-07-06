@@ -13,7 +13,7 @@ class UpdateUserAvatarsSeeder extends Seeder
     public function run(): void
     {
         // Este seeder não precisa fazer nada, pois os avatares são gerados automaticamente
-        // quando o usuário não tem profile_photo definido
+        // quando o utilizador não tem profile_photo definido
         
         $usersWithoutPhoto = User::whereNull('profile_photo')->count();
         
